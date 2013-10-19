@@ -2,11 +2,12 @@
 namespace Arrounded\Seeders;
 
 use Illuminate\Support\Str;
+use Illuminate\Database\Seeder;
 
 /**
  * An enhanced core seeder class
  */
-abstract class AbstractSeeder
+abstract class AbstractSeeder extends Seeder
 {
 	/**
 	 * The Faker instance
