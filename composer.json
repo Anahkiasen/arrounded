@@ -1,0 +1,19 @@
+{
+	"name": "anahkiasen/arrounded",
+	"description": "A set of self-aware Laravel abstracts that know their way around",
+	"authors": [
+		{
+			"name": "Maxime Fabre",
+			"email": "ehtnam6@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">=5.3.0",
+		"illuminate/support": "4.0.x"
+	},
+	"autoload": {
+		"psr-0": {
+			"Arrounded": "src"
+		}
+	}
+}
