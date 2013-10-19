@@ -1,8 +1,10 @@
 <?php
 namespace Arrounded\Seeders;
 
-use Illuminate\Support\Str;
+use Closure;
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 /**
  * An enhanced core seeder class
@@ -21,7 +23,7 @@ abstract class AbstractSeeder extends Seeder
 	 */
 	public function __construct()
 	{
-		$this->faker = Faker\Factory::create();
+		$this->faker = Faker::create();
 	}
 
 	/**
@@ -78,9 +80,9 @@ abstract class AbstractSeeder extends Seeder
 	 */
 	protected function randomModel($model, $notIn = array())
 	{
-		$models = $models::query();
+		$models = $model::query();
 		if ($notIn) {
-			$models = $model::whereNotIn('id', $notIn);
+			$models = $models->whereNotIn('id', $notIn);
 		}
 
 		return $this->faker->randomElement($models->lists('id'));
