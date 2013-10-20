@@ -54,7 +54,8 @@ trait HasCoordinates
 	 */
 	protected function getCoordinates($components)
 	{
-		$address = null;
+		$address    = null;
+		$components = (array) $components;
 		foreach ($components as $component) {
 
 			// If the attribute is empty, skip to next one
@@ -147,7 +148,7 @@ trait HasCoordinates
 
 		// If they're combined, extract them
 		if (!$lng) {
-			list($lat, $lng) = $lat;
+			extract($lat);
 		}
 
 		return $query->select($this->getTable().'.*', DB::raw('(3959 * ACOS(COS(RADIANS(' .$lat. ')) * COS(RADIANS(lat)) * COS(RADIANS(lng) - RADIANS(' .$lng. ')) + SIN(RADIANS(' .$lat. ')) * SIN(RADIANS(lat)))) AS `distance`'));
