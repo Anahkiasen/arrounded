@@ -11,8 +11,8 @@ class HasCoordinatesTest extends ArroundedTests
 		$coordinates = $this->getCoordinates($address);
 
 		$this->assertEquals(array(
-			'lat' => 57.935938,
-			'lng' => 15.4915967,
+			'lat' => 45.422672,
+			'lng' => 4.3980133,
 		), $coordinates);
 	}
 
@@ -25,8 +25,8 @@ class HasCoordinatesTest extends ArroundedTests
 		));
 
 		$this->assertEquals(array(
-			'lat' => 23.5990934,
-			'lng' => 120.4703258
+			'lat' => 37.7601457,
+			'lng' => -122.4137415
 		), $coordinates);
 	}
 
@@ -40,8 +40,8 @@ class HasCoordinatesTest extends ArroundedTests
 
 		$model->address = '134 boulevard Valbenoite';
 
-		$this->assertEquals(57.935938, $model->lat);
-		$this->assertEquals(15.4915967, $model->lng);
+		$this->assertEquals(45.422672, $model->lat);
+		$this->assertEquals(4.3980133, $model->lng);
 	}
 }
 

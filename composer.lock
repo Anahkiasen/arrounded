@@ -60,7 +60,7 @@
     "packages-dev": [
         {
             "name": "illuminate/container",
-            "version": "v4.0.8",
+            "version": "v4.0.9",
             "target-dir": "Illuminate/Container",
             "source": {
                 "type": "git",
@@ -106,17 +106,17 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v4.0.8",
+            "version": "v4.0.9",
             "target-dir": "Illuminate/Database",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "e1dfe0248b488af58fa2d011d88b8b67a87105bd"
+                "reference": "9fb935eef6f12594d58824fd28558e393aee3837"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/e1dfe0248b488af58fa2d011d88b8b67a87105bd",
-                "reference": "e1dfe0248b488af58fa2d011d88b8b67a87105bd",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/9fb935eef6f12594d58824fd28558e393aee3837",
+                "reference": "9fb935eef6f12594d58824fd28558e393aee3837",
                 "shasum": ""
             },
             "require": {
@@ -164,11 +164,11 @@
                 "orm",
                 "sql"
             ],
-            "time": "2013-10-08 02:11:25"
+            "time": "2013-10-14 06:36:05"
         },
         {
             "name": "illuminate/events",
-            "version": "v4.0.8",
+            "version": "v4.0.9",
             "target-dir": "Illuminate/Events",
             "source": {
                 "type": "git",

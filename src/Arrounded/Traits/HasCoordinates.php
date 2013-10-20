@@ -54,18 +54,13 @@ trait HasCoordinates
 	 */
 	protected function getCoordinates($components)
 	{
-		$address    = null;
 		$components = (array) $components;
-		foreach ($components as $component) {
+		$components = array_filter($components);
 
-			// If the attribute is empty, skip to next one
-			if (!$component) {
-				continue;
-			}
-
-			// Add new component to address slug
-			$address += trim(', '.$component, ', ');
-			$slug     = Str::slug($address);
+		do {
+			// Implode components to address slug
+			$address = implode(', ', $components);
+			$slug    = Str::slug($address);
 
 			// Try to get coordinates
 			$coordinates = Cache::rememberForever($slug, function() use ($slug) {
@@ -73,11 +68,15 @@ trait HasCoordinates
 			});
 
 			// Return coordinates if address found
-			// Else we add the next component
+			// Else we add remove next component
 			if ($coordinates['lat'] !== 0) {
-				return $coordinates;
+				break;
 			}
-		}
+
+			array_pop($components);
+		} while (!empty($components));
+
+		return $coordinates;
 	}
 
 	/**
