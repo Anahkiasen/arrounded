@@ -11,6 +11,12 @@
 		"php": ">=5.4.0",
 		"illuminate/support": "~4"
 	},
+	"require-dev": {
+		"illuminate/container": "~4",
+		"illuminate/database": "~4",
+		"mockery/mockery": "dev-master",
+		"patchwork/utf8": "dev-master"
+	},
 	"autoload": {
 		"psr-0": {
 			"Arrounded": "src"
