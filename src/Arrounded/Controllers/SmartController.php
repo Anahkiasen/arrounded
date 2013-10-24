@@ -115,6 +115,22 @@ abstract class SmartController extends Controller
 	}
 
 	////////////////////////////////////////////////////////////////////
+	//////////////////////////////// HOOKS /////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Execute actions on a model's updating
+	 *
+	 * @param  Eloquent $model
+	 *
+	 * @return void
+	 */
+	protected function onUpdate(array $input, $model)
+	{
+		// ...
+	}
+
+	////////////////////////////////////////////////////////////////////
 	///////////////////////////// CORE METHODS /////////////////////////
 	////////////////////////////////////////////////////////////////////
 
@@ -184,6 +200,9 @@ abstract class SmartController extends Controller
 		// Get item
 		$item  = $item ? $this->object->findOrFail($item) : clone $this->object;
 		$input = Input::all();
+
+		// Execute hooks
+		$this->onUpdate($input, $item);
 
 		// Update attributes (temporary)
 		$item->fill($input)->save();
