@@ -25,8 +25,8 @@ class HasCoordinatesTest extends ArroundedTests
 		));
 
 		$this->assertEquals(array(
-			'lat' => 37.7601457,
-			'lng' => -122.4137415
+			'lat' => 37.7601369,
+			'lng' => -122.4137406,
 		), $coordinates);
 	}
 

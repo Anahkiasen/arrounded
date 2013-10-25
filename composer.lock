@@ -7,7 +7,7 @@
     "packages": [
         {
             "name": "illuminate/support",
-            "version": "v4.0.8",
+            "version": "v4.0.9",
             "target-dir": "Illuminate/Support",
             "source": {
                 "type": "git",

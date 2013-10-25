@@ -25,9 +25,11 @@ trait SelfValidating
 	/**
 	 * Validates the model
 	 *
+	 * @param Validator $validation A validator instance to use
+	 *
 	 * @return boolean
 	 */
-	public function isValid()
+	public function isValid($validation = null)
 	{
 		// If we already validated in and found errors, cancel
 		if ($this->errors) {
@@ -35,15 +37,17 @@ trait SelfValidating
 		}
 
 		// If no rules, then valid by default
-		if (!static::$rules or $this->validates) {
+		if (empty(static::$rules) or !$this->validating) {
 			return true;
 		}
 
 		// Validate the model
-		$validation = Validator::make($this->attributes, static::$rules);
-		$isValid    = $validation->passes();
+		if (!$validation) {
+			$validation = Validator::make($this->attributes, static::$rules);
+		}
 
 		// Store encountered errors
+		$isValid = $validation->passes();
 		if (!$isValid) {
 			$this->errors = $validation->errors();
 		}
@@ -62,15 +66,27 @@ trait SelfValidating
 	}
 
 	/**
+	 * Change the validating state
+	 *
+	 * @param boolean $validating
+	 */
+	public function setValidating($validating)
+	{
+		$this->validating = $validating;
+
+		return $this;
+	}
+
+	/**
 	 * Forces a model to save and bypass validation
 	 *
 	 * @return boolean
 	 */
 	public function forceSave()
 	{
-		$this->validates = false;
+		$this->validating = false;
 		$save = $this->save();
-		$this->validates = true;
+		$this->validating = true;
 
 		return $save;
 	}
