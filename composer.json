@@ -17,6 +17,9 @@
 		"mockery/mockery": "dev-master",
 		"patchwork/utf8": "dev-master"
 	},
+	"suggest": {
+		"kevinlebrun/colors.php": "dev-master"
+	},
 	"autoload": {
 		"psr-0": {
 			"Arrounded": "src"
