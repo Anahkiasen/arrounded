@@ -28,6 +28,8 @@ trait JsonAttributes
 	 */
 	protected function getJsonAttribute($attribute)
 	{
-		return json_decode($this->attributes[$attribute], true);
+		$attribute = array_get($this->attributes, $attribute, '[]');
+
+		return json_decode($attribute, true);
 	}
 }
