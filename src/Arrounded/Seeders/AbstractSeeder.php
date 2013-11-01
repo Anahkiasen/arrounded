@@ -42,7 +42,7 @@ abstract class AbstractSeeder extends Seeder
 		// Log results
 		$results = Str::singular($table);
 		$timer   = round(microtime(true) - $timer, 2);
-		$this->command->comment(sprintf('-- %s entries created (%sms)', $results::count(), $timer));
+		$this->command->comment(sprintf('-- %s entries created (%ss)', $results::count(), $timer));
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -65,9 +65,21 @@ abstract class AbstractSeeder extends Seeder
 		}
 
 		// Execute the Closure n times
-		$number = $this->faker->randomNumber($min, $max);
+		$entries = array();
+		$number  = $this->faker->randomNumber($min, $max);
 		for ($i = 0; $i <= $number; $i++) {
-			$closure($i);
+			if ($entry = $closure($i)) {
+				$entry = $entry->getAttributes();
+				$entries[] = $entry;
+			}
+		}
+
+		if (!empty($entries)) {
+			$model = get_called_class();
+			$model = str_replace('TableSeeder', null, $model);
+			$model = Str::singular($model);
+
+			$model::insert($entries);
 		}
 	}
 
