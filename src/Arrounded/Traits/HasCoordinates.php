@@ -76,6 +76,11 @@ trait HasCoordinates
 			array_pop($components);
 		} while (!empty($components));
 
+		// Clear cache if the coordinates are incorrect
+		if ($coordinates['lat'] == 0 and $coordinates['lng'] == 0) {
+			Cache::forget($slug);
+		}
+
 		return $coordinates;
 	}
 
