@@ -1,5 +1,5 @@
 <?php
-namespace Arrounded;
+namespace Arrounded\Testing;
 
 use Arrounded\Traits\UsesContainer;
 use Illuminate\Support\Str;
