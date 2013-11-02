@@ -21,7 +21,12 @@ trait Colorizer
 	 */
 	public function line()
 	{
-		print call_user_func_array('sprintf', func_get_args()).PHP_EOL;
+		$arguments = func_get_args();
+		if (sizeof($arguments) == 1) {
+			return print $arguments[0].PHP_EOL;
+		}
+
+		print call_user_func_array('sprintf', $arguments).PHP_EOL;
 	}
 
 	/**
@@ -82,7 +87,7 @@ trait Colorizer
 
 		// Format message
 		$message = array_shift($arguments);
-		$message = $colors($message)->$color;
+		$message = (string) $colors($message)->$color;
 		array_unshift($arguments, $message);
 
 		return call_user_func_array([$this, 'line'], $arguments);
