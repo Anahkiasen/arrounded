@@ -67,8 +67,8 @@ class Crawler
 		$routes = $this->getRoutes($additional);
 
 		// Build provider
-		foreach ($routes as $key => $route) {
-			$queue[] = [$key, $route];
+		foreach ($routes as $route) {
+			$queue[] = [$route];
 		}
 
 		return $queue;
@@ -98,7 +98,7 @@ class Crawler
 	 */
 	protected function replacePatternByKey($uri, $key)
 	{
-		return preg_replace('/\{([^}]+)\}/', $uri, $key);
+		return preg_replace('/\{([^}]+)\}/', $key, $uri);
 	}
 
 	/**
@@ -111,7 +111,7 @@ class Crawler
 	protected function extractModelFromUrl($url)
 	{
 		// Extract model
-		preg_match('/\{([^}]+)\}/', $uri, $pattern);
+		preg_match('/\{([^}]+)\}/', $url, $pattern);
 		$model = Str::studly(array_get($pattern, 1));
 		$model = Str::singular($model);
 
