@@ -1,9 +1,11 @@
 <?php
 namespace Arrounded\Testing;
 
+use Auth;
 use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 use Mockery;
 use Redirect;
+use User;
 
 class TestCase extends IlluminateTestCase
 {
@@ -19,6 +21,40 @@ class TestCase extends IlluminateTestCase
 
 		// Close connection
 		unset($this->app['db']);
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////// AUTHENTIFICATION ///////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Authentify as an User
+	 *
+	 * @return User
+	 */
+	public function authentify($user = null)
+	{
+		$user = $user ?: User::first();
+		if (!$user) {
+			return;
+		}
+
+		// Log in
+		$this->be($user);
+		Auth::setUser($user);
+
+		return $user;
+	}
+
+	/**
+	 * Logout the user
+	 *
+	 * @return void
+	 */
+	public function logout()
+	{
+		$this->app['auth']->logout();
+		Auth::logout();
 	}
 
 	////////////////////////////////////////////////////////////////////
