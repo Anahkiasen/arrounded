@@ -15,7 +15,7 @@ trait HasImages
 	 */
 	public function images()
 	{
-		return $this->morphMany('Upload', 'illustrable');
+		return $this->morphMany('Upload', 'illustrable')->orderBy('created_at', 'DESC');
 	}
 
 	/**
