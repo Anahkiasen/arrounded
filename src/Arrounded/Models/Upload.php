@@ -57,6 +57,10 @@ class Upload extends Model
 	 */
 	public function getUrlAttribute()
 	{
+		if ($this->isRemote()) {
+			return $this->name;
+		}
+
 		return URL::asset($this->getPath());
 	}
 
@@ -114,6 +118,16 @@ class Upload extends Model
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Check if an image is remote
+	 *
+	 * @return boolean
+	 */
+	public function isRemote()
+	{
+		return Str::contains($this->name, 'http');
+	}
 
 	/**
 	 * Get the folder to the image
