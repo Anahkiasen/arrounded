@@ -10,6 +10,32 @@ use User;
 class TestCase extends IlluminateTestCase
 {
 	/**
+	 * Recreate the database
+	 *
+	 * @return void
+	 */
+	protected function recreateDatabase()
+	{
+		if (!Schema::hasTable('migrations')) {
+			Artisan::call('migrate:install');
+			Artisan::call('migrate');
+		}
+
+		$this->seedDatabase();
+		Eloquent::reguard();
+	}
+
+	/**
+	 * Seed the database with dummy data
+	 *
+	 * @return void
+	 */
+	protected function seedDatabase()
+	{
+		// ...
+	}
+
+	/**
 	 * Remove mocked instances on close
 	 *
 	 * @return void
