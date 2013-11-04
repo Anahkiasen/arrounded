@@ -43,7 +43,7 @@ trait SelfValidating
 
 		// Validate the model
 		if (!$validation) {
-			$validation = Validator::make($this->attributes, static::$rules);
+			$validation = Validator::make($this->attributes, $this->getRules());
 		}
 
 		// Store encountered errors
@@ -89,5 +89,29 @@ trait SelfValidating
 		$this->validating = true;
 
 		return $save;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// HELPERS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the validation rules for a particular model
+	 *
+	 * @return array
+	 */
+	public function getRules()
+	{
+		$rules = static::$rules;
+		foreach ($rules as $key => $rule) {
+			preg_match_all('/\{([a-z_]+)\}/', $rule, $attributes);
+			foreach ($attributes[1] as $attribute) {
+				$rule = str_replace('{'.$attribute.'}', $this->$attribute, $rule);
+			}
+
+			$rules[$key] = $rule;
+		}
+
+		return $rules;
 	}
 }

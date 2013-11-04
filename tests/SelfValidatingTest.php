@@ -53,6 +53,17 @@ class SelfValidatingTest extends ArroundedTests
 
 		$this->assertTrue($invalidModel->isValid($validator));
 	}
+
+	public function testCanReplaceSelfReferencesInRules()
+	{
+		$validModel = new DummyValidatingModel(array(
+			'name' => 'foobar',
+		));
+		$validModel->id = 1;
+		$validModel::$rules = ['name' => 'unique:users,{id}'];
+
+		$this->assertEquals(['name' => 'unique:users,1'], $validModel->getRules());
+	}
 }
 
 // Dummies
