@@ -1,10 +1,13 @@
 <?php
 namespace Arrounded\Testing;
 
+use Artisan;
 use Auth;
+use Eloquent;
 use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 use Mockery;
 use Redirect;
+use Schema;
 use User;
 
 class TestCase extends IlluminateTestCase
