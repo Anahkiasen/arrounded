@@ -54,14 +54,14 @@ trait HasImages
 	 */
 	public function attachImage($name, $attributes = array())
 	{
+		// Create attributes array
 		$attributes = array_merge(array(
-			'name'  => basename($name),
+			'name'  => $name,
 		), $attributes);
 
-		$upload = new Upload($attributes);
-
 		// Attach image to model
-		$this->images()->save($upload);
+		$this->images()->create($attributes);
+		unset($this->images);
 
 		return $this->image;
 	}
