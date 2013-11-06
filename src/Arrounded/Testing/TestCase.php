@@ -3,6 +3,7 @@ namespace Arrounded\Testing;
 
 use Artisan;
 use Auth;
+use Closure;
 use Eloquent;
 use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 use Mockery;
@@ -12,6 +13,19 @@ use User;
 
 class TestCase extends IlluminateTestCase
 {
+	/**
+	 * Some aliases for mocks
+	 *
+	 * @var array
+	 */
+	protected $namespaces = array(
+		'app' => '',
+	);
+
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////// TESTS LIFETIME ////////////////////////
+	////////////////////////////////////////////////////////////////////
+
 	/**
 	 * Recreate the database
 	 *
@@ -87,7 +101,7 @@ class TestCase extends IlluminateTestCase
 	}
 
 	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
+	/////////////////////////////// REQUESTS ///////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	/**
@@ -101,6 +115,25 @@ class TestCase extends IlluminateTestCase
 	{
 		$redirect = Redirect::to($endpoint);
 		Redirect::shouldReceive('back')->andReturn($redirect);
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// MOCKING ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Mock a repository
+	 *
+	 * @param sring   $repository
+	 * @param Closure $expectations
+	 *
+	 * @return Mockery
+	 */
+	protected function mockRepository($repository, Closure $expectations)
+	{
+		$mocked = $this->getMockedClass('Repositories\\'.$repository.'Repository');
+
+		return $this->mock($mocked, $expectations);
 	}
 
 	/**
@@ -117,5 +150,17 @@ class TestCase extends IlluminateTestCase
 		$mock = $expectations($mock)->mock();
 
 		$this->app->instance($class, $mock);
+	}
+
+	/**
+	 * Get the full path to a mocked class
+	 *
+	 * @param string $class
+	 *
+	 * @return string
+	 */
+	protected function getMockedClass($class)
+	{
+		return $this->namespaces['app'].'\\'.$class;
 	}
 }
