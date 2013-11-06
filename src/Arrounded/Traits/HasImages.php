@@ -52,12 +52,13 @@ trait HasImages
 	 *
 	 * @return Upload
 	 */
-	public function attachImage($name, $thumb = false)
+	public function attachImage($name, $attributes = array())
 	{
-		$upload = new Upload(array(
+		$attributes = array_merge(array(
 			'name'  => basename($name),
-			'thumb' => $thumb,
-		));
+		), $attributes);
+
+		$upload = new Upload($attributes);
 
 		// Attach image to model
 		$this->images()->save($upload);
