@@ -40,7 +40,7 @@ class Crawler
 
 				// Replace models with their IDs
 				if ($model = $this->extractModelFromUrl($uri)) {
-					foreach ($model::take(10)->get() as $model) {
+					foreach ($model::take(3)->get() as $model) {
 						$model    = $this->replacePatternByKey($uri, $model->id);
 						$routes[] = $this->app['url']->to($model);
 					}
