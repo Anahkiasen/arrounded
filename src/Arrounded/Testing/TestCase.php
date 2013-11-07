@@ -90,6 +90,16 @@ class TestCase extends IlluminateTestCase
 	}
 
 	/**
+	 * Get the test user
+	 *
+	 * @return User
+	 */
+	public function testUser()
+	{
+		return $this->app['auth']->user();
+	}
+
+	/**
 	 * Logout the user
 	 *
 	 * @return void
