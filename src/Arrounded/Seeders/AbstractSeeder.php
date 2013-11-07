@@ -84,6 +84,29 @@ abstract class AbstractSeeder extends Seeder
 	}
 
 	/**
+	 * Return an array of random models IDs
+	 *
+	 * @param string $model
+	 *
+	 * @return array
+	 */
+	protected function randomModels($model, $min = 5, $max = null)
+	{
+		if (!$max) {
+			$max = $min + 5;
+		}
+
+		// Get a random number of elements
+		$available = $model::lists('id');
+		$number = $this->faker->randomNumber($min, $max);
+		for ($i = 0; $i <= $number; $i++) {
+			$entries[] = $this->faker->randomElement($available);
+		}
+
+		return $entries;
+	}
+
+	/**
 	 * Get a random model from the database
 	 *
 	 * @param  string $model
