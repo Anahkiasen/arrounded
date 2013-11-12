@@ -23,7 +23,10 @@ abstract class AbstractSeeder extends Seeder
 	 */
 	public function __construct()
 	{
-		$this->faker = Faker::create();
+		// Bind Faker instance if available
+		if (class_exists('Faker')) {
+			$this->faker = Faker::create();
+		}
 	}
 
 	/**
@@ -41,8 +44,10 @@ abstract class AbstractSeeder extends Seeder
 
 		// Log results
 		$results = Str::singular($table);
-		$timer   = round(microtime(true) - $timer, 2);
-		$this->command->comment(sprintf('-- %s entries created (%ss)', $results::count(), $timer));
+		if (class_exists($results)) {
+			$timer   = round(microtime(true) - $timer, 2);
+			$this->command->comment(sprintf('-- %s entries created (%ss)', $results::count(), $timer));
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////
