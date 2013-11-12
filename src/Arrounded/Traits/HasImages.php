@@ -19,6 +19,18 @@ trait HasImages
 	}
 
 	/**
+	 * Get all the images, filtered
+	 *
+	 * @return Collection
+	 */
+	public function filteredImages()
+	{
+		return $this->images->filter(function($value) {
+			return (bool) $value->path;
+		});
+	}
+
+	/**
 	 * Whether the model has images
 	 *
 	 * @return boolean
