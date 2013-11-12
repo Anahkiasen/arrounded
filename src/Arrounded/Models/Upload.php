@@ -43,7 +43,7 @@ class Upload extends Model
 	public function getPathAttribute()
 	{
 		$path = App::make('path.public').'/'.$this->getPath();
-		if (!file_exists($path)) {
+		if (!$this->name or !file_exists($path)) {
 			return;
 		}
 

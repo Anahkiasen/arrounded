@@ -24,7 +24,7 @@ abstract class AbstractSeeder extends Seeder
 	public function __construct()
 	{
 		// Bind Faker instance if available
-		if (class_exists('Faker')) {
+		if (class_exists('Faker\Factory')) {
 			$this->faker = Faker::create();
 		}
 	}
