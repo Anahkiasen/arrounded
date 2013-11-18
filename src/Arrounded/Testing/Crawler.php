@@ -24,9 +24,9 @@ class Crawler
 	 *
 	 * @return array
 	 */
-	public function getRoutes(array $additional = array())
+	public function getRoutes(array $additional = array(), $cached = 60)
 	{
-		$routes = $this->app['cache']->remember('crawler-routes', 60, function () {
+		$getRoutes = function () {
 			$routes = array();
 
 			foreach ($this->app['router']->getRoutes() as $route) {
@@ -51,7 +51,14 @@ class Crawler
 			}
 
 			return $routes;
-		});
+		};
+
+		// Cache the fetching of routes or not
+		if ($cached) {
+			$routes = $this->app['cache']->remember('crawler-routes', $cached, $getRoutes);
+		} else {
+			$routes = $getRoutes();
+		}
 
 		return array_merge($routes, $additional);
 	}
