@@ -49,7 +49,17 @@ trait HasImages
 	{
 		$image = $this->images->first();
 
-		return $image ? $image : null;
+		return $image ? $image : $this->placeholderImage();
+	}
+
+	/**
+	 * Return a placeholder image
+	 *
+	 * @return Image
+	 */
+	public function placeholderImage()
+	{
+		return null;
 	}
 
 	////////////////////////////////////////////////////////////////////
