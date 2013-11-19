@@ -136,6 +136,10 @@ class Upload extends Model
 	 */
 	public function getPath()
 	{
+		if ($this->isRemote()) {
+			return $this->name;
+		}
+
 		if (!$this->illustrable_id) {
 			return 'app/img/'.$this->name;
 		}
