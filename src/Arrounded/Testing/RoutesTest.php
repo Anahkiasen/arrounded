@@ -17,6 +17,13 @@ class RoutesTest extends \TestCase
 	);
 
 	/**
+	 * A list of URLs that redirect back
+	 *
+	 * @var array
+	 */
+	protected $redirectBack = array();
+
+	/**
 	 * The additional routes
 	 *
 	 * @var array
@@ -69,7 +76,34 @@ class RoutesTest extends \TestCase
 		// Authentify user
 		$this->authentify();
 
+		// Spoof redirect back
+		$redirectsBack = $this->redirectsBack($route);
+		if ($redirectsBack) {
+			$this->spoofRedirectBack();
+		}
+
+		// Call route and assert correct status
 		$this->call('GET', $route);
-		$this->assertResponseOk();
+		if ($redirectsBack) {
+			$this->assertRedirectedTo('/');
+		} else {
+			$this->assertResponseOk();
+		}
+	}
+
+	/**
+	 * Checks if an URL redirects back
+	 *
+	 * @param string $route
+	 *
+	 * @return boolean
+	 */
+	protected function redirectsBack($route)
+	{
+		$route   = str_replace($this->app['url']->to('/').'/', null, $route);
+		$pattern = implode('$|^', $this->redirectBack);
+		$pattern = '#(^' .$pattern. '$)#';
+
+		return preg_match($pattern, $route);
 	}
 }
