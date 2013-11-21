@@ -3,6 +3,7 @@ namespace Arrounded\Testing;
 
 use Arrounded\Traits\UsesContainer;
 use Illuminate\Support\Str;
+use SplFileInfo;
 
 /**
  * A basic class to extract routes
@@ -55,7 +56,8 @@ class Crawler
 
 		// Cache the fetching of routes or not
 		if ($cached) {
-			$routes = $this->app['cache']->remember('crawler-routes', $cached, $getRoutes);
+			$mtime  = new SplFileInfo($this->app['path'].'/routes.php');
+			$routes = $this->app['cache']->remember($mtime->getMTime(), $cached, $getRoutes);
 		} else {
 			$routes = $getRoutes();
 		}
