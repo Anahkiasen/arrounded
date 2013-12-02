@@ -16,6 +16,13 @@ trait SelfValidating
 	protected $errors;
 
 	/**
+	 * Whether all models should validate
+	 *
+	 * @var boolean
+	 */
+	public static $globalValidating = true;
+
+	/**
 	 * Whether the model should validate itself
 	 *
 	 * @var boolean
@@ -37,7 +44,7 @@ trait SelfValidating
 		}
 
 		// If no rules, then valid by default
-		if (empty(static::$rules) or !$this->validating) {
+		if (empty(static::$rules) or !$this->needsValidation()) {
 			return true;
 		}
 
@@ -53,6 +60,20 @@ trait SelfValidating
 		}
 
 		return $isValid;
+	}
+
+	/**
+	 * Whether the model needs validation
+	 *
+	 * @return boolean
+	 */
+	public function needsValidation()
+	{
+		if (!static::$globalValidating) {
+			return false;
+		}
+
+		return $this->validating;
 	}
 
 	/**
