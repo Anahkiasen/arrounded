@@ -1,6 +1,7 @@
 <?php
 namespace Arrounded\Seeders;
 
+use DB;
 use Closure;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
@@ -17,6 +18,13 @@ abstract class AbstractSeeder extends Seeder
 	 * @var Faker
 	 */
 	protected $faker;
+
+	/**
+	 * The namespace where the models are
+	 *
+	 * @var string
+	 */
+	protected $models;
 
 	/**
 	 * Build a new Seed
@@ -89,6 +97,30 @@ abstract class AbstractSeeder extends Seeder
 	}
 
 	/**
+	 * Generate pivot relationships
+	 *
+	 * @return void
+	 */
+	protected function generatePivotRelations($model, $modelTwo)
+	{
+		$foreign    = strtolower($model).'_id';
+		$foreignTwo = strtolower($modelTwo).'_id';
+		$table      = strtolower($model).'_'.strtolower($modelTwo);
+
+		$number = $this->models.$modelTwo;
+		$number = $number::count() * 5;
+
+		for ($i = 0; $i <= $number; $i++) {
+			$attributes = array(
+				$foreign    => $this->randomModel($model),
+				$foreignTwo => $this->randomModel($modelTwo),
+			);
+
+			DB::table($table)->insert($attributes);
+		}
+	}
+
+	/**
 	 * Return an array of random models IDs
 	 *
 	 * @param string $model
@@ -102,8 +134,10 @@ abstract class AbstractSeeder extends Seeder
 		}
 
 		// Get a random number of elements
+		$model     = $this->models.$model;
 		$available = $model::lists('id');
-		$number = $this->faker->randomNumber($min, $max);
+		$number    = $this->faker->randomNumber($min, $max);
+
 		for ($i = 0; $i <= $number; $i++) {
 			$entries[] = $this->faker->randomElement($available);
 		}
@@ -120,6 +154,7 @@ abstract class AbstractSeeder extends Seeder
 	 */
 	protected function randomModel($model, $notIn = array())
 	{
+		$model  = $this->models.$model;
 		$models = $model::query();
 		if ($notIn) {
 			$models = $models->whereNotIn('id', $notIn);
