@@ -23,6 +23,48 @@ class TestCase extends IlluminateTestCase
 	);
 
 	////////////////////////////////////////////////////////////////////
+	///////////////////////////// ASSERTIONS ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Assert a variable in the view is an instance of something
+	 *
+	 * @param string $instance
+	 * @param string $variables
+	 *
+	 * @return mixed
+	 */
+	public function getFromView($variables)
+	{
+		$variables = (array) $variables;
+		$response  = $this->client->getResponse()->original;
+
+		$data = array();
+		foreach ($variables as $variable) {
+			$this->assertViewHas($variable);
+			$data[$variable] = $response->$variable;
+		}
+
+		if (sizeof($data) == 1) {
+			return reset($data);
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Assert a variable in the view is not empty
+	 *
+	 * @param string $data
+	 *
+	 * @return Assertion
+	 */
+	public function assertViewDataNotEmpty($data)
+	{
+		return $this->assertNotEmpty($this->getFromView($data));
+	}
+
+	////////////////////////////////////////////////////////////////////
 	//////////////////////////// TESTS LIFETIME ////////////////////////
 	////////////////////////////////////////////////////////////////////
 
