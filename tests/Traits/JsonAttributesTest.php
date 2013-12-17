@@ -18,11 +18,9 @@ class JsonAttributesTest extends ArroundedTests
 // Dummies
 //////////////////////////////////////////////////////////////////////
 
-class DummyJsonModel extends Illuminate\Database\Eloquent\Model
+class DummyJsonModel extends DummyModel
 {
 	use JsonAttributes;
-
-	protected $guarded = array();
 
 	public function getScheduleAttribute()
 	{

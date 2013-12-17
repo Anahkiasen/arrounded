@@ -69,20 +69,16 @@ class SelfValidatingTest extends ArroundedTests
 // Dummies
 //////////////////////////////////////////////////////////////////////
 
-class DummyValidatingModel extends Illuminate\Database\Eloquent\Model
+class DummyValidatingModel extends DummyModel
 {
 	use SelfValidating;
 
 	public static $rules = array(
 		'name' => 'required',
 	);
-
-	protected $guarded = array();
 }
 
-class DummyValidatingNoRulesModel extends Illuminate\Database\Eloquent\Model
+class DummyValidatingNoRulesModel extends DummyModel
 {
 	use SelfValidating;
-
-	protected $guarded = array();
 }

@@ -2,7 +2,7 @@
 namespace Arrounded\Abstracts;
 
 use Arrounded\Interfaces\RepositoryInterface;
-use Eloquent;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
@@ -62,7 +62,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	 */
 	public function find($item)
 	{
-		if ($item instanceof Eloquent) {
+		if ($item instanceof Model) {
 			return $item;
 		}
 

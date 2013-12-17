@@ -57,11 +57,9 @@ class HasCoordinatesTest extends ArroundedTests
 // Dummies
 //////////////////////////////////////////////////////////////////////
 
-class DummyCoordinatesModel extends Illuminate\Database\Eloquent\Model
+class DummyCoordinatesModel extends DummyModel
 {
 	use HasCoordinates;
-
-	protected $guarded = array();
 
 	public function setAddressAttribute($address)
 	{
