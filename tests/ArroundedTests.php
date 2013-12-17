@@ -3,14 +3,19 @@ use Illuminate\Container\Container;
 
 abstract class ArroundedTests extends PHPUnit_Framework_TestCase
 {
+	/**
+	 * The tests container
+	 *
+	 * @var Container
+	 */
 	protected $app;
 
-	public static function setUpBeforeClass()
-	{
-		static::mockCache();
-	}
-
-	public static function tearDownAfterClass()
+	/**
+	 * Remove existing mocks
+	 *
+	 * @return void
+	 */
+	public function tearDown()
 	{
 		Mockery::close();
 	}
@@ -19,7 +24,12 @@ abstract class ArroundedTests extends PHPUnit_Framework_TestCase
 	/////////////////////////////// MOCKERY ////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
-	public static function mockCache()
+	/**
+	 * Mock a Cache facade
+	 *
+	 * @return Mockery
+	 */
+	protected function mockCache()
 	{
 		if (class_exists('Cache')) {
 			return;

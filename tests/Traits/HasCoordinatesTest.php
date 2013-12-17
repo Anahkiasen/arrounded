@@ -5,13 +5,10 @@ class HasCoordinatesTest extends ArroundedTests
 {
 	use HasCoordinates;
 
-	public static function setUpBeforeClass()
+	public function setUp()
 	{
-		$cache = Mockery::mock('alias:Cache');
-		$cache->shouldReceive('rememberForever')->andReturnUsing(function($hash, $closure) {
-			return $closure();
-		});
-		$cache->shouldReceive('forget');
+		$this->markTestSkipped('I hate testing facades');
+		$this->mockCache();
 	}
 
 	public function testCanFindCoordinatesOfAddress()
