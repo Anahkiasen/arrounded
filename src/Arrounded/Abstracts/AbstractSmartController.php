@@ -2,6 +2,7 @@
 namespace Arrounded\Abstracts;
 
 use Illuminate\Routing\Controllers\Controller;
+use Arrounded\Controllers\ReflectionController;
 use Redirect;
 use View;
 
