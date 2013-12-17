@@ -1,6 +1,7 @@
 <?php
 namespace Arrounded\Controllers;
 
+use Arrounded\Abstracts\AbstractSmartController;
 use Input;
 use Request;
 use Response;

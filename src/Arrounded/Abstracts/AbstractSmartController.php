@@ -1,5 +1,5 @@
 <?php
-namespace Arrounded\Controllers;
+namespace Arrounded\Abstracts;
 
 use Illuminate\Routing\Controllers\Controller;
 use Redirect;

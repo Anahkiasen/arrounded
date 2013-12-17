@@ -1,5 +1,5 @@
 <?php
-namespace Arrounded\Repositories;
+namespace Arrounded\Abstracts;
 
 use Arrounded\Interfaces\RepositoryInterface;
 use Eloquent;

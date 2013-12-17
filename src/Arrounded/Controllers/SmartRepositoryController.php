@@ -1,6 +1,7 @@
 <?php
 namespace Arrounded\Controllers;
 
+use Arrounded\Abstracts\AbstractSmartController;
 use Arrounded\Interfaces\RepositoryInterface;
 use Input;
 use Request;
