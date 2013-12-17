@@ -113,7 +113,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 		// Update attributes (temporary)
 		$item->fill($input)->save();
 
-		return $this->getRedirect('index');
+		return $this->getRedirect('index')->with('success', true);
 	}
 
 	/**
