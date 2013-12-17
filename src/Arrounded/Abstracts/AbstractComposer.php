@@ -2,6 +2,7 @@
 namespace Arrounded\Abstracts;
 
 use Arrounded\Traits\UsesContainer;
+use Illuminate\Support\Str;
 
 /**
  * An abstract composer class with helpers
