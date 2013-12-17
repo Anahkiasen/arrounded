@@ -63,7 +63,7 @@ trait HasCoordinates
 			$slug    = Str::slug($address);
 
 			// Try to get coordinates
-			$coordinates = Cache::rememberForever($slug, function() use ($slug) {
+			$coordinates = Cache::rememberForever($slug, function () use ($slug) {
 				return $this->geocode('?sensor=false&address='.str_replace('-', '+', $slug));
 			});
 

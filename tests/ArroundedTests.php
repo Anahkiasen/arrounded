@@ -36,7 +36,7 @@ abstract class ArroundedTests extends PHPUnit_Framework_TestCase
 		}
 
 		$cache = Mockery::mock('alias:Cache');
-		$cache->shouldReceive('rememberForever')->andReturnUsing(function($name, $closure) {
+		$cache->shouldReceive('rememberForever')->andReturnUsing(function ($name, $closure) {
 			return $closure();
 		});
 

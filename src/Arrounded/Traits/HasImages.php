@@ -25,7 +25,7 @@ trait HasImages
 	 */
 	public function filteredImages()
 	{
-		return $this->images->filter(function($value) {
+		return $this->images->filter(function ($value) {
 			return (bool) $value->path;
 		});
 	}
