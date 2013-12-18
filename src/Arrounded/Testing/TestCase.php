@@ -19,7 +19,8 @@ class TestCase extends IlluminateTestCase
 	 * @var array
 	 */
 	protected $namespaces = array(
-		'app' => '',
+		'app'    => '',
+		'models' => '',
 	);
 
 	////////////////////////////////////////////////////////////////////
@@ -119,7 +120,7 @@ class TestCase extends IlluminateTestCase
 	 */
 	public function authentify($user = null)
 	{
-		$model = $this->namespace.'User';
+		$model = $this->namespaces['models'].'User';
 		if (!class_exists($model)) {
 			return;
 		}
