@@ -137,9 +137,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 		$this->repository->delete($item);
 
 		if (Request::ajax()) {
-			return Response::json(array(
-				'status' => 200,
-			));
+			return Response::json(array(), 204);
 		}
 
 		return $this->getRedirect('index');
