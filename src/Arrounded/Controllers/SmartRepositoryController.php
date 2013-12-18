@@ -20,6 +20,13 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	protected $repository;
 
 	/**
+	 * The relationships to eager load automatically
+	 *
+	 * @var array
+	 */
+	protected $eagerLoaded = array();
+
+	/**
 	 * Build a new SmartRepositoryController
 	 *
 	 * @param RepositoryInterface $repository
@@ -42,6 +49,8 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 */
 	protected function coreIndex($eager = array(), $paginate = null)
 	{
+		$eager = array_merge($this->eagerLoaded, $eager);
+
 		return $this->getView('index', array(
 			'items' => $this->repository->all($paginate)->load($eager),
 		));
