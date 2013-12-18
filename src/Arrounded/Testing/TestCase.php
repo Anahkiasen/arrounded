@@ -120,6 +120,11 @@ class TestCase extends IlluminateTestCase
 	public function authentify($user = null)
 	{
 		$model = $this->namespace.'User';
+		if (!class_exists($model)) {
+			return;
+		}
+
+		// Find first User
 		$user  = $user ?: $model::first();
 		if (!$user) {
 			return;
