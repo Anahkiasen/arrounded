@@ -110,7 +110,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 *
 	 * @return Redirect
 	 */
-	protected function coreUpdate($item)
+	protected function coreUpdate($item = null)
 	{
 		// Get item
 		$item  = $item ? $this->repository->find($item) : $this->repository->items()->newInstance();
