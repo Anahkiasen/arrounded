@@ -3,6 +3,9 @@ namespace Arrounded\Testing;
 
 use Arrounded\Testing\Crawler;
 use Artisan;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use InvalidArgumentException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RoutesTest extends \TestCase
 {
@@ -82,8 +85,22 @@ class RoutesTest extends \TestCase
 			$this->spoofRedirectBack();
 		}
 
-		// Call route and assert correct status
-		$this->call('GET', $route);
+		// Call route and catch common errors
+		try {
+			$this->call('GET', $route);
+		}
+
+		catch (InvalidArgumentException $e) {
+			$this->fail($e->getMessage());
+		}
+		catch (ModelNotFoundException $e) {
+			$this->fail($e->getMessage());
+		}
+		catch (NotFoundHttpException $e) {
+			$this->fail($e->getMessage());
+		}
+
+		// Assert status if the route was called correctly
 		if ($redirectsBack) {
 			$this->assertRedirectedTo('/');
 		} else {
