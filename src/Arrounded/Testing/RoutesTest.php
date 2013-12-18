@@ -34,6 +34,13 @@ class RoutesTest extends \TestCase
 	protected $additional = array();
 
 	/**
+	 * The model namespace
+	 *
+	 * @var string
+	 */
+	protected $namespace;
+
+	/**
 	 * Recreate the database before each test
 	 *
 	 * @return void
@@ -67,6 +74,7 @@ class RoutesTest extends \TestCase
 		// Get the routes to call
 		$crawler = new Crawler($this->app);
 		$crawler->setIgnored($this->ignored);
+		$crawler->setNamespace($this->namespace);
 
 		return $crawler->provideRoutes($this->additional);
 	}

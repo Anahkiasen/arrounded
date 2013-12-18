@@ -21,6 +21,23 @@ class Crawler
 	protected $ignored = array();
 
 	/**
+	 * The model namespace
+	 *
+	 * @var string
+	 */
+	protected $namespace;
+
+	/**
+	 * The model's namespace
+	 *
+	 * @param string $namespace
+	 */
+	public function setNamespace($namespace)
+	{
+		$this->namespace = $namespace;
+	}
+
+	/**
 	 * Get the routes to test
 	 *
 	 * @return array
@@ -41,6 +58,8 @@ class Crawler
 
 				// Replace models with their IDs
 				if ($model = $this->extractModelFromUrl($uri)) {
+					$model = $this->namespace.$model;
+
 					foreach ($model::take(3)->get() as $model) {
 						$model    = $this->replacePatternByKey($uri, $model->id);
 						$routes[] = $this->app['url']->to($model);
