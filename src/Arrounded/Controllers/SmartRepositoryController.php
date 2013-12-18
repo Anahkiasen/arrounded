@@ -3,6 +3,7 @@ namespace Arrounded\Controllers;
 
 use Arrounded\Abstracts\AbstractSmartController;
 use Arrounded\Interfaces\RepositoryInterface;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Input;
 use Request;
 use Response;
@@ -119,8 +120,15 @@ abstract class SmartRepositoryController extends AbstractSmartController
 		// Execute hooks
 		$this->onUpdate($input, $item);
 
-		// Update attributes (temporary)
+		// Update attributes
 		$item->fill($input)->save();
+
+		// Update relationships
+		foreach ($input as $key => $value) {
+			if (method_exists($item, $key) and $item->$key() instanceof BelongsToMany) {
+				$item->$key()->sync($value);
+			}
+		}
 
 		return $this->getRedirect('index')->with('success', true);
 	}
