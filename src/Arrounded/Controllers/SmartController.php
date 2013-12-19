@@ -64,10 +64,7 @@ abstract class SmartController extends AbstractSmartController
 	 */
 	protected function coreCreate($data = array())
 	{
-		return $this->getView('edit', array_merge(
-			$this->getFormData(),
-			$data
-		));
+		return $this->getView('edit', $this->getFormData($data));
 	}
 
 	/**
@@ -81,9 +78,8 @@ abstract class SmartController extends AbstractSmartController
 	{
 		$item = $this->object->findOrFail($item);
 		$data['item'] = $item;
-		$data = array_merge($this->getFormData($item), $data);
 
-		return $this->getView('edit', $data);
+		return $this->getView('edit', $this->getFormData($data));
 	}
 
 	/**

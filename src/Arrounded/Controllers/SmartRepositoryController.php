@@ -66,10 +66,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 */
 	protected function coreCreate($data = array())
 	{
-		return $this->getView('edit', array_merge(
-			$this->getFormData(),
-			$data
-		));
+		return $this->getView('edit', $this->getFormData($data));
 	}
 
 	/**
@@ -81,9 +78,9 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 */
 	protected function coreShow($user)
 	{
-		return $this->getView('show', array(
-			'item' => $this->repository->find($user),
-		));
+		return $this->getView('show', $this->getShowData(array(
+			'item' => $user
+		)));
 	}
 
 	/**
@@ -96,12 +93,9 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	protected function coreEdit($item, $data = array())
 	{
 		$item = $this->repository->find($item);
+		$data['item'] = $item;
 
-		return $this->getView('edit', array_merge(
-			$this->getFormData($item),
-			$data,
-			array('item' => $item)
-		));
+		return $this->getView('edit', $this->getFormData($data));
 	}
 
 	/**
@@ -149,5 +143,27 @@ abstract class SmartRepositoryController extends AbstractSmartController
 		}
 
 		return $this->getRedirect('index');
+	}
+
+	////////////////////////////////////////////////////////////////////
+	////////////////////////////// VIEW DATA ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the data to display
+	 *
+	 * @param array $data
+	 *
+	 * @return array
+	 */
+	protected function getShowData(array $data = array())
+	{
+		// Get item from database
+		$item = array_get($data, 'item');
+		$item = $this->repository->find($item);
+
+		return array(
+			'item' => $item,
+		);
 	}
 }
