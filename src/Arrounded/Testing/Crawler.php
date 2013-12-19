@@ -60,7 +60,7 @@ class Crawler
 				if ($model = $this->extractModelFromUrl($uri)) {
 					$model = $this->namespace.$model;
 
-					foreach ($model::take(3)->get() as $model) {
+					foreach ($model::take(1)->get() as $model) {
 						$model    = $this->replacePatternByKey($uri, $model->id);
 						$routes[] = $this->app['url']->to($model);
 					}
