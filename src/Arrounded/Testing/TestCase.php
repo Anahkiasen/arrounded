@@ -23,6 +23,22 @@ class TestCase extends IlluminateTestCase
 		'models' => '',
 	);
 
+	/**
+	 * Creates the application.
+	 *
+	 * Needs to be implemented by subclasses.
+	 *
+	 * @return Symfony\Component\HttpKernel\HttpKernelInterface
+	 */
+	public function createApplication()
+	{
+		// Create application
+		$unitTesting     = true;
+		$testEnvironment = 'testing';
+
+		return require __DIR__.'/../../../../../../bootstrap/start.php';
+	}
+
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////// ASSERTIONS ///////////////////////////
 	////////////////////////////////////////////////////////////////////

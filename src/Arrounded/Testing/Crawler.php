@@ -48,8 +48,8 @@ class Crawler
 			$routes = array();
 
 			foreach ($this->app['router']->getRoutes() as $route) {
-				$method = $route->getMethods()[0];
-				$uri    = $route->getPath();
+				$method = method_exists($route, 'getMethods') ? $route->getMethods()[0] : $route->methods();
+				$uri    = method_exists($route, 'getPath') ? $route->getPath() : $route->uri();
 
 				// Skip some routes
 				if ($method != 'GET' or Str::contains($uri, $this->ignored)) {
