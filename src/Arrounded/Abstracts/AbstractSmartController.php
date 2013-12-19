@@ -189,7 +189,7 @@ abstract class AbstractSmartController extends Controller
 	 */
 	protected function getFormData(array $data = array())
 	{
-		$route = array_get($data, 'item')->id ? 'update' : 'store';
+		$route = array_get($data, 'item') ? 'update' : 'store';
 
 		return array_merge(array(
 			'route' => $this->getRoute($route),
