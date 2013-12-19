@@ -1,8 +1,8 @@
 <?php
 namespace Arrounded\Abstracts;
 
-use Illuminate\Routing\Controllers\Controller;
 use Arrounded\Controllers\ReflectionController;
+use Controller;
 use Redirect;
 use View;
 
