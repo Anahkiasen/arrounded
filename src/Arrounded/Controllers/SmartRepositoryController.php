@@ -78,9 +78,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 */
 	protected function coreShow($user)
 	{
-		return $this->getView('show', $this->getShowData(array(
-			'item' => $user
-		)));
+		return $this->getView('show', $this->getShowData($user));
 	}
 
 	/**
@@ -152,14 +150,13 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	/**
 	 * Get the data to display
 	 *
-	 * @param array $data
+	 * @param integer $item
 	 *
 	 * @return array
 	 */
-	protected function getShowData(array $data = array())
+	protected function getShowData($item)
 	{
 		// Get item from database
-		$item = array_get($data, 'item');
 		$item = $this->repository->find($item);
 
 		return array(

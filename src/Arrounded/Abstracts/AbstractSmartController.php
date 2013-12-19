@@ -199,11 +199,11 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Get the data to display
 	 *
-	 * @param array $data
+	 * @param integer $item
 	 *
 	 * @return array
 	 */
-	abstract protected function getShowData(array $data = array());
+	abstract protected function getShowData($item);
 
 	////////////////////////////////////////////////////////////////////
 	///////////////////////////// RELATED DATA /////////////////////////
