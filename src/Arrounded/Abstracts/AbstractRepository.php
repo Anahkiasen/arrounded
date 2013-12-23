@@ -68,7 +68,7 @@ abstract class AbstractRepository implements RepositoryInterface
 		}
 
 		// Find by slug
-		if (is_string($item)) {
+		if ((int) $item === 0) {
 			return $this->items()->whereSlug($item)->firstOrFail();
 		}
 
