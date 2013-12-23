@@ -62,8 +62,14 @@ abstract class AbstractRepository implements RepositoryInterface
 	 */
 	public function find($item)
 	{
+		// If we have an instance already, return it
 		if ($item instanceof Model) {
 			return $item;
+		}
+
+		// Find by slug
+		if (is_string($item)) {
+			return $this->items()->whereSlug($item)->firstOrFail();
 		}
 
 		return $this->items()->findOrFail($item);
