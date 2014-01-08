@@ -20,7 +20,12 @@ abstract class AbstractComposer
 	 */
 	protected function makeMenu($menu)
 	{
-		foreach ($menu as $item) {
+		foreach ($menu as $key => $item) {
+			// Rebuild from associative array
+			if (is_string($item)) {
+				$item = array($key, $item);
+			}
+
 			list ($endpoint, $label) = $item;
 			$attributes = array_get($item, 4, array());
 
