@@ -7,17 +7,17 @@
     "packages": [
         {
             "name": "illuminate/support",
-            "version": "v4.1.9",
+            "version": "v4.1.16",
             "target-dir": "Illuminate/Support",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "5625c8d61171f57da3495d2163370b03c0cfa94a"
+                "reference": "ccc9a5dc4b79926407b5904dde419a5641c2880f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/5625c8d61171f57da3495d2163370b03c0cfa94a",
-                "reference": "5625c8d61171f57da3495d2163370b03c0cfa94a",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/ccc9a5dc4b79926407b5904dde419a5641c2880f",
+                "reference": "ccc9a5dc4b79926407b5904dde419a5641c2880f",
                 "shasum": ""
             },
             "require": {
@@ -54,13 +54,13 @@
                     "role": "Developer"
                 }
             ],
-            "time": "2013-12-12 13:21:25"
+            "time": "2014-01-13 19:39:13"
         }
     ],
     "packages-dev": [
         {
             "name": "illuminate/container",
-            "version": "v4.1.9",
+            "version": "v4.1.16",
             "target-dir": "Illuminate/Container",
             "source": {
                 "type": "git",
@@ -106,17 +106,17 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v4.1.9",
+            "version": "v4.1.16",
             "target-dir": "Illuminate/Database",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "2faa3d740c315746f32d24da1a49d7a0c3c6cb15"
+                "reference": "3d8855de5d2eeae1b616e73e147db6695c62e0ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/2faa3d740c315746f32d24da1a49d7a0c3c6cb15",
-                "reference": "2faa3d740c315746f32d24da1a49d7a0c3c6cb15",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/3d8855de5d2eeae1b616e73e147db6695c62e0ad",
+                "reference": "3d8855de5d2eeae1b616e73e147db6695c62e0ad",
                 "shasum": ""
             },
             "require": {
@@ -164,11 +164,11 @@
                 "orm",
                 "sql"
             ],
-            "time": "2013-12-13 02:02:13"
+            "time": "2014-01-13 19:39:13"
         },
         {
             "name": "illuminate/events",
-            "version": "v4.1.9",
+            "version": "v4.1.16",
             "target-dir": "Illuminate/Events",
             "source": {
                 "type": "git",
@@ -221,12 +221,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "fd9f745e335f8a0e68ef34f44f0560a54e44ef84"
+                "reference": "ab2c696982fa47bb21d3bff1cd97b6b657d6f4f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/fd9f745e335f8a0e68ef34f44f0560a54e44ef84",
-                "reference": "fd9f745e335f8a0e68ef34f44f0560a54e44ef84",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/ab2c696982fa47bb21d3bff1cd97b6b657d6f4f4",
+                "reference": "ab2c696982fa47bb21d3bff1cd97b6b657d6f4f4",
                 "shasum": ""
             },
             "require": {
@@ -234,9 +234,14 @@
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "hamcrest/hamcrest": "1.1.0"
+                "hamcrest/hamcrest-php": "~1.1"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.9.x-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Mockery": "library/"
@@ -267,20 +272,20 @@
                 "test double",
                 "testing"
             ],
-            "time": "2013-11-26 20:36:44"
+            "time": "2014-01-13 13:26:51"
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "03ede52a1f360441b5826cb8a798e0d0a919731f"
+                "reference": "21c4cb4301969c7d85aee8a62eefdfa881413af0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/03ede52a1f360441b5826cb8a798e0d0a919731f",
-                "reference": "03ede52a1f360441b5826cb8a798e0d0a919731f",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/21c4cb4301969c7d85aee8a62eefdfa881413af0",
+                "reference": "21c4cb4301969c7d85aee8a62eefdfa881413af0",
                 "shasum": ""
             },
             "require": {
@@ -313,7 +318,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2013-12-05 04:13:29"
+            "time": "2014-01-07 05:10:44"
         },
         {
             "name": "patchwork/utf8",
@@ -321,16 +326,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "e5f289838aeecdecc4add77cbe9e19b77b466b7b"
+                "reference": "22095fbaaf4cdc88ad456872adaf1354503401e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/e5f289838aeecdecc4add77cbe9e19b77b466b7b",
-                "reference": "e5f289838aeecdecc4add77cbe9e19b77b466b7b",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/22095fbaaf4cdc88ad456872adaf1354503401e6",
+                "reference": "22095fbaaf4cdc88ad456872adaf1354503401e6",
                 "shasum": ""
             },
             "require": {
-                "lib-pcre": ">=7.9",
+                "lib-pcre": ">=7.3",
                 "php": ">=5.3.0"
             },
             "suggest": {
@@ -364,7 +369,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2013-12-17 15:56:38"
+            "time": "2014-01-07 17:41:40"
         }
     ],
     "aliases": [

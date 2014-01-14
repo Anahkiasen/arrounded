@@ -23,13 +23,15 @@ trait JsonAttributes
 	 * Get a JSON attribute
 	 *
 	 * @param  string $attribute
+	 * @param  array  $defaults
 	 *
 	 * @return array
 	 */
-	protected function getJsonAttribute($attribute)
+	protected function getJsonAttribute($attribute, $defaults = array())
 	{
 		$attribute = array_get($this->attributes, $attribute, '[]');
+		$attribute = json_decode($attribute, true);
 
-		return json_decode($attribute, true);
+		return array_merge($defaults, $attribute);
 	}
 }
