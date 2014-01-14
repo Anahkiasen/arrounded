@@ -32,6 +32,6 @@ trait JsonAttributes
 		$attribute = array_get($this->attributes, $attribute, '[]');
 		$attribute = json_decode($attribute, true);
 
-		return array_merge($defaults, $attribute);
+		return array_replace_recursive($defaults, $attribute);
 	}
 }

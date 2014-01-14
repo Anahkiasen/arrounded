@@ -19,10 +19,10 @@ class JsonAttributesTest extends ArroundedTests
 		$notifications = array('foo' => 'bar', 'baz' => 'qux');
 		$model = new DummyJsonModel;
 
-		$this->assertEquals(array('facebook' => true, 'twitter' => false), $model->notifications);
+		$this->assertEquals(array('facebook' => true, 'twitter' => array('foo' => false, 'bar' => true)), $model->notifications);
 
-		$model->notifications = array('twitter' => true);
-		$this->assertEquals(array('facebook' => true, 'twitter' => true), $model->notifications);
+		$model->notifications = array('twitter' => array('foo' => true));
+		$this->assertEquals(array('facebook' => true, 'twitter' => array('foo' => true, 'bar' => true)), $model->notifications);
 	}
 }
 
@@ -37,7 +37,7 @@ class DummyJsonModel extends DummyModel
 	{
 		return $this->getJsonAttribute('notifications', array(
 			'facebook' => true,
-			'twitter'  => false,
+			'twitter'  => array('foo' => false, 'bar' => true),
 		));
 	}
 
