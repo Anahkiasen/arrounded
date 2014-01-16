@@ -22,11 +22,13 @@ abstract class AbstractRepository implements RepositoryInterface
 	 *
 	 * @param array $relations
 	 *
-	 * @return void
+	 * @return self
 	 */
 	public function eagerLoad($relations)
 	{
 		$this->items = $this->items->with($relations);
+
+		return $this;
 	}
 
 	/**
