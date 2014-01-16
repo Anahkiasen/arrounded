@@ -140,12 +140,19 @@ class Upload extends Model
 			return $this->name;
 		}
 
+		// If this is a generic image, return its path
+		$generic = 'app/img/'.$this->name;
 		if (!$this->illustrable_id) {
-			return 'app/img/'.$this->name;
+			return $generic;
 		}
 
+		// If this is a model upload return that
 		$folder = Str::plural($this->illustrable_type);
+		$folder = 'uploads/'.strtolower($folder).'/'.$this->name;
+		if (file_exists($folder)) {
+			return $folder;
+		}
 
-		return 'uploads/'.strtolower($folder).'/'.$this->name;
+		return $generic;
 	}
 }
