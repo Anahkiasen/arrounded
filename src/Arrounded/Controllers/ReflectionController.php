@@ -40,6 +40,19 @@ class ReflectionController extends ReflectionClass
 		return strtolower($resource);
 	}
 
+	/**
+	 * Get the core resource if it's nested
+	 *
+	 * @return string
+	 */
+	public function coreResource()
+	{
+		$resource = $this->resource();
+		$resource = explode('.', $resource);
+
+		return end($resource);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	////////////////////////////// INSTANCES ///////////////////////////
 	////////////////////////////////////////////////////////////////////
