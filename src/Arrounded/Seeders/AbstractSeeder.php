@@ -103,7 +103,7 @@ abstract class AbstractSeeder extends Seeder
 
 		// Execute the Closure n times
 		$entries = array();
-		$this->times(function($i) use ($closure, &$entries) {
+		$this->times(function($i) use ($closure, &$entries, $isTesting) {
 			if (!$isTesting) print '.';
 			if ($entry = $closure($i)) {
 				$entry = $entry->getAttributes();
