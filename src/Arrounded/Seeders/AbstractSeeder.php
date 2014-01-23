@@ -102,11 +102,13 @@ abstract class AbstractSeeder extends Seeder
 		// Execute the Closure n times
 		$entries = array();
 		$this->times(function($i) use ($closure, &$entries) {
+			print '.';
 			if ($entry = $closure($i)) {
 				$entry = $entry->getAttributes();
 				$entries[] = $entry;
 			}
 		}, $min, $max);
+		print PHP_EOL;
 
 		if (!empty($entries)) {
 			$model = get_called_class();
