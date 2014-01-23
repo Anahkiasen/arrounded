@@ -99,16 +99,18 @@ abstract class AbstractSeeder extends Seeder
 	 */
 	protected function generateEntries(Closure $closure, $min = 5, $max = null)
 	{
+		$isTesting = app()->environment('testing');
+
 		// Execute the Closure n times
 		$entries = array();
 		$this->times(function($i) use ($closure, &$entries) {
-			print '.';
+			if (!$isTesting) print '.';
 			if ($entry = $closure($i)) {
 				$entry = $entry->getAttributes();
 				$entries[] = $entry;
 			}
 		}, $min, $max);
-		print PHP_EOL;
+		if (!$isTesting) print PHP_EOL;
 
 		if (!empty($entries)) {
 			$model = get_called_class();
