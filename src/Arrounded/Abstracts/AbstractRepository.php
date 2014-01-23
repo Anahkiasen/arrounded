@@ -129,12 +129,15 @@ abstract class AbstractRepository implements RepositoryInterface
 	 * Delete an item
 	 *
 	 * @param AbstractModel|integer $item
+	 * @param boolean               $force Force delete or not
 	 *
 	 * @return boolean
 	 */
-	public function delete($item)
+	public function delete($item, $force = false)
 	{
-		return $this->find($item)->delete();
+		$method = $force ? 'forceDelete' : 'delete';
+
+		return $this->find($item)->$method();
 	}
 
 	////////////////////////////////////////////////////////////////////
