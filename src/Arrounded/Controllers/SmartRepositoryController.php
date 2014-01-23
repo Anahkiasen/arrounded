@@ -129,12 +129,13 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 * Delete an item
 	 *
 	 * @param  integer $item
+	 * @param  boolean $force
 	 *
 	 * @return Redirect
 	 */
-	protected function coreDestroy($item)
+	protected function coreDestroy($item, $force = false)
 	{
-		$this->repository->delete($item);
+		$this->repository->delete($item, $force);
 
 		if (Request::ajax()) {
 			return Response::json(array(), 204);
