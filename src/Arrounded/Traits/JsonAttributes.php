@@ -18,8 +18,9 @@ trait JsonAttributes
 	protected function setJsonAttribute($attribute, $value, array $defaults = array())
 	{
 		// Merge with defaults and encode
-		$value = array_replace_recursive($defaults, $value);
-		$value = json_encode($value);
+		$defaults = $defaults ?: $this->getAttributeDefault($attribute);
+		$value    = array_replace_recursive((array) $defaults, $value);
+		$value    = json_encode($value);
 
 		$this->attributes[$attribute] = json_encode($value);
 	}
@@ -34,12 +35,29 @@ trait JsonAttributes
 	 */
 	protected function getJsonAttribute($attribute, $defaults = array())
 	{
-		$attribute = array_get($this->attributes, $attribute, '[]');
+		$value = array_get($this->attributes, $attribute, '[]');
 
 		// Decode and merge with defaults
-		$attribute = json_decode($attribute, true);
-		$attribute = array_replace_recursive($defaults, $attribute);
+		$defaults = !empty($defaults) ? $defaults : $this->getAttributeDefault($attribute);
+		$value    = json_decode($value, true);
+		$value    = array_replace_recursive($defaults, $value);
 
-		return $attribute;
+		return $value;
+	}
+
+	/**
+	 * Get the default value of an attribute
+	 *
+	 * @param  string $attribute
+	 *
+	 * @return mixed
+	 */
+	protected function getAttributeDefault($attribute)
+	{
+		if (!$this->defaults) {
+			return;
+		}
+
+		return (array) array_get($this->defaults, $attribute);
 	}
 }
