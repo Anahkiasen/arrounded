@@ -1,8 +1,8 @@
 <?php
 namespace Arrounded\Seeders;
 
-use DB;
 use Closure;
+use DB;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -110,14 +110,28 @@ abstract class AbstractSeeder extends Seeder
 				$entries[] = $entry;
 			}
 		}, $min, $max);
-		if (!$isTesting) print PHP_EOL;
 
+		// If we're not testing, print progress
+		if (!$isTesting) {
+			print PHP_EOL;
+		}
+
+		// Get the table to insert into and insert aaaall the things
 		if (!empty($entries)) {
-			$model = get_called_class();
-			$model = str_replace('TableSeeder', null, $model);
-			$model = Str::singular($model);
+			$table = get_called_class();
+			$table = str_replace('TableSeeder', null, $table);
+			$slices = array($entries);
 
-			$model::insert($entries);
+			// If the engine is SQLite and we have a lot of seeded entries
+			// We'll split the results to not overflow the variable limit
+			if (DB::getDriverName() === 'sqlite') {
+				$slicer = floor(999 / sizeof($entries[0]));
+				$slices = array_chunk($entries, $slicer);
+			}
+
+			foreach ($slices as $entries) {
+				DB::table($table)->insert($entries);
+			}
 		}
 	}
 
