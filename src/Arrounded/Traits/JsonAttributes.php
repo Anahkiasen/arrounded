@@ -19,10 +19,10 @@ trait JsonAttributes
 	{
 		// Merge with defaults and encode
 		$defaults = $defaults ?: $this->getAttributeDefault($attribute);
-		$value    = array_replace_recursive((array) $defaults, $value);
+		$value    = array_replace_recursive($defaults, $value);
 		$value    = json_encode($value);
 
-		$this->attributes[$attribute] = json_encode($value);
+		$this->attributes[$attribute] = $value;
 	}
 
 	/**
