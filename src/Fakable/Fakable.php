@@ -4,6 +4,7 @@ namespace Fakable;
 use Faker\Factory as Faker;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * Generates a fake model
@@ -37,6 +38,20 @@ class Fakable
 	 * @var integer
 	 */
 	protected $saved = true;
+
+	/**
+	 * The relations to seed
+	 *
+	 * @var array
+	 */
+	protected $relations = array();
+
+	/**
+	 * The generated models
+	 *
+	 * @var Collection
+	 */
+	protected $generated = array();
 
 	/**
 	 * Create a new Fakable instance
@@ -133,7 +148,7 @@ class Fakable
 	 *
 	 * @return Model
 	 */
-	public function fakeModel(array $attributes = array())
+	public function fakeModel(array $attributes = array(), $generateRelations = true)
 	{
 		$this->setAttributes($attributes);
 
@@ -166,10 +181,13 @@ class Fakable
 			$instance->save();
 		}
 
-		// Set relations
-		foreach($relations as $name => $signature) {
-			list ($method, $value) = $signature;
-			call_user_func_array([$instance->$name(), $method], $value);
+		// Save instance
+		$this->relations[$instance->id] = $relations;
+		$this->generated[$instance->id] = $instance;
+
+		// Generate relations if necessary
+		if ($generateRelations) {
+			$this->fakeRelations();
 		}
 
 		return $instance;
@@ -187,7 +205,26 @@ class Fakable
 		$this->setAttributes($attributes);
 
 		for ($i = 0; $i <= $this->pool; $i++) {
-			$this->fakeModel();
+			$this->fakeModel([], false);
+		}
+
+		$this->fakeRelations();
+	}
+
+	/**
+	 * Generate fake relations
+	 *
+	 * @return void
+	 */
+	public function fakeRelations()
+	{
+		foreach ($this->generated as $instance) {
+			$relations = array_get($this->relations, $instance->id, array());
+
+			foreach($relations as $name => $signature) {
+				list ($method, $value) = $signature;
+				call_user_func_array([$instance->$name(), $method], $value);
+			}
 		}
 	}
 
