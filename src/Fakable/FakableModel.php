@@ -7,13 +7,6 @@ namespace Fakable;
 trait FakableModel
 {
 	/**
-	 * The fakable attributes
-	 *
-	 * @var array
-	 */
-	protected $fakables = array();
-
-	/**
 	 * The default fakable attributes
 	 *
 	 * @var array
@@ -56,7 +49,7 @@ trait FakableModel
 	 */
 	public function getFakables()
 	{
-		return array_merge($this->defaultFakables, $this->fakables);
+		return array_merge((array) $this->defaultFakables, (array) $this->fakables);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -77,25 +70,12 @@ trait FakableModel
 	 * Fake a new instance
 	 *
 	 * @param array   $attributes
-	 * @param boolean $saved
+	 * @param boolean $generateRelations
 	 *
 	 * @return self
 	 */
-	public static function fake(array $attributes = array(), $saved = null)
+	public static function fake(array $attributes = array(), $generateRelations = true)
 	{
-		return static::fakable()->fakeModel($attributes, $saved);
-	}
-
-	/**
-	 * Fake multiple new instances
-	 *
-	 * @param array    $attributes
-	 * @param boolean  $saved
-	 *
-	 * @return void
-	 */
-	public static function fakeMultiple(array $attributes = array(), $saved = null)
-	{
-		return static::fakable()->fakeModel($attributes, $saved);
+		return static::fakable()->fakeModel($attributes, $generateRelations);
 	}
 }

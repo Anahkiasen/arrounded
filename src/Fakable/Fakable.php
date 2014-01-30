@@ -170,13 +170,17 @@ class Fakable
 			if ($signature[0] === 'randomModels') {
 				$relations[$attribute] = ['sync', [$value]];
 			} elseif ($signature[0] === 'randomPivots') {
-				$relations[$attribute] = ['attach', $value];
+				list ($ids, $attributes) = $value;
+				foreach ($ids as $id) {
+					$relations[$attribute] = ['attach', [$id, $attributes]];
+				}
 			}
 		}
 
 		// Fill attributes and save
 		$attributes = array_merge($defaults, $this->attributes);
 		$instance->fill($attributes);
+
 		if ($this->saved) {
 			$instance->save();
 		}
@@ -204,10 +208,12 @@ class Fakable
 	{
 		$this->setAttributes($attributes);
 
+		// Create models
 		for ($i = 0; $i <= $this->pool; $i++) {
 			$this->fakeModel([], false);
 		}
 
+		// Create relations
 		$this->fakeRelations();
 	}
 
@@ -278,6 +284,7 @@ class Fakable
 		// Get a random number of elements
 		$max       = $max ?: $min + 5;
 		$available = $model::lists('id');
+		$available = empty($available) ? range(1, $this->pool) : $available;
 		$number    = $this->faker->randomNumber($min, $max);
 
 		$entries = array();
@@ -285,7 +292,7 @@ class Fakable
 			$entries[] = $this->faker->randomElement($available);
 		}
 
-		return $entries;
+		return array_unique($entries);
 	}
 
 	/**
