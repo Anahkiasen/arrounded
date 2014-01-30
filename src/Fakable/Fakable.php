@@ -1,137 +1,140 @@
 <?php
-namespace Arrounded\Traits;
+namespace Fakable;
 
 use Faker\Factory as Faker;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Implements faking methods to a model
+ * Generates a fake model
  */
-trait Fakable
+class Fakable
 {
 	/**
-	 * The Faker instance
+	 * The model to fake
 	 *
-	 * @var Faker
+	 * @var string
 	 */
-	protected $faker;
+	protected $model;
 
 	/**
-	 * The fakable attributes
+	 * The attributes to set on the fake models
 	 *
 	 * @var array
 	 */
-	protected $fakables = array();
+	protected $attributes = array();
 
 	/**
-	 * The default fakable attributes
+	 * The pool of models
 	 *
-	 * @var array
+	 * @var integer
 	 */
-	private $defaultFakables = array(
-		'name'          => ['sentence', 5],
-		'gender'        => ['randomNumber', [0, 1]],
-		'age'           => ['randomNumber', [1, 90]],
-		'note'          => ['randomNumber', [1, 10]],
-
-		'contents'      => ['paragraph', 5],
-		'biography'     => ['paragraph', 5],
-
-		'email'         => 'email',
-		'password'      => 'word',
-		'website'       => 'url',
-		'address'       => 'address',
-		'country'       => 'country',
-		'city'          => 'city',
-
-		'private'       => 'boolean',
-		'public'        => 'boolean',
-
-		'created_at'    => 'dateTimeThisMonth',
-		'updated_at'    => 'dateTimeThisMonth',
-
-		'from_user_id'  => ['randomModel', 'User'],
-		'user_id'       => 'randomModel',
-		'discussion_id' => 'randomModel',
-	);
+	protected $pool;
 
 	/**
-	 * Get the Faker instance
+	 * Whether fake models created should be saved or not
 	 *
-	 * @return Faker
+	 * @var integer
 	 */
-	protected function faker()
+	protected $save = false;
+
+	/**
+	 * The fake attributes to work from
+	 *
+	 * @param string $model
+	 * @param array  $attributes
+	 */
+	public function __construct(Model $model, array $attributes = array())
 	{
-		if (!$this->faker) {
-			$this->faker = Faker::create();
-		}
-
-		return $this->faker;
+		$this->faker      = Faker::create();
+		$this->model      = clone $model;
+		$this->attributes = $attributes;
 	}
 
 	////////////////////////////////////////////////////////////////////
-	//////////////////////////// FAKE INSTANCES ////////////////////////
+	/////////////////////////////// OPTIONS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Fake a new instance
+	 * Save or not the generated models
 	 *
-	 * @param array   $attributes
-	 * @param boolean $save
-	 *
-	 * @return self
+	 * @param boolean $saved
 	 */
-	public static function fake(array $attributes = array(), $save = false)
+	public function setSaved($saved)
 	{
-		$self = new static;
-
-		return $self->getFakeInstance($attributes, $save);
+		$this->saved = $saved;
 	}
 
 	/**
-	 * Fake multiple new instances
+	 * Set the attributes to overwrite on the fake model
 	 *
-	 * @param array    $attributes
-	 * @param integer  $min
-	 * @param integer  $max
-	 *
-	 * @return Collection
+	 * @param array $attributes
 	 */
-	public static function fakeMultiple(array $attributes = array(), $min = 5, $max = null)
+	public function setAttributes(array $attributes = array())
 	{
-		$self  = new static;
-		$max   = $max ?: $min + 5;
-		$times = $self->faker()->randomNumber($min, $max);
-
-		for ($i = 0; $i <= $times; $i++) {
-			$self->getFakeInstance($attributes, true);
-		}
-
-		return static::all();
+		$this->attributes = $attributes;
 	}
 
+	////////////////////////////////////////////////////////////////////
+	///////////////////////////////// POOL /////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Fake a new instance
+	 * Set the pool of models
 	 *
-	 * @param array   $attributes
-	 * @param boolean $save
+	 * @param integer $min
+	 * @param integer $max
 	 *
 	 * @return self
 	 */
-	protected function getFakeInstance(array $attributes = array(), $save = false)
+	public function setPool($min, $max = null)
+	{
+		$max = $max ?: $min + 5;
+		$this->pool = $this->faker->randomNumber($min, $max);
+
+		return $this;
+	}
+
+	/**
+	 * Set the pool from the count of another model
+	 *
+	 * @param string  $model
+	 * @param integer $power
+	 *
+	 * @return self
+	 */
+	public function setPoolFromModel($model, $power = 2)
+	{
+		$this->pool = $model::count() * $power;
+
+		return $this;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	///////////////////////////// GENERATION ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Fake a single model instance
+	 *
+	 * @param boolean $save
+	 *
+	 * @return Model
+	 */
+	public function fakeModel()
 	{
 		// Get the fakable attributes
-		$fakables = array_merge($this->defaultFakables, $this->fakables);
+		$fakables = $this->model->getFakables();
 		$instance = new static;
 
 		// Generate dummy attributes
-		$relations  = array();
-		$defaults = array();
+		$relations = array();
+		$defaults  = array();
 		foreach ($fakables as $attribute => $signature) {
+			$signature = (array) $signature;
 			$value = $this->callFromSignature($defaults, $attribute, $signature);
 
-			if (method_exists($this, $attribute) and $signature[0] === 'randomModels') {
+			if (method_exists($this->model, $attribute) and $signature[0] === 'randomModels') {
 				$relations[$attribute] = ['sync', $value];
 			}
 		}
@@ -139,7 +142,7 @@ trait Fakable
 		// Fill attributes and save
 		$attributes = array_merge($defaults, $attributes);
 		$instance->fill($attributes);
-		if ($save) {
+		if ($this->saved) {
 			$instance->save();
 		}
 
@@ -150,6 +153,25 @@ trait Fakable
 		}
 
 		return $instance;
+	}
+
+	/**
+	 * Fake multiple model instances
+	 *
+	 * @param integer $min
+	 * @param integer $max
+	 *
+	 * @return void
+	 */
+	public function fakeMultiple($min = null, $max = null)
+	{
+		if ($min) {
+			$this->setPool($min, $max);
+		}
+
+		for ($i = 0; $i <= $this->pool; $i++) {
+			$this->fakeModel();
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -172,7 +194,7 @@ trait Fakable
 			$models = $models->whereNotIn($model->getKeyName(), $notIn);
 		}
 
-		return $this->faker()->randomElement($models->lists('id'));
+		return $this->faker->randomElement($models->lists('id'));
 	}
 
 	/**
@@ -185,7 +207,7 @@ trait Fakable
 	public function randomPolymorphic($models)
 	{
 		$models = (array) $models;
-		$model  = $this->faker()->randomElement($models);
+		$model  = $this->faker->randomElement($models);
 
 		return [$model, $this->randomModel($model)];
 	}
@@ -202,11 +224,11 @@ trait Fakable
 		// Get a random number of elements
 		$max       = $max ?: $min + 5;
 		$available = $model::lists('id');
-		$number    = $this->faker()->randomNumber($min, $max);
+		$number    = $this->faker->randomNumber($min, $max);
 
 		$entries = array();
 		for ($i = 0; $i <= $number; $i++) {
-			$entries[] = $this->faker()->randomElement($available);
+			$entries[] = $this->faker->randomElement($available);
 		}
 
 		return $entries;
@@ -241,7 +263,7 @@ trait Fakable
 		$arguments = $this->getArgumentsFromMethod($method, $attribute, $arguments);
 
 		// Get the source of the method
-		$source = method_exists($this, $method) ? $this : $this->faker();
+		$source = method_exists($this, $method) ? $this : $this->faker;
 		$value  = call_user_func_array([$source, $method], $arguments);
 
 		if ($method === 'randomPolymorphic') {

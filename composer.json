@@ -21,9 +21,9 @@
 		"kevinlebrun/colors.php": "dev-master"
 	},
 	"autoload": {
-		"psr-0": {
-			"Arrounded": "src"
-		},
-		"classmap": ["tests"]
+		"psr-4": {
+			"Arrounded\\": ["src/Arrounded", "tests"],
+			"Fakable\\": "src/Fakable"
+		}
 	}
 }
