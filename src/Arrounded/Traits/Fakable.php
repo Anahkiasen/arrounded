@@ -39,6 +39,7 @@ trait Fakable
 		'created_at' => ['dateTimeThisMonth'],
 		'updated_at' => ['dateTimeThisMonth'],
 
+		'from_user_id'  => ['randomModel', 'User'],
 		'user_id'       => ['randomModel'],
 		'discussion_id' => ['randomModel'],
 	);
@@ -116,11 +117,10 @@ trait Fakable
 		$relations  = array();
 		$defaults = array();
 		foreach ($fakables as $attribute => $signature) {
-			$value = $this->callFromSignature($attribute, $signature);
-			if (method_exists($this, $attribute) and $this->$attribute() instanceof BelongsToMany) {
+			$defaults = $this->callFromSignature($defaults, $attribute, $signature);
+
+			if (method_exists($this, $attribute) and $signature[0] === 'randomModels') {
 				$relations[$attribute] = ['sync', $value];
-			} else {
-				$defaults[$attribute] = $value;
 			}
 		}
 
@@ -164,6 +164,21 @@ trait Fakable
 	}
 
 	/**
+	 * Get a random polymorphic relation
+	 *
+	 * @param string|array $models The possible models
+	 *
+	 * @return array [string, type]
+	 */
+	public function randomPolymorphic($models)
+	{
+		$models = (array) $models;
+		$model  = $this->faker()->randomElement($models);
+
+		return [$model, $this->randomModel($model)];
+	}
+
+	/**
 	 * Return an array of random models IDs
 	 *
 	 * @param string $model
@@ -192,12 +207,13 @@ trait Fakable
 	/**
 	 * Transform a fakable array to a signature
 	 *
+	 * @param array  $attributes
 	 * @param string $attribute
 	 * @param array  $signature
 	 *
 	 * @return array
 	 */
-	protected function callFromSignature($attribute, $signature)
+	protected function callFromSignature(array $attributes, $attribute, $signature)
 	{
 		// Get the method signature
 		if (is_array($signature)) {
@@ -209,16 +225,59 @@ trait Fakable
 		}
 
 		// For 1:1, get model name
-		$model = ucfirst(str_replace('_id', '', $attribute));
+		$model     = $this->getModelFromAttributeName($attribute);
+		$arguments = $this->getArgumentsFromMethod($method, $attribute, $arguments);
+
+		// Get the source of the method
+		$source = method_exists($this, $method) ? $this : $this->faker();
+		$value  = call_user_func_array([$source, $method], $arguments);
+
+		if ($method === 'randomPolymorphic') {
+			list ($model, $key) = $value;
+			$attributes[$attribute.'_type'] = $model;
+			$attributes[$attribute.'_id']  = $key;
+		} else {
+			$attributes[$attribute] = $value;
+		}
+
+		return $attributes;
+	}
+
+	/**
+	 * Get the model associated with an attribute
+	 *
+	 * @param string $attribute
+	 *
+	 * @return string
+	 */
+	protected function getModelFromAttributeName($attribute)
+	{
+		return ucfirst(str_replace('_id', '', $attribute));
+	}
+
+	/**
+	 * Get the default arguments for a relation method
+	 *
+	 * @param string $method
+	 * @param string $attribute
+	 * @param array  $arguments
+	 *
+	 * @return array
+	 */
+	protected function getArgumentsFromMethod($method, $attribute, $arguments = array())
+	{
+		if (!empty($arguments)) {
+			return $arguments;
+		}
+
+		// Compute default model arguments
+		$model = $this->getModelFromAttributeName($attribute);
 		if (Str::contains($attribute, '_id')) {
 			$arguments = [$model];
 		} elseif ($method === 'randomModels') {
 			$arguments = [Str::singular($model)];
 		}
 
-		// Get the source of the method
-		$source = method_exists($this, $method) ? $this : $this->faker();
-
-		return call_user_func_array([$source, $method], $arguments);
+		return $arguments;
 	}
 }
