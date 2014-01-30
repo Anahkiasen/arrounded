@@ -77,41 +77,25 @@ trait FakableModel
 	 * Fake a new instance
 	 *
 	 * @param array   $attributes
-	 * @param boolean $save
+	 * @param boolean $saved
 	 *
 	 * @return self
 	 */
-	public static function fake(array $attributes = array(), $save = false)
+	public static function fake(array $attributes = array(), $saved = null)
 	{
-		$fakable = static::fakable();
-		$fakable->setAttributes($attributes);
-		$fakable->setSaved($save);
-
-		return $fakable->fakeModel();
+		return static::fakable()->fakeModel($attributes, $saved);
 	}
 
 	/**
 	 * Fake multiple new instances
 	 *
 	 * @param array    $attributes
-	 * @param integer  $min
-	 * @param integer  $max
+	 * @param boolean  $saved
 	 *
-	 * @return Collection
+	 * @return void
 	 */
-	public static function fakeMultiple($attributes = array(), $min = 5, $max = null)
+	public static function fakeMultiple(array $attributes = array(), $saved = null)
 	{
-		// Skippable arguments
-		if (is_int($attributes)) {
-			$min = $attributes;
-			$attributes = array();
-		}
-
-		$fakable = static::fakable();
-		$fakable->setSaved(true);
-		$fakable->setPool($min, $max);
-		$fakable->setAttributes($attributes);
-
-		return $fakable->fakeMultiple();
+		return static::fakable()->fakeModel($attributes, $saved);
 	}
 }

@@ -36,7 +36,7 @@ class Fakable
 	 *
 	 * @var integer
 	 */
-	protected $save = false;
+	protected $saved = true;
 
 	/**
 	 * Create a new Fakable instance
@@ -59,20 +59,32 @@ class Fakable
 	 * Save or not the generated models
 	 *
 	 * @param boolean $saved
+	 *
+	 * @return self
 	 */
 	public function setSaved($saved)
 	{
-		$this->saved = $saved;
+		if (!is_null($saved)) {
+			$this->saved = $saved;
+		}
+
+		return $this;
 	}
 
 	/**
 	 * Set the attributes to overwrite on the fake model
 	 *
 	 * @param array $attributes
+	 *
+	 * @return self
 	 */
 	public function setAttributes(array $attributes = array())
 	{
-		$this->attributes = $attributes;
+		if (!empty($attributes)) {
+			$this->attributes = $attributes;
+		}
+
+		return $this;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -117,15 +129,17 @@ class Fakable
 	/**
 	 * Fake a single model instance
 	 *
-	 * @param boolean $save
+	 * @param attributes $array
 	 *
 	 * @return Model
 	 */
-	public function fakeModel()
+	public function fakeModel(array $attributes = array())
 	{
+		$this->setAttributes($attributes);
+
 		// Get the fakable attributes
 		$fakables = $this->model->getFakables();
-		$instance = new static;
+		$instance = $this->model->newInstance();
 
 		// Generate dummy attributes
 		$relations = array();
@@ -140,7 +154,7 @@ class Fakable
 		}
 
 		// Fill attributes and save
-		$attributes = array_merge($defaults, $attributes);
+		$attributes = array_merge($defaults, $this->attributes);
 		$instance->fill($attributes);
 		if ($this->saved) {
 			$instance->save();
@@ -158,16 +172,13 @@ class Fakable
 	/**
 	 * Fake multiple model instances
 	 *
-	 * @param integer $min
-	 * @param integer $max
+	 * @param attributes $array
 	 *
 	 * @return void
 	 */
-	public function fakeMultiple($min = null, $max = null)
+	public function fakeMultiple(array $attributes = array())
 	{
-		if ($min) {
-			$this->setPool($min, $max);
-		}
+		$this->setAttributes($attributes);
 
 		for ($i = 0; $i <= $this->pool; $i++) {
 			$this->fakeModel();
