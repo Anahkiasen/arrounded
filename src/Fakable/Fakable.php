@@ -148,8 +148,14 @@ class Fakable
 			$signature = (array) $signature;
 			$value = $this->callFromSignature($defaults, $attribute, $signature);
 
-			if (method_exists($this->model, $attribute) and $signature[0] === 'randomModels') {
-				$relations[$attribute] = ['sync', $value];
+			if (!method_exists($this->model, $attribute)) {
+				continue;
+			}
+
+			if ($signature[0] === 'randomModels') {
+				$relations[$attribute] = ['sync', [$value]];
+			} elseif ($signature[0] === 'randomPivots') {
+				$relations[$attribute] = ['attach', $value];
 			}
 		}
 
@@ -163,7 +169,7 @@ class Fakable
 		// Set relations
 		foreach($relations as $name => $signature) {
 			list ($method, $value) = $signature;
-			$instance->$name()->$method($value);
+			call_user_func_array([$instance->$name(), $method], $value);
 		}
 
 		return $instance;
@@ -243,6 +249,19 @@ class Fakable
 		}
 
 		return $entries;
+	}
+
+	/**
+	 * Get arguments for a random pivot
+	 *
+	 * @param string $model
+	 * @param array  $attributes
+	 *
+	 * @return array [id, attributes]
+	 */
+	protected function randomPivots($model, array $attributes = array(), $min = 5, $max = null)
+	{
+		return [$this->randomModels($model, $min, $max), $attributes];
 	}
 
 	////////////////////////////////////////////////////////////////////
