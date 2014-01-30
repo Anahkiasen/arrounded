@@ -76,6 +76,6 @@ trait FakableModel
 	 */
 	public static function fake(array $attributes = array(), $generateRelations = true)
 	{
-		return static::fakable()->fakeModel($attributes, $generateRelations);
+		return static::fakable()->setBatch(false)->fakeModel($attributes, $generateRelations);
 	}
 }

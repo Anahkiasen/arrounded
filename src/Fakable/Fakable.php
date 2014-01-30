@@ -1,6 +1,7 @@
 <?php
 namespace Fakable;
 
+use DB;
 use Faker\Factory as Faker;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
@@ -38,6 +39,13 @@ class Fakable
 	 * @var integer
 	 */
 	protected $saved = true;
+
+	/**
+	 * Whether to batch insert models or not
+	 *
+	 * @var boolean
+	 */
+	protected $batch = true;
 
 	/**
 	 * The relations to seed
@@ -79,9 +87,21 @@ class Fakable
 	 */
 	public function setSaved($saved)
 	{
-		if (!is_null($saved)) {
-			$this->saved = $saved;
-		}
+		$this->saved = $saved;
+
+		return $this;
+	}
+
+	/**
+	 * batch or not the generated models
+	 *
+	 * @param boolean $batch
+	 *
+	 * @return self
+	 */
+	public function setBatch($batch)
+	{
+		$this->batch = $batch;
 
 		return $this;
 	}
@@ -180,12 +200,17 @@ class Fakable
 		// Fill attributes and save
 		$attributes = array_merge($defaults, $this->attributes);
 		$instance->fill($attributes);
+		if ($instance->usesTimestamps()) {
+			$instance->created_at = $attributes['created_at'];
+			$instance->updated_at = $attributes['updated_at'];
+		}
 
-		if ($this->saved) {
+		if ($this->saved and !$this->batch) {
 			$instance->save();
 		}
 
 		// Save instance
+		$instance->id = sizeof($this->generated) + 1;
 		$this->relations[$instance->id] = $relations;
 		$this->generated[$instance->id] = $instance;
 
@@ -218,12 +243,43 @@ class Fakable
 	}
 
 	/**
+	 * Insert the generated models as one
+	 *
+	 * @return void
+	 */
+	protected function insertGeneratedEntries()
+	{
+		// Cast all to array
+		$entries = Collection::make($this->generated)->map(function ($entry) {
+			return $entry->getAttributes();
+		})->all();
+		$slices = array($entries);
+
+		// If the engine is SQLite and we have a lot of seeded entries
+		// We'll split the results to not overflow the variable limit
+		if (DB::getDriverName() === 'sqlite') {
+			$slicer = floor(999 / sizeof($entries[0]));
+			$slices = array_chunk($entries, $slicer);
+		}
+
+		foreach ($slices as $entries) {
+			$this->model->insert($entries);
+		}
+	}
+
+	/**
 	 * Generate fake relations
 	 *
 	 * @return void
 	 */
 	public function fakeRelations()
 	{
+		// Save the created models
+		if ($this->batch) {
+			$this->insertGeneratedEntries();
+		}
+
+		// Generate the relations
 		foreach ($this->generated as $instance) {
 			$relations = array_get($this->relations, $instance->id, array());
 
