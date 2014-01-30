@@ -30,18 +30,30 @@ trait Fakable
 	 * @var array
 	 */
 	private $defaultFakables = array(
-		'name'       => ['sentence', '5'],
-		'gender'     => ['randomNumber', [0, 1]],
-		'age'        => ['randomNumber', [1, 90]],
-		'note'       => ['randomNumber', [1, 10]],
-		'contents'   => ['paragraph', 5],
+		'name'          => ['sentence', 5],
+		'gender'        => ['randomNumber', [0, 1]],
+		'age'           => ['randomNumber', [1, 90]],
+		'note'          => ['randomNumber', [1, 10]],
 
-		'created_at' => ['dateTimeThisMonth'],
-		'updated_at' => ['dateTimeThisMonth'],
+		'contents'      => ['paragraph', 5],
+		'biography'     => ['paragraph', 5],
+
+		'email'         => 'email',
+		'password'      => 'word',
+		'website'       => 'url',
+		'address'       => 'address',
+		'country'       => 'country',
+		'city'          => 'city',
+
+		'private'       => 'boolean',
+		'public'        => 'boolean',
+
+		'created_at'    => 'dateTimeThisMonth',
+		'updated_at'    => 'dateTimeThisMonth',
 
 		'from_user_id'  => ['randomModel', 'User'],
-		'user_id'       => ['randomModel'],
-		'discussion_id' => ['randomModel'],
+		'user_id'       => 'randomModel',
+		'discussion_id' => 'randomModel',
 	);
 
 	/**
@@ -117,7 +129,7 @@ trait Fakable
 		$relations  = array();
 		$defaults = array();
 		foreach ($fakables as $attribute => $signature) {
-			$defaults = $this->callFromSignature($defaults, $attribute, $signature);
+			$value = $this->callFromSignature($defaults, $attribute, $signature);
 
 			if (method_exists($this, $attribute) and $signature[0] === 'randomModels') {
 				$relations[$attribute] = ['sync', $value];
@@ -213,7 +225,7 @@ trait Fakable
 	 *
 	 * @return array
 	 */
-	protected function callFromSignature(array $attributes, $attribute, $signature)
+	protected function callFromSignature(array &$attributes, $attribute, $signature)
 	{
 		// Get the method signature
 		if (is_array($signature)) {
@@ -240,7 +252,7 @@ trait Fakable
 			$attributes[$attribute] = $value;
 		}
 
-		return $attributes;
+		return $value;
 	}
 
 	/**
