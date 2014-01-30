@@ -39,16 +39,16 @@ class Fakable
 	protected $save = false;
 
 	/**
-	 * The fake attributes to work from
+	 * Create a new Fakable instance
 	 *
-	 * @param string $model
-	 * @param array  $attributes
+	 * @param Model   $model
+	 * @param array   $attributes
+	 * @param boolean $saved
 	 */
-	public function __construct(Model $model, array $attributes = array())
+	public function __construct(Model $model)
 	{
-		$this->faker      = Faker::create();
-		$this->model      = clone $model;
-		$this->attributes = $attributes;
+		$this->faker = Faker::create();
+		$this->model = clone $model;
 	}
 
 	////////////////////////////////////////////////////////////////////

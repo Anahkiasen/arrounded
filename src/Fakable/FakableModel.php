@@ -108,6 +108,7 @@ trait FakableModel
 		}
 
 		$fakable = static::fakable();
+		$fakable->setSaved(true);
 		$fakable->setPool($min, $max);
 		$fakable->setAttributes($attributes);
 
