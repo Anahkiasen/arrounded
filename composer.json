@@ -22,8 +22,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Arrounded\\": ["src/Arrounded", "tests"],
-			"Fakable\\": "src/Fakable"
+			"Arrounded\\": ["src/Arrounded", "tests"]
 		}
 	}
 }
