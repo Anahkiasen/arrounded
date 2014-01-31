@@ -13,17 +13,9 @@ class BelongsTo extends AbstractRelationSeeder
 	 *
 	 * @return array
 	 */
-	public function affectAttributes(array $attributes, array $models = array())
+	public function affectAttributes(array $attributes)
 	{
-		if ($this->getKind() == 'morphTo') {
-			$pivot = str_replace('_id', '', $this->foreignKey());
-			$model = $this->fakable->getFaker()->randomElement($models);
-
-			$attributes[$pivot.'_type'] = $model;
-			$attributes[$pivot.'_id']   = $this->fakable->randomModel($model);
-		} else {
-			$attributes[$this->getForeignKey()] = $this->fakable->randomModel($this->getRelated());
-		}
+		$attributes[$this->getForeignKey()] = $this->fakable->randomModel($this->getRelated());
 
 		return $attributes;
 	}

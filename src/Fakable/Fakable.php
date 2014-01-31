@@ -186,7 +186,7 @@ class Fakable
 		// Get the fakable attributes
 		$fakables = $this->model->getFakables();
 		$instance = $this->model->newInstance();
-		$instance->id = $this->model->count() + 1;
+		$instance->id = $this->model->count() + sizeof($this->generated) + 1;
 
 		// Generate dummy attributes
 		$defaults  = array();
@@ -195,32 +195,9 @@ class Fakable
 
 			if (!method_exists($this->model, $attribute)) {
 				$this->callFromSignature($defaults, $attribute, $signature);
-				continue;
+			} else {
+				$this->relations[] = $this->createRelationSeederFromSignature($attribute, $signature, $defaults, $instance);
 			}
-
-			// Create the RelationSeeder instance
-			if (!$type = array_pull($signature, 'relationType')) {
-				$relation = $instance->$attribute();
-				$type     = class_basename($relation);
-			}
-			$type     = 'Fakable\Relations\\'.$type;
-			$relation = new $type($this, $instance, $attribute);
-
-			// If we passed the foreign key, populate it
-			$foreign = array_pull($signature, 'foreignKey') ?: $attribute;
-			if ($relation instanceof MorphTo and $foreign) {
-				$relation->setForeignKey($foreign);
-			}
-
-			// Affect attributes
-			$models   = (array) array_pull($signature, 'forModels');
-			$defaults = $relation->affectAttributes($defaults, $models);
-			if ($relation instanceof MorphTo) {
-				$instance->fill($defaults);
-			}
-
-			// Store pivot entries to generate
-			$this->relations[] = [$relation, $signature];
 		}
 
 		// Fill attributes and save
@@ -231,12 +208,11 @@ class Fakable
 			$instance->updated_at = $attributes['updated_at'];
 		}
 
+		// Save instance
+		$this->generated[] = $instance;
 		if ($this->saved and !$this->batch) {
 			$instance->save();
 		}
-
-		// Save instance
-		$this->generated[$instance->id] = $instance;
 
 		// Generate relations if necessary
 		if ($generateRelations) {
@@ -364,43 +340,6 @@ class Fakable
 	}
 
 	/**
-	 * Get a random polymorphic relation
-	 *
-	 * @param string|array $models The possible models
-	 *
-	 * @return array [string, type]
-	 */
-	public function randomPolymorphic($models)
-	{
-		$models = (array) $models;
-		$model  = $this->faker->randomElement($models);
-
-		return [$model, $this->randomModel($model)];
-	}
-
-	/**
-	 * Generate a random morphedByMany relationship
-	 *
-	 * @param string   $model
-	 * @param integer  $min
-	 * @param integer  $max
-	 *
-	 * @return array
-	 */
-	public function randomMorphedByMany($attribute, $model, $min = 5, $max = null)
-	{
-		$entries = array();
-		foreach ($this->randomModels($model, $min, $max) as $entry) {
-			$entries[] = array(
-				$attribute.'_id'   => $entry,
-				$attribute.'_type' => $model,
-			);
-		}
-
-		return $entries;
-	}
-
-	/**
 	 * Return an array of random models IDs
 	 *
 	 * @param string $model
@@ -423,42 +362,44 @@ class Fakable
 		return array_unique($entries);
 	}
 
-	/**
-	 * Get arguments for a random pivot
-	 *
-	 * @param string $model
-	 * @param array  $attributes
-	 *
-	 * @return array [id, attributes]
-	 */
-	public function randomPivots($model, array $attributes = array(), $min = 5, $max = null)
-	{
-		return [$this->randomModels($model, $min, $max), $attributes];
-	}
-
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Generate an entry array from a relation
+	 * Factor a RelationSeeder from a signature
 	 *
-	 * @param string  $relation
-	 * @param integer $foreign
-	 * @param integer $other
+	 * @param array  $attribute
+	 * @param array  $signature
+	 * @param array  $defaults
+	 * @param object $instance
 	 *
-	 * @return void
+	 * @return array
 	 */
-	protected function generateInsertFromRelation($relation, $foreignKey, $otherKey, $attributes = array())
+	protected function createRelationSeederFromSignature($attribute, $signature, &$defaults, &$instance)
 	{
-		$table    = $relation->getTable();
-		$foreign  = explode('.', $relation->getForeignKey())[1];
-		$other    = explode('.', $relation->getOtherKey())[1];
+		// Create the RelationSeeder instance
+		if (!$type = array_pull($signature, 'relationType')) {
+			$relation = $instance->$attribute();
+			$type     = class_basename($relation);
+		}
+		$type     = 'Fakable\Relations\\'.$type;
+		$relation = new $type($this, $instance, $attribute);
 
-		$this->relations[$table][] = array_merge(array(
-			$foreign => $foreignKey,
-			$other   => $otherKey,
-		), $attributes);
+		// If we passed the foreign key, populate it
+		$foreign = array_pull($signature, 'foreignKey') ?: $attribute;
+		if ($relation instanceof MorphTo and $foreign) {
+			$relation->setForeignKey($foreign);
+		}
+
+		// Affect attributes
+		$models   = (array) array_pull($signature, 'forModels');
+		$defaults = $relation->affectAttributes($defaults, $models);
+		if ($relation instanceof MorphTo) {
+			$instance->fill($defaults);
+		}
+
+		return [$relation, $signature];
 	}
 
 	/**
@@ -481,9 +422,6 @@ class Fakable
 			$arguments = array();
 		}
 
-		// For 1:1, get model name
-		$arguments = $this->getArgumentsFromMethod($method, $attribute, $arguments);
-
 		// Get the source of the method
 		$source = method_exists($this, $method) ? $this : $this->faker;
 		$value  = call_user_func_array([$source, $method], $arguments);
@@ -491,43 +429,5 @@ class Fakable
 		$attributes[$attribute] = $value;
 
 		return $value;
-	}
-
-	/**
-	 * Get the model associated with an attribute
-	 *
-	 * @param string $attribute
-	 *
-	 * @return string
-	 */
-	protected function getModelFromAttributeName($attribute)
-	{
-		return ucfirst(str_replace('_id', '', $attribute));
-	}
-
-	/**
-	 * Get the default arguments for a relation method
-	 *
-	 * @param string $method
-	 * @param string $attribute
-	 * @param array  $arguments
-	 *
-	 * @return array
-	 */
-	protected function getArgumentsFromMethod($method, $attribute, $arguments = array())
-	{
-		if (!empty($arguments)) {
-			return $arguments;
-		}
-
-		// Compute default model arguments
-		$model = $this->getModelFromAttributeName($attribute);
-		if (Str::contains($attribute, '_id')) {
-			$arguments = [$model];
-		} elseif ($method === 'randomModels') {
-			$arguments = [Str::singular($model)];
-		}
-
-		return $arguments;
 	}
 }
