@@ -38,7 +38,7 @@ abstract class AbstractRelationSeeder
 	public function __construct(Fakable $fakable, $model, $relation)
 	{
 		$this->fakable  = $fakable;
-		$this->model    = $model;
+		$this->model    = clone $model;
 		$this->relation = $relation;
 	}
 

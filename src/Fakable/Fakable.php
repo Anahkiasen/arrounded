@@ -219,11 +219,8 @@ class Fakable
 				$instance->fill($defaults);
 			}
 
-			// Generate pivot entries
-			$entries  = call_user_func_array([$relation, 'generateEntries'], $signature);
-			foreach ($entries as $entry) {
-				$this->relations[$relation->getTable()][] = $entry;
-			}
+			// Store pivot entries to generate
+			$this->relations[] = [$relation, $signature];
 		}
 
 		// Fill attributes and save
@@ -304,8 +301,17 @@ class Fakable
 			$this->insertGeneratedEntries();
 		}
 
+		// Build the relations
+		$relations = array();
+		foreach($this->relations as list($relation, $signature)) {
+			$entries = call_user_func_array([$relation, 'generateEntries'], $signature);
+			foreach ($entries as $entry) {
+				$relations[$relation->getTable()][] = $entry;
+			}
+		}
+
 		// Generate the relations
-		foreach($this->relations as $table => $entries) {
+		foreach($relations as $table => $entries) {
 			$this->insertEntries($table, $entries);
 		}
 	}

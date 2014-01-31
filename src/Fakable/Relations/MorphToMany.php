@@ -25,7 +25,7 @@ class MorphToMany extends AbstractRelationSeeder
 		$model = $this->getRelated();
 
 		return array_merge(array(
-			$this->foreignKey() => $this->model->id,
+			$this->foreignKey() => $this->model->getKey(),
 			$this->otherKey()   => $this->fakable->randomModel($model),
 			$this->getType()    => class_basename($model),
 		), $attributes);

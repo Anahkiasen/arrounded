@@ -13,7 +13,7 @@ class BelongsToMany extends AbstractRelationSeeder
 	public function generateEntry(array $attributes = array())
 	{
 		return array_merge(array(
-			$this->foreignKey() => $this->model->id,
+			$this->foreignKey() => $this->model->getKey(),
 			$this->otherKey()   => $this->fakable->randomModel($this->getRelated()),
 		), $attributes);
 	}

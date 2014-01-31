@@ -22,7 +22,7 @@ class BelongsTo extends AbstractRelationSeeder
 			$attributes[$pivot.'_type'] = $model;
 			$attributes[$pivot.'_id']   = $this->fakable->randomModel($model);
 		} else {
-			$attributes[$this->getForeignKey()] = $this->fakable->randomModel($this->getParent());
+			$attributes[$this->getForeignKey()] = $this->fakable->randomModel($this->getRelated());
 		}
 
 		return $attributes;

@@ -11,7 +11,7 @@ trait FakableModel
 	 *
 	 * @var array
 	 */
-	private $defaultFakables = array(
+	protected $defaultFakables = array(
 		'name'       => ['sentence', 5],
 		'gender'     => ['randomNumber', [0, 1]],
 		'age'        => ['randomNumber', [1, 90]],
