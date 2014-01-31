@@ -187,6 +187,17 @@ class Fakable
 				continue;
 			}
 
+			// $relation = $instance->$attribute();
+			// $type     = 'Fakable\Relations\\'.class_basename($relation);
+			// $relation = new $type($this, $relation);
+
+			// // Affect attributes
+			// $defaults = $relation->affectAttributes($defaults);
+			// $entries  = $relation->generateEntries();
+			// foreach ($entries as $entry) {
+			// 	$this->relations[$relation->getTable()][] = $entry;
+			// }
+
 			if ($signature[0] === 'randomModels') {
 				$relation = $instance->$attribute();
 				foreach ($value as $entry) {
@@ -328,7 +339,7 @@ class Fakable
 	 *
 	 * @return integer
 	 */
-	protected function randomModel($model, array $notIn = array())
+	public function randomModel($model, array $notIn = array())
 	{
 		$model  = new $model;
 		$models = $model::query()->remember(10);
@@ -383,7 +394,7 @@ class Fakable
 	 *
 	 * @return array
 	 */
-	protected function randomModels($model, $min = 5, $max = null)
+	public function randomModels($model, $min = 5, $max = null)
 	{
 		// Get a random number of elements
 		$max       = $max ?: $min + 5;
@@ -407,7 +418,7 @@ class Fakable
 	 *
 	 * @return array [id, attributes]
 	 */
-	protected function randomPivots($model, array $attributes = array(), $min = 5, $max = null)
+	public function randomPivots($model, array $attributes = array(), $min = 5, $max = null)
 	{
 		return [$this->randomModels($model, $min, $max), $attributes];
 	}
