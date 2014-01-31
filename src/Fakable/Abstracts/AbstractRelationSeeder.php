@@ -1,6 +1,7 @@
 <?php
 namespace Fakable\Abstracts;
 
+use Exception;
 use Fakable\Fakable;
 
 /**
@@ -38,7 +39,7 @@ abstract class AbstractRelationSeeder
 	{
 		$this->fakable  = $fakable;
 		$this->model    = $model;
-		$this->relation = $model->$relation();
+		$this->relation = $relation;
 	}
 
 	/**
@@ -51,7 +52,21 @@ abstract class AbstractRelationSeeder
 	 */
 	public function __call($method, $parameters)
 	{
-		return call_user_func_array([$this->relation, $method], $parameters);
+		return call_user_func_array([$this->relation(), $method], $parameters);
+	}
+
+	/**
+	 * Get the relation
+	 *
+	 * @return Relation
+	 */
+	public function relation()
+	{
+		if (is_string($this->relation)) {
+			$this->relation = $this->model->{$this->relation}();
+		}
+
+		return $this->relation;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -77,9 +92,9 @@ abstract class AbstractRelationSeeder
 	 */
 	protected function getProtectedRelationAttribute($attribute)
 	{
-		$relation = (array) $this->relation;
+		$relation = (array) $this->relation();
 
-		return $relation["\0*\0".$attribute];
+		return array_get($relation, "\0*\0".$attribute, get_class($this));
 	}
 
 	/**
@@ -142,6 +157,10 @@ abstract class AbstractRelationSeeder
 	 */
 	public function generateEntries($min = 5, $max = null, array $attributes = array())
 	{
+		if (empty($this->generateEntry())) {
+			return array();
+		}
+
 		$entries = [];
 		$max  = $max ?: $min + 5;
 		$pool = $this->fakable->getFaker()->randomNumber($min, $max);

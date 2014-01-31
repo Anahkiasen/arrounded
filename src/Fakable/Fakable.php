@@ -205,10 +205,15 @@ class Fakable
 			$type     = 'Fakable\Relations\\'.$type;
 			$relation = new $type($this, $instance, $attribute);
 
+			// If we passed the foreign key, populate it
+			if ($foreign = array_pull($signature, 'foreignKey')) {
+				$relation->setForeignKey($foreign);
+			}
+
 			// Affect attributes
 			$models   = (array) array_pull($signature, 'forModels');
 			$defaults = $relation->affectAttributes($defaults, $models);
-			if ($relation->getKind() === 'morphTo') {
+			if ($relation instanceof \Fakable\Relations\MorphTo) {
 				$instance->fill($defaults);
 			}
 
