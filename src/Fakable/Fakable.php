@@ -2,10 +2,11 @@
 namespace Fakable;
 
 use DB;
+use Fakable\Relations\MorphTo;
 use Faker\Factory as Faker;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 /**
  * Generates a fake model
@@ -206,14 +207,15 @@ class Fakable
 			$relation = new $type($this, $instance, $attribute);
 
 			// If we passed the foreign key, populate it
-			if ($foreign = array_pull($signature, 'foreignKey')) {
+			$foreign = array_pull($signature, 'foreignKey') ?: $attribute;
+			if ($relation instanceof MorphTo and $foreign) {
 				$relation->setForeignKey($foreign);
 			}
 
 			// Affect attributes
 			$models   = (array) array_pull($signature, 'forModels');
 			$defaults = $relation->affectAttributes($defaults, $models);
-			if ($relation instanceof \Fakable\Relations\MorphTo) {
+			if ($relation instanceof MorphTo) {
 				$instance->fill($defaults);
 			}
 
