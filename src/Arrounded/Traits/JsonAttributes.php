@@ -55,7 +55,7 @@ trait JsonAttributes
 	protected function getAttributeDefault($attribute)
 	{
 		if (!$this->defaults) {
-			return;
+			return array();
 		}
 
 		return (array) array_get($this->defaults, $attribute);
