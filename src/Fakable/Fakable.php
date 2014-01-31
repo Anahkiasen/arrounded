@@ -152,7 +152,7 @@ class Fakable
 	 */
 	public function setPoolFromModel($model, $power = 2)
 	{
-		$this->pool = $model::count() * $power;
+		$this->pool = $model::remember(10)->count() * $power;
 
 		return $this;
 	}
@@ -175,9 +175,9 @@ class Fakable
 		// Get the fakable attributes
 		$fakables = $this->model->getFakables();
 		$instance = $this->model->newInstance();
+		$instance->id = sizeof($this->generated) + 1;
 
 		// Generate dummy attributes
-		$relations = array();
 		$defaults  = array();
 		foreach ($fakables as $attribute => $signature) {
 			$signature = (array) $signature;
@@ -188,11 +188,21 @@ class Fakable
 			}
 
 			if ($signature[0] === 'randomModels') {
-				$relations[$attribute] = ['sync', [$value]];
+				$relation = $instance->$attribute();
+				foreach ($value as $entry) {
+					$this->generateInsertFromRelation($relation, $instance->id, $entry);
+				}
+			} elseif($signature[0] === 'randomMorphedByMany') {
+				$relation = $instance->$attribute();
+				foreach ($value as $entry) {
+					$this->generateInsertFromRelation($relation, $instance->id, null, $entry);
+				}
 			} elseif ($signature[0] === 'randomPivots') {
-				list ($ids, $attributes) = $value;
-				foreach ($ids as $id) {
-					$relations[$attribute] = ['attach', [$id, $attributes]];
+				$instance->fill($defaults);
+				$relation = $instance->$attribute();
+				list ($entries, $attributes) = $value;
+				foreach ($entries as $entry) {
+					$this->generateInsertFromRelation($relation, $instance->id, $entry, $attributes);
 				}
 			}
 		}
@@ -206,17 +216,16 @@ class Fakable
 		}
 
 		if ($this->saved and !$this->batch) {
+			unset($instance->id);
 			$instance->save();
 		}
 
 		// Save instance
-		$instance->id = sizeof($this->generated) + 1;
-		$this->relations[$instance->id] = $relations;
 		$this->generated[$instance->id] = $instance;
 
 		// Generate relations if necessary
 		if ($generateRelations) {
-			$this->fakeRelations();
+			$this->insertGeneratedRelations();
 		}
 
 		return $instance;
@@ -239,8 +248,12 @@ class Fakable
 		}
 
 		// Create relations
-		$this->fakeRelations();
+		$this->insertGeneratedRelations();
 	}
+
+	////////////////////////////////////////////////////////////////////
+	////////////////////////////// INSERTION ///////////////////////////
+	////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Insert the generated models as one
@@ -251,8 +264,44 @@ class Fakable
 	{
 		// Cast all to array
 		$entries = Collection::make($this->generated)->map(function ($entry) {
+			unset($entry->id);
 			return $entry->getAttributes();
 		})->all();
+
+		// Insert the entries
+		$this->insertEntries($this->model->getTable(), $entries);
+
+		$this->generated = $this->model->get();
+	}
+
+	/**
+	 * Generate fake relations
+	 *
+	 * @return void
+	 */
+	protected function insertGeneratedRelations()
+	{
+		// Save the created models
+		if ($this->batch) {
+			$this->insertGeneratedEntries();
+		}
+
+		// Generate the relations
+		foreach($this->relations as $table => $entries) {
+			$this->insertEntries($table, $entries);
+		}
+	}
+
+	/**
+	 * Insert entries in a table
+	 *
+	 * @param string $table
+	 * @param array  $entries
+	 *
+	 * @return void
+	 */
+	protected function insertEntries($table, $entries)
+	{
 		$slices = array($entries);
 
 		// If the engine is SQLite and we have a lot of seeded entries
@@ -263,30 +312,7 @@ class Fakable
 		}
 
 		foreach ($slices as $entries) {
-			$this->model->insert($entries);
-		}
-	}
-
-	/**
-	 * Generate fake relations
-	 *
-	 * @return void
-	 */
-	public function fakeRelations()
-	{
-		// Save the created models
-		if ($this->batch) {
-			$this->insertGeneratedEntries();
-		}
-
-		// Generate the relations
-		foreach ($this->generated as $instance) {
-			$relations = array_get($this->relations, $instance->id, array());
-
-			foreach($relations as $name => $signature) {
-				list ($method, $value) = $signature;
-				call_user_func_array([$instance->$name(), $method], $value);
-			}
+			DB::table($table)->insert($entries);
 		}
 	}
 
@@ -305,7 +331,7 @@ class Fakable
 	protected function randomModel($model, array $notIn = array())
 	{
 		$model  = new $model;
-		$models = $model::query();
+		$models = $model::query()->remember(10);
 		if ($notIn) {
 			$models = $models->whereNotIn($model->getKeyName(), $notIn);
 		}
@@ -329,6 +355,28 @@ class Fakable
 	}
 
 	/**
+	 * Generate a random morphedByMany relationship
+	 *
+	 * @param string   $model
+	 * @param integer  $min
+	 * @param integer  $max
+	 *
+	 * @return array
+	 */
+	public function randomMorphedByMany($attribute, $model, $min = 5, $max = null)
+	{
+		$entries = array();
+		foreach ($this->randomModels($model, $min, $max) as $entry) {
+			$entries[] = array(
+				$attribute.'_id'   => $entry,
+				$attribute.'_type' => $model,
+			);
+		}
+
+		return $entries;
+	}
+
+	/**
 	 * Return an array of random models IDs
 	 *
 	 * @param string $model
@@ -339,7 +387,7 @@ class Fakable
 	{
 		// Get a random number of elements
 		$max       = $max ?: $min + 5;
-		$available = $model::lists('id');
+		$available = $model::remember(10)->lists('id');
 		$available = empty($available) ? range(1, $this->pool) : $available;
 		$number    = $this->faker->randomNumber($min, $max);
 
@@ -367,6 +415,27 @@ class Fakable
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Generate an entry array from a relation
+	 *
+	 * @param string  $relation
+	 * @param integer $foreign
+	 * @param integer $other
+	 *
+	 * @return void
+	 */
+	protected function generateInsertFromRelation($relation, $foreignKey, $otherKey, $attributes = array())
+	{
+		$table    = $relation->getTable();
+		$foreign  = explode('.', $relation->getForeignKey())[1];
+		$other    = explode('.', $relation->getOtherKey())[1];
+
+		$this->relations[$table][] = array_merge(array(
+			$foreign => $foreignKey,
+			$other   => $otherKey,
+		), $attributes);
+	}
 
 	/**
 	 * Transform a fakable array to a signature
