@@ -12,30 +12,26 @@ trait FakableModel
 	 * @var array
 	 */
 	private $defaultFakables = array(
-		'name'          => ['sentence', 5],
-		'gender'        => ['randomNumber', [0, 1]],
-		'age'           => ['randomNumber', [1, 90]],
-		'note'          => ['randomNumber', [1, 10]],
+		'name'       => ['sentence', 5],
+		'gender'     => ['randomNumber', [0, 1]],
+		'age'        => ['randomNumber', [1, 90]],
+		'note'       => ['randomNumber', [1, 10]],
 
-		'contents'      => ['paragraph', 5],
-		'biography'     => ['paragraph', 5],
+		'contents'   => ['paragraph', 5],
+		'biography'  => ['paragraph', 5],
 
-		'email'         => 'email',
-		'password'      => 'word',
-		'website'       => 'url',
-		'address'       => 'address',
-		'country'       => 'country',
-		'city'          => 'city',
+		'email'      => 'email',
+		'password'   => 'word',
+		'website'    => 'url',
+		'address'    => 'address',
+		'country'    => 'country',
+		'city'       => 'city',
 
-		'private'       => 'boolean',
-		'public'        => 'boolean',
+		'private'    => 'boolean',
+		'public'     => 'boolean',
 
-		'created_at'    => 'dateTimeThisMonth',
-		'updated_at'    => 'dateTimeThisMonth',
-
-		'from_user_id'  => ['randomModel', 'User'],
-		'user_id'       => 'randomModel',
-		'discussion_id' => 'randomModel',
+		'created_at' => 'dateTimeThisMonth',
+		'updated_at' => 'dateTimeThisMonth',
 	);
 
 	////////////////////////////////////////////////////////////////////

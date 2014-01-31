@@ -74,6 +74,16 @@ class Fakable
 		$this->model = clone $model;
 	}
 
+	/**
+	 * Get the Faker instance
+	 *
+	 * @return Faker
+	 */
+	public function getFaker()
+	{
+		return $this->faker;
+	}
+
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// OPTIONS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -175,46 +185,37 @@ class Fakable
 		// Get the fakable attributes
 		$fakables = $this->model->getFakables();
 		$instance = $this->model->newInstance();
-		$instance->id = sizeof($this->generated) + 1;
+		$instance->id = $this->model->count() + 1;
 
 		// Generate dummy attributes
 		$defaults  = array();
 		foreach ($fakables as $attribute => $signature) {
 			$signature = (array) $signature;
-			$value = $this->callFromSignature($defaults, $attribute, $signature);
 
 			if (!method_exists($this->model, $attribute)) {
+				$this->callFromSignature($defaults, $attribute, $signature);
 				continue;
 			}
 
-			// $relation = $instance->$attribute();
-			// $type     = 'Fakable\Relations\\'.class_basename($relation);
-			// $relation = new $type($this, $relation);
-
-			// // Affect attributes
-			// $defaults = $relation->affectAttributes($defaults);
-			// $entries  = $relation->generateEntries();
-			// foreach ($entries as $entry) {
-			// 	$this->relations[$relation->getTable()][] = $entry;
-			// }
-
-			if ($signature[0] === 'randomModels') {
+			// Create the RelationSeeder instance
+			if (!$type = array_pull($signature, 'relationType')) {
 				$relation = $instance->$attribute();
-				foreach ($value as $entry) {
-					$this->generateInsertFromRelation($relation, $instance->id, $entry);
-				}
-			} elseif($signature[0] === 'randomMorphedByMany') {
-				$relation = $instance->$attribute();
-				foreach ($value as $entry) {
-					$this->generateInsertFromRelation($relation, $instance->id, null, $entry);
-				}
-			} elseif ($signature[0] === 'randomPivots') {
+				$type     = class_basename($relation);
+			}
+			$type     = 'Fakable\Relations\\'.$type;
+			$relation = new $type($this, $instance, $attribute);
+
+			// Affect attributes
+			$models   = (array) array_pull($signature, 'forModels');
+			$defaults = $relation->affectAttributes($defaults, $models);
+			if ($relation->getKind() === 'morphTo') {
 				$instance->fill($defaults);
-				$relation = $instance->$attribute();
-				list ($entries, $attributes) = $value;
-				foreach ($entries as $entry) {
-					$this->generateInsertFromRelation($relation, $instance->id, $entry, $attributes);
-				}
+			}
+
+			// Generate pivot entries
+			$entries  = call_user_func_array([$relation, 'generateEntries'], $signature);
+			foreach ($entries as $entry) {
+				$this->relations[$relation->getTable()][] = $entry;
 			}
 		}
 
@@ -227,7 +228,6 @@ class Fakable
 		}
 
 		if ($this->saved and !$this->batch) {
-			unset($instance->id);
 			$instance->save();
 		}
 
@@ -469,20 +469,13 @@ class Fakable
 		}
 
 		// For 1:1, get model name
-		$model     = $this->getModelFromAttributeName($attribute);
 		$arguments = $this->getArgumentsFromMethod($method, $attribute, $arguments);
 
 		// Get the source of the method
 		$source = method_exists($this, $method) ? $this : $this->faker;
 		$value  = call_user_func_array([$source, $method], $arguments);
 
-		if ($method === 'randomPolymorphic') {
-			list ($model, $key) = $value;
-			$attributes[$attribute.'_type'] = $model;
-			$attributes[$attribute.'_id']  = $key;
-		} else {
-			$attributes[$attribute] = $value;
-		}
+		$attributes[$attribute] = $value;
 
 		return $value;
 	}
