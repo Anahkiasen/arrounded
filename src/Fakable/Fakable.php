@@ -152,7 +152,7 @@ class Fakable
 	 */
 	public function setPoolFromModel($model, $power = 2)
 	{
-		$this->pool = $model::remember(10)->count() * $power;
+		$this->pool = $model::count() * $power;
 
 		return $this;
 	}
@@ -342,7 +342,7 @@ class Fakable
 	public function randomModel($model, array $notIn = array())
 	{
 		$model  = new $model;
-		$models = $model::query()->remember(10);
+		$models = $model::query();
 		if ($notIn) {
 			$models = $models->whereNotIn($model->getKeyName(), $notIn);
 		}
@@ -398,7 +398,7 @@ class Fakable
 	{
 		// Get a random number of elements
 		$max       = $max ?: $min + 5;
-		$available = $model::remember(10)->lists('id');
+		$available = $model::lists('id');
 		$available = empty($available) ? range(1, $this->pool) : $available;
 		$number    = $this->faker->randomNumber($min, $max);
 
