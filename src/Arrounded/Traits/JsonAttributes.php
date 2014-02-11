@@ -39,7 +39,7 @@ trait JsonAttributes
 
 		// Decode and merge with defaults
 		$defaults = !empty($defaults) ? $defaults : $this->getAttributeDefault($attribute);
-		$value    = json_decode($value, true);
+		$value    = (array) json_decode($value, true);
 		$value    = array_replace_recursive($defaults, $value);
 
 		return $value;
