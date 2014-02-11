@@ -147,9 +147,10 @@ class Upload extends Model
 		}
 
 		// If this is a model upload return that
+		$public = App::make('path.public');
 		$folder = Str::plural($this->illustrable_type);
 		$folder = 'uploads/'.strtolower($folder).'/'.$this->name;
-		if (file_exists($folder)) {
+		if (file_exists($public.'/'.$folder)) {
 			return $folder;
 		}
 
