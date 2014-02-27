@@ -2,6 +2,7 @@
 namespace Arrounded\Traits;
 
 use Auth;
+use HTML;
 use URL;
 
 /**
@@ -64,16 +65,28 @@ trait ReflectionModel
 	}
 
 	/**
-	 * Get the link to an action
+	 * Get the path to an action
 	 *
 	 * @param string  $action
 	 * @param boolean $api
 	 *
 	 * @return string
 	 */
-	public function getLink($action, $api = false)
+	public function getPath($action, $api = false)
 	{
 		return URL::action($this->getAction($action, $api), $this->slug);
+	}
+
+	/**
+	 * Get the link to an action
+	 *
+	 * @param string $action
+	 *
+	 * @return string
+	 */
+	public function getLink($action)
+	{
+		return HTML::linkAction($this->getAction($action), $this->name, $this->slug);
 	}
 
 	/**
