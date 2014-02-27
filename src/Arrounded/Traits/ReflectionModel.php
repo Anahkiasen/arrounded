@@ -81,12 +81,13 @@ trait ReflectionModel
 	 * Get the link to an action
 	 *
 	 * @param string $action
+	 * @param array  $attributes
 	 *
 	 * @return string
 	 */
-	public function getLink($action)
+	public function getLink($action, array $attributes = array())
 	{
-		return HTML::linkAction($this->getAction($action), $this->name, $this->slug);
+		return HTML::linkAction($this->getAction($action), $this->name, $this->slug, $attributes);
 	}
 
 	/**
