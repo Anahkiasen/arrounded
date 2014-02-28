@@ -24,4 +24,16 @@ trait UsesContainer
 	{
 		$this->app = $app;
 	}
+
+	/**
+	 * Get an entry from the Container
+	 *
+	 * @param string $key
+	 *
+	 * @return object
+	 */
+	public function __get($key)
+	{
+		return $this->app[$key];
+	}
 }
