@@ -85,9 +85,11 @@ trait ReflectionModel
 	 *
 	 * @return string
 	 */
-	public function getLink($action, array $attributes = array())
+	public function getLink($action, $title = null, array $attributes = array())
 	{
-		return HTML::linkAction($this->getAction($action), $this->name, $this->slug, $attributes);
+		$title = $title ?: $this->name;
+
+		return HTML::linkAction($this->getAction($action), $title, $this->slug, $attributes);
 	}
 
 	/**
