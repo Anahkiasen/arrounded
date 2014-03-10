@@ -2,6 +2,7 @@
 namespace Arrounded\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Contracts\ArrayableInterface;
 use Response;
 
 abstract class AbstractApiController extends Controller
@@ -61,15 +62,11 @@ abstract class AbstractApiController extends Controller
 	 * Wrap one or more items in an API convention format
 	 *
 	 * @param ArrayableInterface $items
-	 * @param array              $meta
 	 *
 	 * @return Response
 	 */
-	protected function wrap(ArrayableInterface $items, $meta = array())
+	protected function wrap(ArrayableInterface $items)
 	{
-		$items = $items->toArray();
-		$items['meta'] = $meta;
-
 		return $items;
 	}
 }
