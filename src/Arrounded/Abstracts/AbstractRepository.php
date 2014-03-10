@@ -89,7 +89,7 @@ abstract class AbstractRepository implements RepositoryInterface
 		$item = array_get($attributes, 'id');
 
 		return $item
-			?	$this->items->find($item)->fill($attributes)
+			? $this->find($item)->fill($attributes)
 			: $this->items->newInstance($attributes);
 	}
 
