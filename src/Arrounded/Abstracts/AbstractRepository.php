@@ -70,7 +70,7 @@ abstract class AbstractRepository implements RepositoryInterface
 		}
 
 		// Find by slug
-		if ((int) $item === 0) {
+		if ((int) $item === 0 and $this->items->hasTrait('Sluggable')) {
 			return $this->items()->whereSlug($item)->firstOrFail();
 		}
 
