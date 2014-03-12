@@ -2,8 +2,10 @@
 namespace Arrounded\Testing;
 
 use Arrounded\Traits\UsesContainer;
+use Illuminate\Foundation\Testing\Client;
 use Illuminate\Support\Str;
 use SplFileInfo;
+use Closure;
 
 /**
  * A basic class to extract routes
@@ -19,6 +21,13 @@ class Crawler
 	 * @var array
 	 */
 	protected $ignored = array();
+
+	/**
+	 * Lifetime of the cache
+	 *
+	 * @var integer
+	 */
+	protected $lifetime = 60;
 
 	/**
 	 * The model namespace
@@ -42,7 +51,7 @@ class Crawler
 	 *
 	 * @return array
 	 */
-	public function getRoutes(array $additional = array(), $cached = 60)
+	public function getRoutes(array $additional = array())
 	{
 		$getRoutes = function () {
 			$routes = array();
@@ -55,6 +64,13 @@ class Crawler
 				// Skip some routes
 				if ($method != 'GET' or Str::contains($uri, $this->ignored)) {
 					continue;
+				}
+
+				// Try regexes too
+				foreach ($this->ignored as $ignored) {
+					if (preg_match('#' .$ignored. '#', $uri)) {
+						continue 2;
+					}
 				}
 
 				// Replace models with their IDs
@@ -75,9 +91,9 @@ class Crawler
 		};
 
 		// Cache the fetching of routes or not
-		if ($cached) {
+		if ($this->lifetime) {
 			$mtime  = new SplFileInfo($this->app['path'].'/routes.php');
-			$routes = $this->app['cache']->remember($mtime->getMTime(), $cached, $getRoutes);
+			$routes = $this->app['cache']->remember($mtime->getMTime(), $this->lifetime, $getRoutes);
 		} else {
 			$routes = $getRoutes();
 		}
@@ -103,6 +119,24 @@ class Crawler
 		return $queue;
 	}
 
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// OPTIONS ////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Sets the Lifetime of the cache.
+	 *
+	 * @param integer $lifetime the lifetime
+	 *
+	 * @return self
+	 */
+	public function setLifetime($lifetime)
+	{
+		$this->lifetime = $lifetime;
+
+		return $this;
+	}
+
 	/**
 	 * Set the routes to ignore
 	 *
@@ -111,6 +145,37 @@ class Crawler
 	public function setIgnored(array $ignored = array())
 	{
 		$this->ignored = $ignored;
+	}
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// CRAWLING ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get a Client instance
+	 *
+	 * @return Client
+	 */
+	public function getClient()
+	{
+		return new Client($this->app, array());
+	}
+
+	/**
+	 * Execute an action on all pages
+	 *
+	 * @param Closure $callback
+	 *
+	 * @return void
+	 */
+	public function onRoutes(Closure $callback)
+	{
+		$routes = $this->getRoutes();
+		$client = $this->getClient();
+
+		foreach ($routes as $route) {
+			$callback($client, $route);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////
