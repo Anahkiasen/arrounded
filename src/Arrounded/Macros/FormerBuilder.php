@@ -21,9 +21,13 @@ class FormerBuilder
 	 */
 	public static function registerMacros(array $macros)
 	{
-		$class = get_class($this);
-		foreach ($macros as $method => $name) {
-			$this->app['former']->macro($name, $class.'@'.$method);
+		// Merge default macros
+		$class  = get_class($this);
+		$macros = array_merge(['gender', 'boolean', 'belongsTo', 'manyToMany'], $macros);
+
+		// Register macros
+		foreach ($macros as $name) {
+			$this->app['former']->macro($name, $class.'@'.$name);
 		}
 	}
 
