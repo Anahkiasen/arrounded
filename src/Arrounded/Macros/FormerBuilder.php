@@ -19,7 +19,7 @@ class FormerBuilder
 	 *
 	 * @return void
 	 */
-	public static function registerMacros(array $macros)
+	public function registerMacros(array $macros = array())
 	{
 		// Merge default macros
 		$class  = get_class($this);
@@ -109,10 +109,10 @@ class FormerBuilder
 	 *
 	 * @return array
 	 */
-	protected function getEntries($model, $orderBy = 'name')
+	protected function getEntries($model, $orderBy = 'id')
 	{
 		$model = Str::singular($model);
 
-		return $model::orderBy($orderBy, 'ASC')->lists('name', 'id');
+		return $model::orderBy($orderBy, 'ASC')->get()->lists('name', 'id');
 	}
 }
