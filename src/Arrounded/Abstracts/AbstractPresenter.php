@@ -98,6 +98,22 @@ class AbstractPresenter extends Presenter
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Format an attribute
+	 *
+	 * @param string $attribute
+	 *
+	 * @return mixed
+	 */
+	protected function getFromModel($attribute)
+	{
+		if (is_string($attribute)) {
+			return $this->object->$attribute;
+		}
+
+		return $attribute;
+	}
+
+	/**
 	 * Check if an action exists and has a route bound to it
 	 *
 	 * @param string $action
@@ -112,12 +128,14 @@ class AbstractPresenter extends Presenter
 	/**
 	 * Show a model's main identifier
 	 *
-	 * @param Model $model
+	 * @param string|Model $model
 	 *
 	 * @return string
 	 */
-	protected function model(Model $model = null)
+	protected function model($model = null)
 	{
+		$model = $this->getFromModel($model);
+
 		if (!$model) {
 			return;
 		}
@@ -143,7 +161,7 @@ class AbstractPresenter extends Presenter
 	 */
 	protected function collection($collection)
 	{
-		return $collection->implode('name', ', ');
+		return $this->getFromModel($collection)->implode('name', ', ');
 	}
 
 	/**
@@ -155,7 +173,7 @@ class AbstractPresenter extends Presenter
 	 */
 	protected function collectionCount($relation)
 	{
-		$count = $this->object->$relation->count();
+		$count = $this->getFromModel($relation)->count();
 
 		// Wrap in a link if possible
 		$show = 'Admin\\' .ucfirst($relation). 'Controller@'.strtolower(get_class($this->object));
