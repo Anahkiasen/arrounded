@@ -111,6 +111,7 @@ class FormerBuilder
 	 */
 	protected function getEntries($model, $orderBy = 'id')
 	{
+		$model = ucfirst($model);
 		$model = Str::singular($model);
 
 		return $model::orderBy($orderBy, 'ASC')->get()->lists('name', 'id');
