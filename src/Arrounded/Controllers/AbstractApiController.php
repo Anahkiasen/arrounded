@@ -62,11 +62,12 @@ abstract class AbstractApiController extends Controller
 	 * Wrap one or more items in an API convention format
 	 *
 	 * @param ArrayableInterface $items
+	 * @param integer            $statusCode
 	 *
 	 * @return Response
 	 */
-	protected function wrap(ArrayableInterface $items)
+	protected function wrap(ArrayableInterface $items, $statusCode = 200)
 	{
-		return $items;
+		return Response::json($items, $statusCode);
 	}
 }
