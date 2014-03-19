@@ -86,23 +86,6 @@ class AbstractPresenter extends Presenter
 		return $this->boolean($this->object->public);
 	}
 
-	/**
-	 * Present the services array
-	 *
-	 * @return array
-	 */
-	public function presentServices()
-	{
-		$services = $this->object->services;
-		foreach ($services as $service => $settings) {
-			foreach ($settings as $name => $value) {
-				$services[$service][$name] = $this->boolean($value);
-			}
-		}
-
-		return $services;
-	}
-
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
