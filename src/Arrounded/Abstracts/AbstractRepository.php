@@ -138,10 +138,6 @@ abstract class AbstractRepository implements RepositoryInterface
 		$method = $force ? 'forceDelete' : 'delete';
 		$item   = $this->find($item);
 
-		if ($item->hasTrait('ReflectionModel') and !$item->belongsToCurrent()) {
-			return false;
-		}
-
 		return $item->$method();
 	}
 
