@@ -118,8 +118,9 @@ abstract class AbstractSeeder extends Seeder
 
 		// Get the table to insert into and insert aaaall the things
 		if (!empty($entries)) {
-			$table = get_called_class();
-			$table = str_replace('TableSeeder', null, $table);
+			$table  = get_called_class();
+			$table  = str_replace('TableSeeder', null, $table);
+			$table  = strtolower($table);
 			$slices = array($entries);
 
 			// If the engine is SQLite and we have a lot of seeded entries
