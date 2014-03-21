@@ -13,6 +13,21 @@ abstract class AbstractRepository implements RepositoryInterface
 	 */
 	protected $items;
 
+	/**
+	 * Get the core model instance
+	 *
+	 * @return Model
+	 */
+	public function getModelInstance()
+	{
+		$model = $this->items;
+		if (method_exists($model, 'getModel')) {
+			$model = $model->getModel();
+		}
+
+		return $model;
+	}
+
 	////////////////////////////////////////////////////////////////////
 	////////////////////////////// CORE DATA ///////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -70,7 +85,7 @@ abstract class AbstractRepository implements RepositoryInterface
 		}
 
 		// Find by slug
-		if ((int) $item === 0 and $this->items->hasTrait('Sluggable')) {
+		if ((int) $item === 0 and $this->getModelInstance()->hasTrait('Sluggable')) {
 			return $this->items()->whereSlug($item)->firstOrFail();
 		}
 
