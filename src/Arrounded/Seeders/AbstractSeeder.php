@@ -102,10 +102,15 @@ abstract class AbstractSeeder extends Seeder
 		$isTesting = app()->environment('testing');
 
 		// Execute the Closure n times
+		$table   = null;
 		$entries = array();
 		$this->times(function($i) use ($closure, &$entries, $isTesting) {
 			if (!$isTesting) print '.';
 			if ($entry = $closure($i)) {
+				if (!$table) {
+					$table = $entry->getTable();
+				}
+
 				$entry = $entry->getAttributes();
 				$entries[] = $entry;
 			}
@@ -118,7 +123,6 @@ abstract class AbstractSeeder extends Seeder
 
 		// Get the table to insert into and insert aaaall the things
 		if (!empty($entries)) {
-			$table  = head($entries)->getTable();
 			$slices = array($entries);
 
 			// If the engine is SQLite and we have a lot of seeded entries
