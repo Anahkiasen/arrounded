@@ -104,7 +104,7 @@ abstract class AbstractSeeder extends Seeder
 		// Execute the Closure n times
 		$table   = null;
 		$entries = array();
-		$this->times(function($i) use ($closure, &$entries, $isTesting) {
+		$this->times(function($i) use ($closure, &$entries, $isTesting, $table) {
 			if (!$isTesting) print '.';
 			if ($entry = $closure($i)) {
 				if (!$table) {
