@@ -120,6 +120,7 @@ abstract class AbstractSeeder extends Seeder
 		if (!empty($entries)) {
 			$table  = get_called_class();
 			$table  = str_replace('TableSeeder', null, $table);
+			$table  = Str::plural($table);
 			$table  = snake_case($table);
 			$slices = array($entries);
 
