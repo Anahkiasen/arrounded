@@ -120,7 +120,7 @@ abstract class AbstractSeeder extends Seeder
 		if (!empty($entries)) {
 			$table  = get_called_class();
 			$table  = str_replace('TableSeeder', null, $table);
-			$table  = strtolower($table);
+			$table  = snake_case($table);
 			$slices = array($entries);
 
 			// If the engine is SQLite and we have a lot of seeded entries
@@ -143,9 +143,9 @@ abstract class AbstractSeeder extends Seeder
 	 */
 	protected function generatePivotRelations($model, $modelTwo)
 	{
-		$foreign    = strtolower($model).'_id';
-		$foreignTwo = strtolower($modelTwo).'_id';
-		$table      = strtolower($model).'_'.strtolower($modelTwo);
+		$foreign    = snake_case($model).'_id';
+		$foreignTwo = snake_case($modelTwo).'_id';
+		$table      = snake_case($model).'_'.snake_case($modelTwo);
 
 		$number = $this->models.$modelTwo;
 		$number = $number::count() * 5;
