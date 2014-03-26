@@ -14,6 +14,13 @@ abstract class AbstractRepository implements RepositoryInterface
 	protected $items;
 
 	/**
+	 * Default number of results per page
+	 *
+	 * @var integer
+	 */
+	protected $perPage = 25;
+
+	/**
 	 * Get the core model instance
 	 *
 	 * @return Model
@@ -47,6 +54,22 @@ abstract class AbstractRepository implements RepositoryInterface
 	}
 
 	/**
+	 * Set the number of results to display per page
+	 *
+	 * @param integer $perPage
+	 *
+	 * @return self
+	 */
+	public function setPerPage($perPage = null)
+	{
+		if ($perPage) {
+			$this->perPage = $perPage;
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Change the core items
 	 *
 	 * @param AbstractModel $items
@@ -54,6 +77,8 @@ abstract class AbstractRepository implements RepositoryInterface
 	public function setItems($items)
 	{
 		$this->items = $items;
+
+		return $this;
 	}
 
 	/**
@@ -181,8 +206,10 @@ abstract class AbstractRepository implements RepositoryInterface
 	 *
 	 * @return Paginator
 	 */
-	public function getPaginated($perPage = 25)
+	public function getPaginated($perPage = null)
 	{
+		$perPage = $perPage ?: $this->perPage;
+
 		return $this->items->paginate($perPage);
 	}
 }
