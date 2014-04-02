@@ -105,7 +105,7 @@ abstract class AbstractApiController extends Controller
 		// Get and format resource
 		if (!$resource) {
 			$resource = $this->repository->getModel();
-			$resource = strtolower($resource);
+			$resource = snake_case($resource);
 			$resource = Str::plural($resource);
 		}
 
