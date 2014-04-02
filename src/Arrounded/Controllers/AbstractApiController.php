@@ -1,6 +1,7 @@
 <?php
 namespace Arrounded\Controllers;
 
+use Arrounded\Abstracts\AbstractRepository;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Contracts\ArrayableInterface;
 use Response;
