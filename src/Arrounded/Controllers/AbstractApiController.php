@@ -43,7 +43,7 @@ abstract class AbstractApiController extends Controller
 	}
 
 	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
+	/////////////////////////////// WRAPPERS ///////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	/**
@@ -64,6 +64,18 @@ abstract class AbstractApiController extends Controller
 	}
 
 	/**
+	 * Wrap a single model
+	 *
+	 * @param Model $model
+	 *
+	 * @return mixed
+	 */
+	protected function wrapSingleModel(Model $model)
+	{
+		return new Collection([$model]);
+	}
+
+	/**
 	 * Wray items and format responses
 	 *
 	 * @param ArrayableInterface $items
@@ -77,7 +89,7 @@ abstract class AbstractApiController extends Controller
 
 		// If it's a single model, return it
 		if ($items instanceof Model) {
-			$items = new Collection([$items]);
+			$items = $this->wrapSingleModel($items);
 		}
 
 		// If we have a Paginator, split the data and metadata into two
