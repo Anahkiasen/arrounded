@@ -83,7 +83,7 @@ abstract class AbstractApiController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function wrap(ArrayableInterface $items, $statusCode = 200)
+	public function wrap($items, $statusCode = 200)
 	{
 		$meta = array();
 
@@ -118,11 +118,7 @@ abstract class AbstractApiController extends Controller
 	protected function wrapWithResource($items, $resource = null)
 	{
 		// Get and format resource
-		if (!$resource) {
-			$resource = $this->repository->getModel();
-			$resource = snake_case($resource);
-			$resource = Str::plural($resource);
-		}
+		$resource = $resource ?: $this->infereResourceFromResponse($items);
 
 		// Unwrap any unwrapped object
 		if (method_exists($items, 'toArray')) {
@@ -130,5 +126,23 @@ abstract class AbstractApiController extends Controller
 		}
 
 		return array($resource => $items);
+	}
+
+	/**
+	 * Infere the resource to wrap items with
+	 *
+	 * @param ArrayableInterface $items
+	 *
+	 * @return string
+	 */
+	protected function infereResourceFromResponse($items)
+	{
+		$first = head($items);
+
+		$resource = is_object($first) ? get_class($first) : $this->repository->getModel();
+		$resource = snake_case($resource);
+		$resource = Str::plural($resource);
+
+		return $resource;
 	}
 }
