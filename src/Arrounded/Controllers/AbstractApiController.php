@@ -2,10 +2,12 @@
 namespace Arrounded\Controllers;
 
 use Arrounded\Abstracts\AbstractRepository;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Contracts\ArrayableInterface;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 use Response;
 
 abstract class AbstractApiController extends Controller
@@ -75,7 +77,7 @@ abstract class AbstractApiController extends Controller
 
 		// If it's a single model, return it
 		if ($items instanceof Model) {
-			return Response::json($items, $statusCode);
+			$items = new Collection([$items]);
 		}
 
 		// If we have a Paginator, split the data and metadata into two
