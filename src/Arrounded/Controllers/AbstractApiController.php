@@ -4,6 +4,7 @@ namespace Arrounded\Controllers;
 use Arrounded\Abstracts\AbstractRepository;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Contracts\ArrayableInterface;
+use Illuminate\Support\Str;
 use Response;
 
 abstract class AbstractApiController extends Controller
