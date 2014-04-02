@@ -144,7 +144,8 @@ abstract class AbstractApiController extends Controller
 		if (method_exists($items, 'first')) {
 			$first = $items->first();
 		} else {
-			$first = head($items);
+			$first = (array) $items;
+			$first = head($first);
 		}
 
 		$resource = is_object($first) ? get_class($first) : $this->repository->getModel();
