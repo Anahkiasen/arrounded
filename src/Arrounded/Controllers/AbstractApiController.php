@@ -2,6 +2,7 @@
 namespace Arrounded\Controllers;
 
 use Arrounded\Abstracts\AbstractRepository;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Contracts\ArrayableInterface;
 use Illuminate\Support\Str;
