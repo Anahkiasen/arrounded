@@ -141,7 +141,7 @@ abstract class AbstractApiController extends Controller
 	 */
 	protected function infereResourceFromResponse($items)
 	{
-		$first = head($items);
+		$first = $items->first();
 
 		$resource = is_object($first) ? get_class($first) : $this->repository->getModel();
 		$resource = snake_case($resource);
