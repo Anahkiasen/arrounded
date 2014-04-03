@@ -67,11 +67,12 @@ abstract class AbstractApiController extends Controller
 	/**
 	 * Wrap a single model
 	 *
-	 * @param Model $model
+	 * @param Model   $model
+	 * @param integer $statusCode
 	 *
 	 * @return mixed
 	 */
-	protected function wrapSingleModel(Model $model)
+	protected function wrapSingleModel(Model $model, $statusCode = 200)
 	{
 		return new Collection([$model]);
 	}
