@@ -91,7 +91,7 @@ abstract class AbstractApiController extends Controller
 
 		// If it's a single model, return it
 		if ($items instanceof Model) {
-			$items = $this->wrapSingleModel($items);
+			$items = $this->wrapSingleModel($items, $statusCode);
 			if ($items instanceof Response or $items instanceof JsonResponse) {
 				return $items;
 			}
