@@ -165,14 +165,14 @@ abstract class AbstractRepository implements RepositoryInterface
 	 * @param AbstractModel|integer $item
 	 * @param array                 $attributes
 	 *
-	 * @return boolean
+	 * @return Book
 	 */
 	public function update($item, array $attributes = array())
 	{
-		$item  = $this->find($item);
-		$saved = $item->fill($attributes)->save();
+		$item = $this->find($item);
+		$item->fill($attributes)->save();
 
-		return $saved;
+		return $item;
 	}
 
 	/**
