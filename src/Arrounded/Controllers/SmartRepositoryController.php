@@ -90,7 +90,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 */
 	protected function coreEdit($item, $data = array())
 	{
-		$item = $this->repository->find($item);
+		$item = $this->getSingleModel($item);
 		$data['item'] = $item;
 
 		return $this->getView('edit', $this->getFormData($data));
@@ -149,6 +149,21 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Get a single model
+	 *
+	 * @param integer $item
+	 *
+	 * @return Model
+	 */
+	protected function getSingleModel($item)
+	{
+		$item = $this->repository->find($item);
+		$item = $item->load($this->eagerLoaded);
+
+		return $item;
+	}
+
+	/**
 	 * Get the data to display
 	 *
 	 * @param integer $item
@@ -157,11 +172,8 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 */
 	protected function getShowData($item)
 	{
-		// Get item from database
-		$item = $this->repository->find($item);
-
 		return array(
-			'item' => $item,
+			'item' => $this->getSingleModel($item),
 		);
 	}
 }
