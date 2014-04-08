@@ -113,7 +113,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 		$this->onUpdate($input, $item);
 
 		// Update attributes
-		$item->fill($input)->save();
+		$item = $this->repository->update($item, $input);
 
 		// Update relationships
 		foreach ($input as $key => $value) {
