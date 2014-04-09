@@ -4,6 +4,7 @@ namespace Arrounded\Seeders;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class ForeignKeysMigration extends Migration
 {
@@ -73,9 +74,11 @@ class ForeignKeysMigration extends Migration
 	 */
 	public function setForeign(&$table, $otherTable)
 	{
+		$plural = Str::plural($otherTable);
+
 		$table
 			->foreign($otherTable.'_id')
-			->references('id')->on($otherTable.'s')
+			->references('id')->on($plural)
 			->onDelete('cascade');
 	}
 
