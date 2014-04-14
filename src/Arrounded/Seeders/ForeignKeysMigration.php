@@ -56,7 +56,10 @@ class ForeignKeysMigration extends Migration
 		}
 
 		$keys = (array) $keys;
-		echo '-- Adding foreign keys for [' .implode(',', $keys). '] to '.$tables.PHP_EOL;
+		if (!app()->environment('testing')) {
+			echo '-- Adding foreign keys for [' .implode(',', $keys). '] to '.$tables.PHP_EOL;
+		}
+
 		Schema::table($tables, function (Blueprint $table) use ($keys) {
 			foreach ($keys as $key) {
 				$this->setForeign($table, $key);
