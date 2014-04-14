@@ -123,6 +123,11 @@ trait SelfValidating
 	 */
 	public function getRules()
 	{
+		// Cancel if no rules
+		if (!isset(static::$rules)) {
+			return array();
+		}
+
 		$rules = static::$rules;
 		foreach ($rules as $key => $rule) {
 			preg_match_all('/\{([a-z_]+)\}/', $rule, $attributes);
