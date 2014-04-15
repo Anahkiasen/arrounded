@@ -125,6 +125,6 @@ class ForeignKeysMigration extends Migration
 	 */
 	public function dropForeign(&$table, $otherTable)
 	{
-		$table->dropForeign($table->getTable().'_'.$otherTable.'_foreign');
+		$table->dropForeign($table->getTable().'_'.$otherTable.'_id_foreign');
 	}
 }
