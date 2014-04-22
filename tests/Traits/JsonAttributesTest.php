@@ -2,7 +2,7 @@
 namespace Arrounded\Traits;
 
 use Arrounded\ArroundedTestCase;
-use Arrounded\Dummies\DummyModel;
+use Arrounded\Dummies\DummyJsonModel;
 use Arrounded\Traits\JsonAttributes;
 
 class JsonAttributesTest extends ArroundedTestCase
@@ -20,43 +20,19 @@ class JsonAttributesTest extends ArroundedTestCase
 
 	public function testCanHaveDefaultsForJsonAttribute()
 	{
-		$notifications = array('foo' => 'bar', 'baz' => 'qux');
-		$model = new DummyJsonModel;
+		$model = new DummyJsonModel();
 
 		$this->assertEquals(array('facebook' => true, 'twitter' => array('foo' => false, 'bar' => true)), $model->notifications);
 
 		$model->notifications = array('twitter' => array('foo' => true));
 		$this->assertEquals(array('facebook' => true, 'twitter' => array('foo' => true, 'bar' => true)), $model->notifications);
 	}
-}
 
-// Dummies
-//////////////////////////////////////////////////////////////////////
-
-class DummyJsonModel extends DummyModel
-{
-	use JsonAttributes;
-
-	public function getNotificationsAttribute()
+	public function testDefaultsDontReplaceExistingAttributes()
 	{
-		return $this->getJsonAttribute('notifications', array(
-			'facebook' => true,
-			'twitter'  => array('foo' => false, 'bar' => true),
-		));
-	}
+		$model = new DummyJsonModel(['notifications' => ['foo' => false]]);
+		$model->setNotificationsAttribute(['bar' => true], ['foo' => true]);
 
-	public function setNotificationsAttribute($notifications)
-	{
-		$this->setJsonAttribute('notifications', $notifications);
-	}
-
-	public function getScheduleAttribute()
-	{
-		return $this->getJsonAttribute('schedule');
-	}
-
-	public function setScheduleAttribute($schedule)
-	{
-		$this->setJsonAttribute('schedule', $schedule);
+		$this->assertFalse($model->notifications['foo']);
 	}
 }

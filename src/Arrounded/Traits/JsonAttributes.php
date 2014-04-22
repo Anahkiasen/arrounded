@@ -18,7 +18,8 @@ trait JsonAttributes
 	protected function setJsonAttribute($attribute, $value, array $defaults = array())
 	{
 		// Merge with defaults and encode
-		$defaults = $defaults ?: $this->getAttributeDefault($attribute);
+		$value    = (array) $value;
+		$defaults = $this->$attribute ?: $defaults;
 		$value    = array_replace_recursive($defaults, $value);
 		$value    = json_encode($value);
 
@@ -42,7 +43,7 @@ trait JsonAttributes
 		$value    = (array) json_decode($value, true);
 		$value    = array_replace_recursive($defaults, $value);
 
-		return $value;
+		return (array) $value;
 	}
 
 	/**
