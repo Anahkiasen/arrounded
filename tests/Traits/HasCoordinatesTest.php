@@ -1,7 +1,11 @@
 <?php
+namespace Arrounded\Traits;
+
+use Arrounded\ArroundedTestCase;
+use Arrounded\Dummies\DummyModel;
 use Arrounded\Traits\HasCoordinates;
 
-class HasCoordinatesTest extends ArroundedTests
+class HasCoordinatesTest extends ArroundedTestCase
 {
 	use HasCoordinates;
 

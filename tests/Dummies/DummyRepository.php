@@ -1,4 +1,6 @@
 <?php
+namespace Arrounded\Dummies;
+
 use Arrounded\Abstracts\AbstractRepository;
 
 /**

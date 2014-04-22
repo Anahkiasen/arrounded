@@ -1,7 +1,11 @@
 <?php
+namespace Arrounded\Traits;
+
+use Arrounded\ArroundedTestCase;
+use Arrounded\Dummies\DummyModel;
 use Arrounded\Traits\JsonAttributes;
 
-class JsonAttributesTest extends ArroundedTests
+class JsonAttributesTest extends ArroundedTestCase
 {
 	public function testCanGetAndSetJsonAttributes()
 	{

@@ -1,7 +1,11 @@
 <?php
-use Illuminate\Container\Container;
+namespace Arrounded;
 
-abstract class ArroundedTests extends PHPUnit_Framework_TestCase
+use Illuminate\Container\Container;
+use Mockery;
+use PHPUnit_Framework_TestCase;
+
+abstract class ArroundedTestCase extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * The tests container

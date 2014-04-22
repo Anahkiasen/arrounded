@@ -1,7 +1,12 @@
 <?php
-use Arrounded\Traits\SelfValidating;
+namespace Arrounded\Traits;
 
-class SelfValidatingTest extends ArroundedTests
+use Arrounded\ArroundedTestCase;
+use Arrounded\Dummies\DummyModel;
+use Arrounded\Traits\SelfValidating;
+use Mockery;
+
+class SelfValidatingTest extends ArroundedTestCase
 {
 	public function testCanCheckValidModel()
 	{

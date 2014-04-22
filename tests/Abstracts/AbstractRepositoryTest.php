@@ -1,6 +1,12 @@
 <?php
+namespace Arrounded\Abstracts;
 
-class AbstractRepositoryTest extends ArroundedTests
+use Arrounded\ArroundedTestCase;
+use Arrounded\Dummies\DummyModel;
+use Arrounded\Dummies\DummyRepository;
+use Mockery;
+
+class AbstractRepositoryTest extends ArroundedTestCase
 {
 	////////////////////////////////////////////////////////////////////
 	////////////////////////////// TESTS ///////////////////////////////
@@ -38,7 +44,7 @@ class AbstractRepositoryTest extends ArroundedTests
 	public function testCanFindItemViaAttributes()
 	{
 		$eloquent = Mockery::mock('Eloquent', function ($mock) {
-			$mock->shouldReceive('find')->once()->with(1)->andReturn(new DummyModel);
+			$mock->shouldReceive('findOrFail')->once()->with(1)->andReturn(new DummyModel);
 		});
 		$repository = new DummyRepository($eloquent);
 		$model = $repository->findOrNew(array('id' => 1, 'name' => 'foo'));
@@ -79,9 +85,9 @@ class AbstractRepositoryTest extends ArroundedTests
 		$eloquent = Mockery::mock('Eloquent', function ($mock) use ($model) {
 			$mock->shouldReceive('findOrFail')->once()->with(1)->andReturn($model);
 		});
-		$repository = new DummyRepository($eloquent);
 
-		$this->assertTrue($repository->update(1, array('name' => 'foo')));
+		$repository = new DummyRepository($eloquent);
+		$item = $repository->update(1, array('name' => 'foo'));
 	}
 
 	public function testCanDeleteItem()
