@@ -1,5 +1,5 @@
 <?php
-namespace Arrouned;
+namespace Arrounded;
 
 /**
  * Collection class with additional helpers
