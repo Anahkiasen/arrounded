@@ -3,8 +3,16 @@ namespace Arrounded;
 
 class CollectionTest extends ArroundedTestCase
 {
+	/**
+	 * A dummy Collection
+	 *
+	 * @var Collection
+	 */
 	protected $collection;
 
+	/**
+	 * Set up the tests
+	 */
 	public function setUp()
 	{
 		$this->collection = new Collection(array(
@@ -12,6 +20,10 @@ class CollectionTest extends ArroundedTestCase
 			['name' => 'bar', 'status' => false, 'note' => 10],
 		));
 	}
+
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////////// TESTS /////////////////////////////
+	////////////////////////////////////////////////////////////////////
 
 	public function testCanFilterByColumnName()
 	{

@@ -3,6 +3,7 @@ namespace Arrounded\Dummies;
 
 use Illuminate\Database\Eloquent\Model;
 use Arrounded\Traits\ReflectionModel;
+use Arrounded\Traits\Serializable;
 
 /**
  * A dummy model to test on
@@ -10,6 +11,12 @@ use Arrounded\Traits\ReflectionModel;
 class DummyModel extends Model
 {
 	use ReflectionModel;
+	use Serializable;
+
+	protected $casts = array(
+		'integer' => 'id',
+		'boolean' => ['status'],
+	);
 
 	/**
 	 * The guarded attributes

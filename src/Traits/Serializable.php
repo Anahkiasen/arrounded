@@ -15,8 +15,13 @@ trait Serializable
 	 *
 	 * @return array
 	 */
-	public function serializeEntity($entity)
+	public function serializeEntity($entity = null)
 	{
+		// Use itself by default
+		if (!$entity) {
+			$entity = $this;
+		}
+
 		// Cast the entity itself
 		if ($entity instanceof ArrayableInterface) {
 			$entity = $entity->toArray();
