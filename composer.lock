@@ -334,12 +334,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "f45ba8bc7962b7356847724989a6949b68d975a2"
+                "reference": "6e2091f90680d69fead10ed9cd7ffafb18c72367"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/f45ba8bc7962b7356847724989a6949b68d975a2",
-                "reference": "f45ba8bc7962b7356847724989a6949b68d975a2",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/6e2091f90680d69fead10ed9cd7ffafb18c72367",
+                "reference": "6e2091f90680d69fead10ed9cd7ffafb18c72367",
                 "shasum": ""
             },
             "require": {
@@ -377,7 +377,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2014-03-26 10:52:02"
+            "time": "2014-04-23 06:46:21"
         }
     ],
     "aliases": [
