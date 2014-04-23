@@ -225,6 +225,18 @@ abstract class AbstractSmartController extends Controller
 	}
 
 	/**
+	 * Create a redirect for a failed validation
+	 *
+	 * @param Validator $validation
+	 *
+	 * @return Redirect
+	 */
+	protected function redirectFailedValidation($validation)
+	{
+		return Redirect::back()->withInput()->withErrors($validation);
+	}
+
+	/**
 	 * Get a route
 	 *
 	 * @param  string $route
