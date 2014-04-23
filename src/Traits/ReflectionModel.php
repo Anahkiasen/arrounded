@@ -3,6 +3,7 @@ namespace Arrounded\Traits;
 
 use Auth;
 use HTML;
+use Illuminate\Support\Str;
 use URL;
 
 /**
@@ -45,7 +46,11 @@ trait ReflectionModel
 	 */
 	public function getController()
 	{
-		return ucfirst($this->getTable()).'Controller';
+		$name = $this->getClass();
+		$name = class_basename($name);
+		$name = Str::plural($name);
+
+		return $name.'Controller';
 	}
 
 	/**
