@@ -176,4 +176,20 @@ abstract class SmartRepositoryController extends AbstractSmartController
 			'item' => $this->getSingleModel($item),
 		);
 	}
+
+	/**
+	 * Get the form data
+	 *
+	 * @return array
+	 */
+	public function getFormData(array $data = array())
+	{
+		$item  = array_get($data, 'item') ?: $this->repository->getModelInstance();
+		$route = $item->id ? 'update' : 'store';
+
+		return array(
+			'item'  => $item,
+			'route' => $this->getRoute($route),
+		);
+	}
 }

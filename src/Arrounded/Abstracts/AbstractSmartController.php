@@ -210,6 +210,21 @@ abstract class AbstractSmartController extends Controller
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Redirect to an action in the current controller
+	 *
+	 * @param string $action
+	 * @param array  $parameters
+	 *
+	 * @return Redirect
+	 */
+	protected function redirectHere($action, $parameters = array())
+	{
+		$controller = get_class($this);
+
+		return Redirect::action($controller.'@'.$action, $parameters);
+	}
+
+	/**
 	 * Get a route
 	 *
 	 * @param  string $route
