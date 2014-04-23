@@ -93,7 +93,7 @@ class AbstractPresenter extends Presenter
 	/**
 	 * Format an attribute
 	 *
-	 * @param string $attribute
+	 * @param string|null $attribute
 	 *
 	 * @return mixed
 	 */
@@ -121,7 +121,7 @@ class AbstractPresenter extends Presenter
 	/**
 	 * Show a model's main identifier
 	 *
-	 * @param string|Model $model
+	 * @param string|Model|null $model
 	 *
 	 * @return string
 	 */
@@ -160,7 +160,7 @@ class AbstractPresenter extends Presenter
 	/**
 	 * Show the count of a collection and a page to see entries
 	 *
-	 * @param Collection $collection
+	 * @param string $relation
 	 *
 	 * @return string
 	 */

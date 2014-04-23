@@ -30,7 +30,8 @@ class ApiDisplayer extends RoutesCommand
 	 * Get the route information for a given route.
 	 *
 	 * @param  string  $name
-	 * @param  \Illuminate\Routing\Route  $route
+	 * @param  Route   $route
+	 *
 	 * @return array
 	 */
 	protected function getRouteInformation(Route $route)
@@ -51,7 +52,7 @@ class ApiDisplayer extends RoutesCommand
 	/**
 	 * Get the routes as a collection
 	 *
-	 * @return array
+	 * @return Collection
 	 */
 	public function getRoutesCollection()
 	{

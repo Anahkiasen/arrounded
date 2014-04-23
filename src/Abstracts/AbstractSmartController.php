@@ -33,7 +33,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return Response
+	 * @return View
 	 */
 	public function index()
 	{
@@ -43,7 +43,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Show the form for creating a new resource.
 	 *
-	 * @return Response
+	 * @return View
 	 */
 	public function create()
 	{
@@ -53,7 +53,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @return Response
+	 * @return Redirect
 	 */
 	public function store()
 	{
@@ -64,7 +64,8 @@ abstract class AbstractSmartController extends Controller
 	 * Display the specified resource.
 	 *
 	 * @param  int  $item
-	 * @return Response
+	 *
+	 * @return View
 	 */
 	public function show($item)
 	{
@@ -75,7 +76,8 @@ abstract class AbstractSmartController extends Controller
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  int  $item
-	 * @return Response
+	 *
+	 * @return View
 	 */
 	public function edit($item)
 	{
@@ -86,7 +88,8 @@ abstract class AbstractSmartController extends Controller
 	 * Update the specified resource in storage.
 	 *
 	 * @param  int  $item
-	 * @return Response
+	 *
+	 * @return Redirect
 	 */
 	public function update($item)
 	{
@@ -97,7 +100,8 @@ abstract class AbstractSmartController extends Controller
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int  $item
-	 * @return Response
+	 *
+	 * @return Redirect
 	 */
 	public function destroy($item)
 	{
@@ -111,6 +115,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Execute actions on a model's updating
 	 *
+	 * @param  array    $input
 	 * @param  Eloquent $model
 	 *
 	 * @return void
@@ -126,6 +131,9 @@ abstract class AbstractSmartController extends Controller
 
 	/**
 	 * Display a listing of the resource.
+	 *
+	 * @param  array         $eager
+	 * @param  integer|null  $paginate
 	 *
 	 * @return Response
 	 */
@@ -152,7 +160,8 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Get the core edit view
 	 *
-	 * @param  array  $data  Additional data
+	 * @param  integer  $item
+	 * @param  array    $data  Additional data
 	 *
 	 * @return View
 	 */
@@ -161,7 +170,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Update an item
 	 *
-	 * @param  integer $item
+	 * @param  integer|null $item
 	 *
 	 * @return Redirect
 	 */

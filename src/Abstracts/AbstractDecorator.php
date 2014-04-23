@@ -28,7 +28,7 @@ abstract class AbstractDecorator
 	/**
 	 * Get the decorated services
 	 *
-	 * @return void
+	 * @return array
 	 */
 	protected function getServices()
 	{
