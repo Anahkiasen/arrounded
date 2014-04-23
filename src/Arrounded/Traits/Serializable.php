@@ -41,8 +41,9 @@ trait Serializable
 	 *
 	 * @return array
 	 */
-	public function castAttributes(array $attributes, array $toConvert, $type = 'boolean')
+	public function castAttributes(array $attributes, $toConvert, $type = 'boolean')
 	{
+		$toConvert = (array) $toConvert;
 		foreach ($toConvert as $converted) {
 			if (isset($attributes[$converted])) {
 				settype($attributes[$converted], $type);
