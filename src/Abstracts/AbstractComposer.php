@@ -20,6 +20,7 @@ abstract class AbstractComposer
 	 */
 	protected function makeMenu($menu)
 	{
+		$links = array();
 		foreach ($menu as $key => $item) {
 			// Rebuild from associative array
 			if (is_string($item)) {

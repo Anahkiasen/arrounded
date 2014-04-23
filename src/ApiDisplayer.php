@@ -3,7 +3,6 @@ namespace Arrounded;
 
 use Illuminate\Foundation\Console\RoutesCommand;
 use Illuminate\Routing\Route;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class ApiDisplayer extends RoutesCommand

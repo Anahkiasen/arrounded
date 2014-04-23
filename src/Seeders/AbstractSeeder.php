@@ -6,6 +6,7 @@ use DB;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  * An enhanced core seeder class
@@ -73,6 +74,23 @@ abstract class AbstractSeeder extends Seeder
 		$this->progressIterator($slices, function($items) use ($table) {
 			DB::table($table)->insert($items);
 		});
+	}
+	/**
+	 * Print progress on an iterator
+	 *
+	 * @param array $items
+	 *
+	 * @return void
+	 */
+	public function progressIterator($items, Closure $closure)
+	{
+		$progress = new ProgressBar($this->command->getOutput(), sizeof($items));
+		$progress->start();
+		foreach ($items as $value) {
+			$progress->advance();
+			$closure($value, $progress);
+		}
+		$progress->finish();
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -181,7 +199,6 @@ abstract class AbstractSeeder extends Seeder
 		// Get a random number of elements
 		$model     = $this->models.$model;
 		$available = $model::lists('id');
-		$number    = $this->faker->randomNumber($min, $max);
 
 		$this->times(function () use ($available, &$entries) {
 			$entries[] = $this->faker->randomElement($available);
