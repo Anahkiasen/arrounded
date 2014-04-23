@@ -58,6 +58,23 @@ abstract class AbstractSeeder extends Seeder
 		}
 	}
 
+	/**
+	 * Insert items by chunks
+	 *
+	 * @param string  $table
+	 * @param array   $items
+	 * @param integer $chunks
+	 *
+	 * @return void
+	 */
+	public function insertChunked($table, $items, $chunks = 2500)
+	{
+		$slices = $chunks ? array_chunk($items, $chunks) : array($items);
+		$this->progressIterator($slices, function($items) use ($table) {
+			DB::table($table)->insert($items);
+		});
+	}
+
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// SEEDERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -123,18 +140,8 @@ abstract class AbstractSeeder extends Seeder
 
 		// Get the table to insert into and insert aaaall the things
 		if (!empty($entries)) {
-			$slices = array($entries);
-
-			// If the engine is SQLite and we have a lot of seeded entries
-			// We'll split the results to not overflow the variable limit
-			if (DB::getDriverName() === 'sqlite') {
-				$slicer = floor(999 / sizeof($entries[0]));
-				$slices = array_chunk($entries, $slicer);
-			}
-
-			foreach ($slices as $entries) {
-				DB::table($table)->insert($entries);
-			}
+			$slices = DB::getDriverName() === 'sqlite' ? floor(999 / sizeof($entries[0])) : null;
+			$this->insertChunked($table, $entries, $slices);
 		}
 	}
 
