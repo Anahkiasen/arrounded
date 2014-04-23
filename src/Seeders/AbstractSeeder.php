@@ -81,7 +81,7 @@ abstract class AbstractSeeder extends Seeder
 			$model   = $this->models.$model;
 			$entries = $model::lists('id');
 			foreach ($entries as $entry) {
-				$this->times(function() use ($closure, $entry, $model) {
+				$this->times(function () use ($closure, $entry, $model) {
 					$closure($entry, $model);
 				}, $min, $max);
 			}
@@ -104,7 +104,7 @@ abstract class AbstractSeeder extends Seeder
 		// Execute the Closure n times
 		$table   = null;
 		$entries = array();
-		$this->times(function($i) use ($closure, &$entries, $isTesting, &$table) {
+		$this->times(function ($i) use ($closure, &$entries, $isTesting, &$table) {
 			if (!$isTesting) print '.';
 			if ($entry = $closure($i)) {
 				if (!$table) {
@@ -176,7 +176,7 @@ abstract class AbstractSeeder extends Seeder
 		$available = $model::lists('id');
 		$number    = $this->faker->randomNumber($min, $max);
 
-		$this->times(function() use ($available, &$entries) {
+		$this->times(function () use ($available, &$entries) {
 			$entries[] = $this->faker->randomElement($available);
 		}, $min, $max);
 

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "5767573c7224acda0277ed7ceced917e",
+    "hash": "a431b575dcf17e7c63cd57b7ccf79123",
     "packages": [
         {
             "name": "illuminate/support",

@@ -22,7 +22,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Arrounded\\": ["src/Arrounded", "tests"]
+			"Arrounded\\": ["src", "tests"]
 		}
 	}
 }

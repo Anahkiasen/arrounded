@@ -1,7 +1,6 @@
 <?php
 namespace Arrounded\Testing;
 
-use Arrounded\Testing\Crawler;
 use Artisan;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InvalidArgumentException;
@@ -89,15 +88,11 @@ class RoutesTest extends \TestCase
 		// Call route and catch common errors
 		try {
 			$this->call('GET', $route);
-		}
-
-		catch (InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			$this->fail($e->getMessage());
-		}
-		catch (ModelNotFoundException $e) {
+		} catch (ModelNotFoundException $e) {
 			$this->fail($e->getMessage());
-		}
-		catch (NotFoundHttpException $e) {
+		} catch (NotFoundHttpException $e) {
 			$this->fail($e->getMessage());
 		}
 
