@@ -6,7 +6,6 @@ use DB;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  * An enhanced core seeder class
@@ -84,7 +83,11 @@ abstract class AbstractSeeder extends Seeder
 	 */
 	public function progressIterator($items, Closure $closure)
 	{
-		$progress = new ProgressBar($this->command->getOutput(), sizeof($items));
+		if (!class_exists('Symfony\Component\Console\Helper\ProgressBar')) {
+			return;
+		}
+
+		$progress = new \Symfony\Component\Console\Helper\ProgressBar($this->command->getOutput(), sizeof($items));
 		$progress->start();
 		foreach ($items as $value) {
 			$progress->advance();
