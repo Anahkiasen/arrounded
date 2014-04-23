@@ -46,7 +46,10 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return Response
+	 * @param  array         $eager
+	 * @param  integer|null  $paginate
+	 *
+	 * @return \View
 	 */
 	protected function coreIndex($eager = array(), $paginate = null)
 	{
@@ -62,7 +65,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 *
 	 * @param  array  $data  Additional data
 	 *
-	 * @return View
+	 * @return \View
 	 */
 	protected function coreCreate($data = array())
 	{
@@ -74,7 +77,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 *
 	 * @param  int  $user
 	 *
-	 * @return Response
+	 * @return \View
 	 */
 	protected function coreShow($user)
 	{
@@ -84,9 +87,10 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	/**
 	 * Get the core edit view
 	 *
-	 * @param  array  $data  Additional data
+	 * @param  integer $item
+	 * @param  array   $data  Additional data
 	 *
-	 * @return View
+	 * @return \View
 	 */
 	protected function coreEdit($item, $data = array())
 	{
@@ -99,7 +103,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	/**
 	 * Update an item
 	 *
-	 * @param  integer $item
+	 * @param  integer|null $item
 	 *
 	 * @return Redirect
 	 */
@@ -168,7 +172,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 *
 	 * @param integer $item
 	 *
-	 * @return array
+	 * @return array<string,Model>
 	 */
 	protected function getShowData($item)
 	{
@@ -179,6 +183,8 @@ abstract class SmartRepositoryController extends AbstractSmartController
 
 	/**
 	 * Get the form data
+	 *
+	 * @param array<string,Model> $data
 	 *
 	 * @return array
 	 */
