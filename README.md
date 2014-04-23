@@ -1,5 +1,6 @@
 Arrounded
 =========
 
-A set of self-aware Laravel abstracts that know their way around.
-This is more of a personnal set of helpers, you can use it if you want, but this won't be a high-level package.
+Arrounded is before anything a set of *personnal helpers* I carry arround from projects to projects, so I don't guarantee anything as far as how stable it is.
+
+It's a set of abstracts, traits and helpers that ease up various tasks for Laravel projects.
