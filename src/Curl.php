@@ -75,11 +75,23 @@ class Curl
 	}
 
 	/**
+	 * Set the body of the request
+	 *
+	 * @param string|array $contents
+	 */
+	public function setBody($contents)
+	{
+		$this->postFields = $contents;
+
+		return $this;
+	}
+
+	/**
 	 * Get contents of the remote URL
 	 *
 	 * @return mixed
 	 */
-	public function getContents()
+	public function getBody()
 	{
 		$this->returnTransfer = 1;
 
