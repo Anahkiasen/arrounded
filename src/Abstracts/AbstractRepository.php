@@ -153,10 +153,11 @@ abstract class AbstractRepository implements RepositoryInterface
 	public function create(array $attributes = array())
 	{
 		// Create model and fetch it back
-		$model = $this->items->create($attributes);
-		$model = $this->find($model->id);
+		$item = $this->items->create($attributes);
+		$item = $this->find($item->id);
+		$item = $this->onUpdate($item, $attributes);
 
-		return $model;
+		return $item;
 	}
 
 	/**
@@ -171,6 +172,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	{
 		$item = $this->find($item);
 		$item->fill($attributes)->save();
+		$item = $this->onUpdate($item, $attributes);
 
 		return $item;
 	}
@@ -189,6 +191,23 @@ abstract class AbstractRepository implements RepositoryInterface
 		$item   = $this->find($item);
 
 		return $item->$method();
+	}
+
+	////////////////////////////////////////////////////////////////////
+	//////////////////////////////// HOOKS /////////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Hook for when a model is created/updated
+	 *
+	 * @param AbstractModel $model
+	 * @param array         $attributes
+	 *
+	 * @return AbstractModel
+	 */
+	protected function onUpdate($model, $attributes)
+	{
+		return $model;
 	}
 
 	////////////////////////////////////////////////////////////////////
