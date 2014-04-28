@@ -29,6 +29,10 @@ class AbstractPresenter extends Presenter
 	 */
 	public function presentEmail()
 	{
+		if (!$this->object->email) {
+			return;
+		}
+
 		return HTML::mailto($this->object->email);
 	}
 
