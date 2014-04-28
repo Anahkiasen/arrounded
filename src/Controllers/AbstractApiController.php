@@ -4,12 +4,12 @@ namespace Arrounded\Controllers;
 use Arrounded\Abstracts\AbstractRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Contracts\ArrayableInterface;
 use Illuminate\Support\Str;
+use Response;
 
 abstract class AbstractApiController extends Controller
 {
