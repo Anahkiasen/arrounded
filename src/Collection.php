@@ -44,6 +44,22 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
 		return $this;
 	}
 
+	////////////////////////////////////////////////////////////////////
+	///////////////////////////// AGGREGATES ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Return the number of entries in each subarray
+	 *
+	 * @return self
+	 */
+	public function counts()
+	{
+		return $this->map(function ($entries) {
+			return sizeof($entries);
+		});
+	}
+
 	/**
 	 * Get the average of a Collection
 	 *
@@ -55,6 +71,22 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
 		$results = array_sum($results) / sizeof($results);
 
 		return $results;
+	}
+
+	/**
+	 * Compute the sum of the Collection
+	 *
+	 * @param Callback|null $callback
+	 *
+	 * @return mixed
+	 */
+	public function sum($callback = null)
+	{
+		if ($callback) {
+			return parent::sum($callback);
+		}
+
+		return array_sum($this->toArray());
 	}
 
 	////////////////////////////////////////////////////////////////////
