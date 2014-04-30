@@ -83,12 +83,17 @@ abstract class AbstractSeeder extends Seeder
 	 */
 	public function progressIterator($items, Closure $closure)
 	{
-		if (!class_exists('Symfony\Component\Console\Helper\ProgressBar')) {
-			return;
+		$output     = $this->command->getOutput();
+		$iterations = sizeof($items);
+
+		if (class_exists('Symfony\Component\Console\Helper\ProgressBar')) {
+			$progress = new \Symfony\Component\Console\Helper\ProgressBar($output, $iterations);
+			$progress->start();
+		} else {
+			$progress = $this->command->getHelper('progress');
+			$progress->start($output, $iterations);
 		}
 
-		$progress = new \Symfony\Component\Console\Helper\ProgressBar($this->command->getOutput(), sizeof($items));
-		$progress->start();
 		foreach ($items as $value) {
 			$progress->advance();
 			$closure($value, $progress);
