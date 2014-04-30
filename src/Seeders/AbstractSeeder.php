@@ -69,6 +69,12 @@ abstract class AbstractSeeder extends Seeder
 	 */
 	public function insertChunked($table, $items, $chunks = 2500)
 	{
+		// Insert directly if less than chunks
+		if (sizeof($items) < $chunks) {
+			DB::table($table)->insert($items);
+		}
+
+		// Chunk entries
 		$slices = $chunks ? array_chunk($items, $chunks) : array($items);
 		$this->progressIterator($slices, function($items) use ($table) {
 			DB::table($table)->insert($items);
