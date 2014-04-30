@@ -71,7 +71,7 @@ abstract class AbstractSeeder extends Seeder
 	{
 		// Insert directly if less than chunks
 		if (sizeof($items) < $chunks) {
-			DB::table($table)->insert($items);
+			return DB::table($table)->insert($items);
 		}
 
 		// Chunk entries
