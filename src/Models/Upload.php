@@ -6,6 +6,7 @@ use HTML;
 use Illuminage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\File\File;
 use URL;
 
 class Upload extends Model
@@ -43,7 +44,7 @@ class Upload extends Model
 	public function getPathAttribute()
 	{
 		$path = App::make('path.public').'/'.$this->getPath();
-		if (!$this->name or !file_exists($path)) {
+		if (!$this->name or !$this->isValid($path)) {
 			return;
 		}
 
@@ -118,6 +119,20 @@ class Upload extends Model
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Check if the image at the given path is valid
+	 *
+	 * @param string $path
+	 *
+	 * @return boolean
+	 */
+	public function isValid($path)
+	{
+		$file = new File($path);
+
+		return $file->isFile() && in_array($file->guessExtension(), array('jpeg', 'png', 'gif', 'bmp'));
+	}
 
 	/**
 	 * Check if an image is remote
