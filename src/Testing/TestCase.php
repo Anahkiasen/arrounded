@@ -36,7 +36,7 @@ class TestCase extends IlluminateTestCase
 		$unitTesting     = true;
 		$testEnvironment = 'testing';
 
-		return require __DIR__.'/../../../../../../bootstrap/start.php';
+		return require __DIR__.'/../../../../../bootstrap/start.php';
 	}
 
 	////////////////////////////////////////////////////////////////////
