@@ -75,7 +75,7 @@ class Upload extends Model
 	 */
 	public function thumb($width, $height = null)
 	{
-		if (!$this->path) {
+		if (!$this->path or !$this->isValid($this->path)) {
 			return null;
 		}
 
@@ -129,6 +129,10 @@ class Upload extends Model
 	 */
 	public function isValid($path)
 	{
+		if (!file_exists($path)) {
+			return false;
+		}
+
 		$file = new File($path);
 
 		return $file->isFile() && in_array($file->guessExtension(), array('jpeg', 'png', 'gif', 'bmp'));
