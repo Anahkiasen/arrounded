@@ -53,10 +53,10 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 */
 	protected function coreIndex($eager = array(), $paginate = null)
 	{
-		$eager = array_merge($this->eagerLoaded, $eager);
+		$this->repository->eagerLoad($eager);
 
 		return $this->getView('index', array(
-			'items' => $this->repository->all($paginate)->load($eager),
+			'items' => $this->repository->all($paginate),
 		));
 	}
 
