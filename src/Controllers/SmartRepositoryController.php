@@ -36,7 +36,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	{
 		parent::__construct();
 
-		$this->repository = $repository;
+		$this->repository = $repository->eagerLoad($this->eagerLoaded);
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -53,8 +53,6 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 */
 	protected function coreIndex($eager = array(), $paginate = null)
 	{
-		$this->repository->eagerLoad($eager);
-
 		return $this->getView('index', array(
 			'items' => $this->repository->all($paginate),
 		));
