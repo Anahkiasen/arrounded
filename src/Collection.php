@@ -1,6 +1,8 @@
 <?php
 namespace Arrounded;
 
+use Paginator;
+
 /**
  * Collection class with additional helpers
  */
@@ -42,6 +44,22 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
 		shuffle($this->items);
 
 		return $this;
+	}
+
+	/**
+	 * Paginate a Collection
+	 *
+	 * @param integer $perPage
+	 *
+	 * @return Paginator
+	 */
+	public function paginate($perPage)
+	{
+		$count = $this->count();
+		$page  = Paginator::getCurrentPage($count);
+		$items = $this->slice(($page - 1) * $perPage, $perPage)->all();
+
+    return Paginator::make($items, $count, $perPage);
 	}
 
 	////////////////////////////////////////////////////////////////////
