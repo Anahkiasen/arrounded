@@ -4,6 +4,7 @@ namespace Arrounded\Testing;
 use Artisan;
 use Auth;
 use Closure;
+use DB;
 use Eloquent;
 use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 use Mockery;
@@ -92,12 +93,16 @@ class TestCase extends IlluminateTestCase
 	 */
 	protected function recreateDatabase()
 	{
+		// Migrate and seed
 		if (!Schema::hasTable('migrations')) {
 			Artisan::call('migrate:install');
 			Artisan::call('migrate');
+			$this->seedDatabase();
 		}
 
-		$this->seedDatabase();
+		// Start a transaction
+		DB::beginTransaction();
+
 		Eloquent::reguard();
 	}
 
@@ -121,8 +126,8 @@ class TestCase extends IlluminateTestCase
 		// Remove mocked instances
 		Mockery::close();
 
-		// Close connection
-		unset($this->app['db']);
+		// Rollback changes to the database
+		DB::rollback();
 	}
 
 	////////////////////////////////////////////////////////////////////

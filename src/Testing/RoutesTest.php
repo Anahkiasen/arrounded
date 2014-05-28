@@ -40,7 +40,8 @@ class RoutesTest extends \TestCase
 	 */
 	public function setUp()
 	{
-		$this->refreshApplication();
+		parent::setUp();
+
 		$this->recreateDatabase();
 	}
 
