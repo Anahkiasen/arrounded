@@ -14,6 +14,7 @@ class RoutesTest extends \TestCase
 	 * @var array
 	 */
 	protected $ignored = array(
+		'_debugbar/open',
 		'_profiler',
 		'logout',
 	);
