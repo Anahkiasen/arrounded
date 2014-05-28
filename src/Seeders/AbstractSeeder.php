@@ -74,6 +74,12 @@ abstract class AbstractSeeder extends Seeder
 			return DB::table($table)->insert($items);
 		}
 
+		// Enforce SQLite limitations
+		if (DB::getDriverName() == 'sqlite') {
+			$chunks = sizeof(head($items)) ?: 10;
+			$chunks = floor(999 / $chunks);
+		}
+
 		// Chunk entries
 		$slices = $chunks ? array_chunk($items, $chunks) : array($items);
 		$this->progressIterator($slices, function($items) use ($table) {
