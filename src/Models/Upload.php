@@ -1,7 +1,6 @@
 <?php
 namespace Arrounded\Models;
 
-use App;
 use HTML;
 use Illuminage;
 use Illuminate\Database\Eloquent\Model;
@@ -43,8 +42,8 @@ class Upload extends Model
 	 */
 	public function getPathAttribute()
 	{
-		$path = App::make('path.public').'/'.$this->getPath();
-		if (!$this->name or !$this->isValid($path)) {
+		$path = public_path($this->getPath());
+		if (!$this->name or !$this->pathIsValid($path)) {
 			return;
 		}
 
@@ -75,7 +74,7 @@ class Upload extends Model
 	 */
 	public function thumb($width, $height = null)
 	{
-		if (!$this->path or !$this->isValid($this->path)) {
+		if (!$this->isValid()) {
 			return null;
 		}
 
@@ -127,15 +126,28 @@ class Upload extends Model
 	 *
 	 * @return boolean
 	 */
-	public function isValid($path)
+	public function pathIsValid($path)
 	{
+		// Check if the file exists
 		if (!file_exists($path)) {
 			return false;
 		}
 
-		$file = new File($path);
+		// Check if the file is an image
+		$file  = new File($path);
+		$valid = $file->isFile() && in_array($file->guessExtension(), array('jpeg', 'png', 'gif', 'bmp'));
 
-		return $file->isFile() && in_array($file->guessExtension(), array('jpeg', 'png', 'gif', 'bmp'));
+		return $valid;
+	}
+
+	/**
+	 * Check if the bound image is valid
+	 *
+	 * @return boolean
+	 */
+	public function isValid()
+	{
+		return $this->isRemote() || $this->path;
 	}
 
 	/**
@@ -166,10 +178,9 @@ class Upload extends Model
 		}
 
 		// If this is a model upload return that
-		$public = App::make('path.public');
 		$folder = Str::plural($this->illustrable_type);
 		$folder = 'uploads/'.strtolower($folder).'/'.$this->name;
-		if (file_exists($public.'/'.$folder)) {
+		if (file_exists(public_path($folder))) {
 			return $folder;
 		}
 

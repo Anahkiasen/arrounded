@@ -49,7 +49,7 @@ trait HasImages
 	{
 		$image = $this->images->first();
 
-		return $image ? $image : $this->placeholderImage();
+		return $image && $image->path ? $image : $this->placeholderImage();
 	}
 
 	/**
@@ -59,7 +59,7 @@ trait HasImages
 	 */
 	public function placeholderImage()
 	{
-		return null;
+		return new Upload;
 	}
 
 	////////////////////////////////////////////////////////////////////
