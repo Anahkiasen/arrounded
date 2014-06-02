@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InvalidArgumentException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class RoutesTest extends \TestCase
+class RoutesTest extends TestCase
 {
 	/**
 	 * The routes to ignore
