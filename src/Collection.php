@@ -9,6 +9,18 @@ use Paginator;
 class Collection extends \Illuminate\Database\Eloquent\Collection
 {
 	/**
+	 * Serialize an array of data
+	 *
+	 * @param array $data
+	 *
+	 * @return array
+	 */
+	public static function serialize(array $data)
+	{
+		return static::make($data)->toArray();
+	}
+
+	/**
 	 * Filter items by a column
 	 *
 	 * @param string $column
