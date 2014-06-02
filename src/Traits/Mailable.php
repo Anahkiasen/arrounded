@@ -32,7 +32,7 @@ trait Mailable
 
 		// Send email
 		Mail::queue($view, $data, function ($message) use ($recipient, $subject) {
-			$message->suject($subject)->to($recipient);
+			$message->subject($subject)->to($recipient);
 		});
 	}
 }
