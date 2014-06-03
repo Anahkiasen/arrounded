@@ -1,6 +1,7 @@
 <?php
 namespace Arrounded\Abstracts;
 
+use Arrounded\Validation\ValidationException;
 use Illuminate\Validation\Factory as Validator;
 
 /**
