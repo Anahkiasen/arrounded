@@ -108,7 +108,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	protected function coreUpdate($item = null)
 	{
 		// Get item
-		$item  = $item ? $this->repository->find($item) : $this->repository->items()->newInstance();
+		$item  = $item ? $this->repository->find($item) : $this->repository->getModelInstance();
 		$input = Input::all();
 
 		// Execute hooks
