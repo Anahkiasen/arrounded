@@ -1,7 +1,7 @@
 <?php
 namespace Arrounded\Traits;
 
-use Upload;
+use Arrounded\Models\Upload;
 
 /**
  * A model with uploads
