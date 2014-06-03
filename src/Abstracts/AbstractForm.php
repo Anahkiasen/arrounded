@@ -47,7 +47,7 @@ abstract class AbstractForm
 	 * @param array    $attributes
 	 * @param Callable $callback
 	 *
-	 * @return void
+	 * @return mixed
 	 */
 	public function validate(array $attributes = array(), Callable $callback = null)
 	{
@@ -57,8 +57,10 @@ abstract class AbstractForm
 		if ($validation->fails()) {
 			throw new ValidationException('Validation failed', $validation->getMessageBag());
 		} elseif($callback) {
-			$callback($attributes, $this->model);
+			return $callback($attributes, $this->model);
 		}
+
+		return true;
 	}
 
 	/**
