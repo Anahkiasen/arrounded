@@ -262,7 +262,7 @@ abstract class AbstractSeeder extends Seeder
 	{
 		// Define the number of times to loop over
 		$max   = $max ?: $min + 5;
-		$times = $this->faker->randomNumber($min, $max);
+		$times = $this->faker->numberBetween($min, $max);
 
 		for ($i = 0; $i <= $times; $i++) {
 			$closure($i);
