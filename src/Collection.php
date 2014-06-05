@@ -85,9 +85,14 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
 	 */
 	public function counts()
 	{
-		return $this->map(function ($entries) {
-			return sizeof($entries);
-		});
+		// do not modify the source collection
+		$self = clone $this;
+
+		foreach ($self->items as &$item) {
+			$item = sizeof($item);
+		}
+
+		return $self;
 	}
 
 	/**
