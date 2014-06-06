@@ -39,7 +39,7 @@ abstract class AbstractComposer
 			// Compute active state
 			if ($link !== '#') {
 				$active = array_get($item, 3) ?: str_replace($this->app['request']->root().'/', null, $link);
-				$active = preg_match("#$active#", $this->app['request']->path());
+				$active = $this->isOnPage($active);
 			} else {
 				$active = false;
 			}
@@ -55,6 +55,20 @@ abstract class AbstractComposer
 	}
 
 	/**
+	 * Check if a string matches the given url
+	 *
+	 * @param string $page
+	 *
+	 * @return boolean
+	 */
+	protected function isOnPage($page, $loose = true)
+	{
+		$page = $loose ? $page : '^'.$page.'$';
+
+		return preg_match("#$page#", $this->app['request']->path());
+	}
+
+	/**
 	 * Act on a string to translate it
 	 *
 	 * @param string $string
@@ -63,6 +77,8 @@ abstract class AbstractComposer
 	 */
 	protected function translate($string)
 	{
-		return $this->app['translator']->get($string);
+		$translated = $this->app['translator']->get($string);
+
+		return is_string($translated) ? $translated : $string;
 	}
 }
