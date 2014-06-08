@@ -18,7 +18,8 @@
 		"patchwork/utf8": "dev-master"
 	},
 	"suggest": {
-		"kevinlebrun/colors.php": "dev-master"
+		"kevinlebrun/colors.php": "dev-master",
+		"twig/extensions": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {
