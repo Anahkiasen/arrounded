@@ -27,6 +27,16 @@ class JavascriptBridge
 	}
 
 	/**
+	 * Get the data
+	 *
+	 * @return array
+	 */
+	public static function getData()
+	{
+		return static::$data;
+	}
+
+	/**
 	 * Render to JS
 	 *
 	 * @return string
