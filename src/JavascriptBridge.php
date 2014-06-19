@@ -20,7 +20,9 @@ class JavascriptBridge
 	public static function add(array $data)
 	{
 		// Filter and merge data
-		$data = array_filter($data);
+		$data = array_filter($data, function ($value) {
+			return !is_null($value);
+		});
 		$data = array_merge(static::$data, $data);
 
 		static::$data = $data;
