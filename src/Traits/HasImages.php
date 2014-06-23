@@ -78,7 +78,7 @@ trait HasImages
 	{
 		// Create attributes array
 		$attributes = array_merge(array(
-			'name'  => $name,
+			'name' => $name,
 		), $attributes);
 
 		// Attach image to model

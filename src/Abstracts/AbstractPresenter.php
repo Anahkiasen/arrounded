@@ -138,7 +138,7 @@ class AbstractPresenter extends Presenter
 		}
 
 		$name = $model->name;
-		$name = $name ?: $model->getTable(). ' ' .$model->id;
+		$name = $name ?: $model->getTable().' '.$model->id;
 
 		// Return straigt name if no route
 		$route = 'admin.'.$model->getTable().'.edit';
@@ -173,7 +173,7 @@ class AbstractPresenter extends Presenter
 		$count = $this->getFromModel($relation)->count();
 
 		// Wrap in a link if possible
-		$show = 'Admin\\' .ucfirst($relation). 'Controller@'.strtolower(get_class($this->object));
+		$show = 'Admin\\'.ucfirst($relation).'Controller@'.strtolower(get_class($this->object));
 		if ($this->actionExists($show)) {
 			$count = HTML::linkAction($show, $count, $this->object->id);
 		}

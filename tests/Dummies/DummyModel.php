@@ -1,9 +1,9 @@
 <?php
 namespace Arrounded\Dummies;
 
-use Illuminate\Database\Eloquent\Model;
 use Arrounded\Traits\ReflectionModel;
 use Arrounded\Traits\Serializable;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * A dummy model to test on

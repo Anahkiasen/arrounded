@@ -3,7 +3,6 @@ namespace Arrounded\Traits;
 
 use Arrounded\ArroundedTestCase;
 use Arrounded\Dummies\DummyJsonModel;
-use Arrounded\Traits\JsonAttributes;
 
 class JsonAttributesTest extends ArroundedTestCase
 {

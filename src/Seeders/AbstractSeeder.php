@@ -53,7 +53,7 @@ abstract class AbstractSeeder extends Seeder
 		// Log results
 		$results = Str::singular($table);
 		if (class_exists($results)) {
-			$timer   = round(microtime(true) - $timer, 2);
+			$timer = round(microtime(true) - $timer, 2);
 			$this->command->comment(sprintf('-- %s entries created (%ss)', $results::count(), $timer));
 		}
 	}
@@ -82,10 +82,11 @@ abstract class AbstractSeeder extends Seeder
 
 		// Chunk entries
 		$slices = $chunks ? array_chunk($items, $chunks) : array($items);
-		$this->progressIterator($slices, function($items) use ($table) {
+		$this->progressIterator($slices, function ($items) use ($table) {
 			DB::table($table)->insert($items);
 		});
 	}
+
 	/**
 	 * Print progress on an iterator
 	 *
@@ -120,10 +121,10 @@ abstract class AbstractSeeder extends Seeder
 	/**
 	 * Loop over the specified models
 	 *
-	 * @param string|array  $models
-	 * @param Closure       $closure
-	 * @param integer       $min
-	 * @param integer       $max
+	 * @param string|array $models
+	 * @param Closure      $closure
+	 * @param integer      $min
+	 * @param integer      $max
 	 *
 	 * @return void
 	 */
@@ -160,13 +161,15 @@ abstract class AbstractSeeder extends Seeder
 		$table   = null;
 		$entries = array();
 		$this->times(function ($i) use ($closure, &$entries, $isTesting, &$table) {
-			if (!$isTesting) print '.';
+			if (!$isTesting) {
+				print '.';
+			}
 			if ($entry = $closure($i)) {
 				if (!$table) {
 					$table = $entry->getTable();
 				}
 
-				$entry = $entry->getAttributes();
+				$entry     = $entry->getAttributes();
 				$entries[] = $entry;
 			}
 		}, $min, $max);
@@ -252,9 +255,9 @@ abstract class AbstractSeeder extends Seeder
 	/**
 	 * Execute an action from $min to $max times
 	 *
-	 * @param integer  $min
-	 * @param integer  $max
-	 * @param Closure  $closure
+	 * @param integer $min
+	 * @param integer $max
+	 * @param Closure $closure
 	 *
 	 * @return void
 	 */

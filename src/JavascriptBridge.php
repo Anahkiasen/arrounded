@@ -47,7 +47,7 @@ class JavascriptBridge
 	{
 		$rendered = '';
 		foreach (static::$data as $key => $value) {
-			$encoded   = $value instanceof JsonableInterface ? $value->toJson() : json_encode($value);
+			$encoded = $value instanceof JsonableInterface ? $value->toJson() : json_encode($value);
 			$rendered .= sprintf("\tvar %s = %s;".PHP_EOL, $key, $encoded);
 		}
 

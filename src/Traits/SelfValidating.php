@@ -106,7 +106,7 @@ trait SelfValidating
 	public function forceSave()
 	{
 		$this->validating = false;
-		$save = $this->save();
+		$save             = $this->save();
 		$this->validating = true;
 
 		return $save;

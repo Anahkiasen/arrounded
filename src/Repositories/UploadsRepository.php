@@ -20,9 +20,9 @@ class UploadsRepository extends AbstractRepository
 	/**
 	 * Gather uploads for a model
 	 *
-	 * @param AbstractModel  $model
-	 * @param array          $images
-	 * @param array          $attributes
+	 * @param AbstractModel $model
+	 * @param array         $images
+	 * @param array         $attributes
 	 *
 	 * @return AbstractModel
 	 */

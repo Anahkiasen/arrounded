@@ -87,6 +87,8 @@ class Curl
 	 * Set the body of the request
 	 *
 	 * @param string|array $contents
+	 *
+	 * @return self
 	 */
 	public function setBody($contents)
 	{

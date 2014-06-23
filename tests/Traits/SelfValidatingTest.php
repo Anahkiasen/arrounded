@@ -3,7 +3,6 @@ namespace Arrounded\Traits;
 
 use Arrounded\ArroundedTestCase;
 use Arrounded\Dummies\DummyModel;
-use Arrounded\Traits\SelfValidating;
 use Mockery;
 
 class SelfValidatingTest extends ArroundedTestCase

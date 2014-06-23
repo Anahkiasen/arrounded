@@ -117,7 +117,7 @@ class RoutesTest extends TestCase
 	{
 		$route   = str_replace($this->app['url']->to('/').'/', null, $route);
 		$pattern = implode('$|^', $this->redirectBack);
-		$pattern = '#(^' .$pattern. '$)#';
+		$pattern = '#(^'.$pattern.'$)#';
 
 		return preg_match($pattern, $route);
 	}

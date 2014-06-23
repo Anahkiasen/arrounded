@@ -33,7 +33,8 @@ abstract class AbstractApiController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  int  $item
+	 * @param  int $item
+	 *
 	 * @return Response
 	 */
 	public function destroy($item)
@@ -51,7 +52,7 @@ abstract class AbstractApiController extends Controller
 	 * Call a repository method and wrap its response
 	 *
 	 * @param string $method
-	 * @param array  $arguments...
+	 * @param array  $arguments ...
 	 *
 	 * @return Response
 	 */

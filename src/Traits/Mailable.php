@@ -28,7 +28,7 @@ trait Mailable
 
 		// Serialize data
 		$data['user'] = $this;
-		$data = Collection::serialize($data);
+		$data         = Collection::serialize($data);
 
 		// Send email
 		Mail::queue($view, $data, function ($message) use ($recipient, $subject) {

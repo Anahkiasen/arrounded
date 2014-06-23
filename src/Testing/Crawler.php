@@ -2,10 +2,10 @@
 namespace Arrounded\Testing;
 
 use Arrounded\Traits\UsesContainer;
+use Closure;
 use Illuminate\Foundation\Testing\Client;
 use Illuminate\Support\Str;
 use SplFileInfo;
-use Closure;
 
 /**
  * A basic class to extract routes
@@ -68,7 +68,7 @@ class Crawler
 
 				// Try regexes too
 				foreach ($this->ignored as $ignored) {
-					if (preg_match('#' .$ignored. '#', $uri)) {
+					if (preg_match('#'.$ignored.'#', $uri)) {
 						continue 2;
 					}
 				}

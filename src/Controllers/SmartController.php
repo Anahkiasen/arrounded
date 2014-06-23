@@ -58,7 +58,7 @@ abstract class SmartController extends AbstractSmartController
 	/**
 	 * Get the core create view
 	 *
-	 * @param  array  $data  Additional data
+	 * @param  array $data Additional data
 	 *
 	 * @return View
 	 */
@@ -70,13 +70,13 @@ abstract class SmartController extends AbstractSmartController
 	/**
 	 * Get the core edit view
 	 *
-	 * @param  array  $data  Additional data
+	 * @param  array $data Additional data
 	 *
 	 * @return View
 	 */
 	protected function coreEdit($item, $data = array())
 	{
-		$item = $this->object->findOrFail($item);
+		$item         = $this->object->findOrFail($item);
 		$data['item'] = $item;
 
 		return $this->getView('edit', $this->getFormData($data));

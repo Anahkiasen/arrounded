@@ -63,7 +63,7 @@ trait ReflectionModel
 	 */
 	public function getAction($action, $api = false)
 	{
-		$prefix  = $api ? 'Api\\' : '';
+		$prefix = $api ? 'Api\\' : '';
 		$prefix .= $this->getController().'@';
 
 		return $prefix.$action;
@@ -100,14 +100,14 @@ trait ReflectionModel
 	/**
 	 * Check if the model uses a trait
 	 *
-	 * @param  string  $trait
+	 * @param  string $trait
 	 *
 	 * @return boolean
 	 */
 	public function hasTrait($trait)
 	{
 		// Try both given name and fully qualified name
-		$qualified = 'Arrounded\Traits\\' .$trait;
+		$qualified = 'Arrounded\Traits\\'.$trait;
 		$traits    = $this->classUsesDeep($this);
 
 		return in_array($trait, $traits) || in_array($qualified, $traits);
@@ -116,8 +116,8 @@ trait ReflectionModel
 	/**
 	 * Get all traits used by a class and its parents
 	 *
-	 * @param string|object  $class
-	 * @param boolean        $autoload
+	 * @param string|object $class
+	 * @param boolean       $autoload
 	 *
 	 * @return array
 	 */
@@ -126,7 +126,7 @@ trait ReflectionModel
 		$traits = [];
 		do {
 			$traits = array_merge(class_uses($class, $autoload), $traits);
-		} while($class = get_parent_class($class));
+		} while ($class = get_parent_class($class));
 		foreach ($traits as $trait => $same) {
 			$traits = array_merge(class_uses($trait, $autoload), $traits);
 		}

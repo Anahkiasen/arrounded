@@ -18,7 +18,7 @@ trait HasCoordinates
 	 * Update the model's coordinates
 	 *
 	 * @param  string $attribute
-	 * @param  mixed $value
+	 * @param  mixed  $value
 	 *
 	 * @return void
 	 */
@@ -109,6 +109,7 @@ trait HasCoordinates
 		$response = curl_exec($curl);
 
 		$json = json_decode($response, true);
+
 		return array_get($json, 'results.0.geometry.location', array(
 			'lat' => 0,
 			'lng' => 0,
@@ -155,6 +156,6 @@ trait HasCoordinates
 			extract($lat);
 		}
 
-		return $query->select($this->getTable().'.*', DB::raw('(3959 * ACOS(COS(RADIANS(' .$lat. ')) * COS(RADIANS(lat)) * COS(RADIANS(lng) - RADIANS(' .$lng. ')) + SIN(RADIANS(' .$lat. ')) * SIN(RADIANS(lat)))) AS `distance`'));
+		return $query->select($this->getTable().'.*', DB::raw('(3959 * ACOS(COS(RADIANS('.$lat.')) * COS(RADIANS(lat)) * COS(RADIANS(lng) - RADIANS('.$lng.')) + SIN(RADIANS('.$lat.')) * SIN(RADIANS(lat)))) AS `distance`'));
 	}
 }

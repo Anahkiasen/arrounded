@@ -1,8 +1,8 @@
 <?php
 namespace Arrounded\Macros;
 
-use Former;
 use Arrounded\Traits\UsesContainer;
+use Former;
 use Illuminate\Support\Str;
 
 /**

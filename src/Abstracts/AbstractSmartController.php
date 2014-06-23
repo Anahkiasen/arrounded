@@ -63,7 +63,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $item
+	 * @param  int $item
 	 *
 	 * @return View
 	 */
@@ -75,7 +75,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int  $item
+	 * @param  int $item
 	 *
 	 * @return View
 	 */
@@ -87,7 +87,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  int  $item
+	 * @param  int $item
 	 *
 	 * @return Redirect
 	 */
@@ -99,7 +99,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  int  $item
+	 * @param  int $item
 	 *
 	 * @return Redirect
 	 */
@@ -132,8 +132,8 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @param  array         $eager
-	 * @param  integer|null  $paginate
+	 * @param  array        $eager
+	 * @param  integer|null $paginate
 	 *
 	 * @return Response
 	 */
@@ -142,7 +142,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Get the core create view
 	 *
-	 * @param  array  $data  Additional data
+	 * @param  array $data Additional data
 	 *
 	 * @return View
 	 */
@@ -151,7 +151,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $user
+	 * @param  int $user
 	 *
 	 * @return Response
 	 */
@@ -160,8 +160,8 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Get the core edit view
 	 *
-	 * @param  integer  $item
-	 * @param  array    $data  Additional data
+	 * @param  integer $item
+	 * @param  array   $data Additional data
 	 *
 	 * @return View
 	 */

@@ -146,7 +146,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * Create an entry from an array of attributes
 	 *
-	 * @param  array  $attributes
+	 * @param  array $attributes
 	 *
 	 * @return AbstractModel
 	 */

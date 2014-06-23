@@ -32,7 +32,7 @@ abstract class AbstractComposer
 
 			// Compute actual URL
 			$parameters = array_get($item, 2, array());
-			$link = Str::contains($endpoint, '@')
+			$link       = Str::contains($endpoint, '@')
 				? $this->app['url']->action($endpoint, $parameters)
 				: $this->app['url']->to($endpoint, $parameters);
 

@@ -71,7 +71,7 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
 		$page  = Paginator::getCurrentPage($count);
 		$items = $this->slice(($page - 1) * $perPage, $perPage)->all();
 
-    return Paginator::make($items, $count, $perPage);
+		return Paginator::make($items, $count, $perPage);
 	}
 
 	////////////////////////////////////////////////////////////////////

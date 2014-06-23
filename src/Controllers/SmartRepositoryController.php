@@ -46,8 +46,8 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @param  array         $eager
-	 * @param  integer|null  $paginate
+	 * @param  array        $eager
+	 * @param  integer|null $paginate
 	 *
 	 * @return \View
 	 */
@@ -61,7 +61,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	/**
 	 * Get the core create view
 	 *
-	 * @param  array  $data  Additional data
+	 * @param  array $data Additional data
 	 *
 	 * @return \View
 	 */
@@ -73,7 +73,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $user
+	 * @param  int $user
 	 *
 	 * @return \View
 	 */
@@ -86,13 +86,13 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 * Get the core edit view
 	 *
 	 * @param  integer $item
-	 * @param  array   $data  Additional data
+	 * @param  array   $data Additional data
 	 *
 	 * @return \View
 	 */
 	protected function coreEdit($item, $data = array())
 	{
-		$item = $this->getSingleModel($item);
+		$item         = $this->getSingleModel($item);
 		$data['item'] = $item;
 
 		return $this->getView('edit', $this->getFormData($data));
@@ -189,7 +189,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	/**
 	 * Get the form data
 	 *
-	 * @param array<string,Model> $data
+	 * @param array <string,Model> $data
 	 *
 	 * @return array
 	 */

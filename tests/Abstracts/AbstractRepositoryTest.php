@@ -43,34 +43,34 @@ class AbstractRepositoryTest extends ArroundedTestCase
 
 	public function testCanFindItemViaAttributes()
 	{
-		$eloquent = Mockery::mock('Eloquent', function ($mock) {
+		$eloquent   = Mockery::mock('Eloquent', function ($mock) {
 			$mock->shouldReceive('findOrFail')->once()->with(1)->andReturn(new DummyModel);
 		});
 		$repository = new DummyRepository($eloquent);
-		$model = $repository->findOrNew(array('id' => 1, 'name' => 'foo'));
+		$model      = $repository->findOrNew(array('id' => 1, 'name' => 'foo'));
 
 		$this->assertEquals('foo', $model->name);
 	}
 
 	public function testCanInstnatiateViaAttributes()
 	{
-		$eloquent = Mockery::mock('Eloquent', function ($mock) {
+		$eloquent   = Mockery::mock('Eloquent', function ($mock) {
 			$mock->shouldReceive('newInstance')->once()->with(array('name' => 'foo'))->andReturn(new DummyModel(array('name' => 'foo')));
 		});
 		$repository = new DummyRepository($eloquent);
-		$model = $repository->findOrNew(array('name' => 'foo'));
+		$model      = $repository->findOrNew(array('name' => 'foo'));
 
 		$this->assertEquals('foo', $model->name);
 	}
 
 	public function testCanCreateItem()
 	{
-		$eloquent = Mockery::mock('Eloquent', function ($mock) {
+		$eloquent   = Mockery::mock('Eloquent', function ($mock) {
 			$mock->shouldReceive('create')->once()->with(array('name' => 'foo'))->andReturn(new DummyModel(array('id' => 1)));
 			$mock->shouldReceive('findOrFail')->once()->with(1)->andReturn(new DummyModel(array('name' => 'foo')));
 		});
 		$repository = new DummyRepository($eloquent);
-		$model = $repository->create(array('name' => 'foo'));
+		$model      = $repository->create(array('name' => 'foo'));
 
 		$this->assertEquals('foo', $model->name);
 	}
@@ -87,7 +87,7 @@ class AbstractRepositoryTest extends ArroundedTestCase
 		});
 
 		$repository = new DummyRepository($eloquent);
-		$item = $repository->update(1, array('name' => 'foo'));
+		$item       = $repository->update(1, array('name' => 'foo'));
 	}
 
 	public function testCanDeleteItem()

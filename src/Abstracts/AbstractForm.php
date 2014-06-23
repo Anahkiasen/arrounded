@@ -56,7 +56,7 @@ abstract class AbstractForm
 
 		if ($validation->fails()) {
 			throw new ValidationException('Validation failed', $validation->getMessageBag());
-		} elseif($callback) {
+		} elseif ($callback) {
 			return $callback($attributes, $this->model);
 		}
 

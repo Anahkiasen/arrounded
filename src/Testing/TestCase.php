@@ -147,7 +147,7 @@ class TestCase extends IlluminateTestCase
 		}
 
 		// Find first User
-		$user  = $user ?: $model::first();
+		$user = $user ?: $model::first();
 		if (!$user) {
 			return;
 		}

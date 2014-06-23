@@ -1,8 +1,8 @@
 <?php
 namespace Arrounded\Controllers;
 
-use ReflectionClass;
 use Illuminate\Support\Str;
+use ReflectionClass;
 
 /**
  * A class to compute additional informations around a Controller
