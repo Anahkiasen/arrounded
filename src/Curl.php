@@ -17,13 +17,22 @@ class Curl
 	 * Build a new Curl instance
 	 *
 	 * @param string $url
+	 * @param array  $options
 	 */
-	public function __construct($url = null)
+	public function __construct($url = null, $options = array())
 	{
 		$this->curl = curl_init();
 
+		// Set endpoint
 		if ($url) {
 			$this->url = $url;
+		}
+
+		// Set options
+		if ($options) {
+			foreach ($options as $key => $value) {
+				$this->$key = $value;
+			}
 		}
 	}
 
