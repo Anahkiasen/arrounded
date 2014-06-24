@@ -64,6 +64,7 @@ abstract class AbstractComposer
 	protected function isOnPage($page, $loose = true)
 	{
 		$page = $loose ? $page : '^'.$page.'$';
+		$page = str_replace('#', '\#', $page);
 
 		return preg_match("#$page#", $this->app['request']->path());
 	}
