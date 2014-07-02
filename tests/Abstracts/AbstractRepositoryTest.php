@@ -133,4 +133,26 @@ class AbstractRepositoryTest extends ArroundedTestCase
 		$repository = new DummyRepository($eloquent);
 		$this->assertTrue($repository->all(25));
 	}
+
+	public function testCanFindEntryBySlug()
+	{
+		$eloquent = Mockery::mock('Eloquent', function ($mock) {
+			$mock->shouldReceive('hasTrait')->once()->with('Sluggable')->andReturn(true);
+			$mock->shouldReceive('whereSlug->firstOrFail')->andReturn('Model1');
+		});
+
+		$repository = new DummyRepository($eloquent);
+		$this->assertEquals('Model1', $repository->find('foobar'));
+	}
+
+	public function testStringsWithNumbersAreRecognized()
+	{
+		$eloquent = Mockery::mock('Eloquent', function ($mock) {
+			$mock->shouldReceive('hasTrait')->once()->with('Sluggable')->andReturn(true);
+			$mock->shouldReceive('whereSlug->firstOrFail')->andReturn('Model1');
+		});
+
+		$repository = new DummyRepository($eloquent);
+		$this->assertEquals('Model1', $repository->find('700-men'));
+	}
 }
