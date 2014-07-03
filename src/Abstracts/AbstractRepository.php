@@ -2,6 +2,7 @@
 namespace Arrounded\Abstracts;
 
 use Arrounded\Interfaces\RepositoryInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class AbstractRepository implements RepositoryInterface
@@ -98,6 +99,10 @@ abstract class AbstractRepository implements RepositoryInterface
 	 */
 	public function items()
 	{
+		if ($this->items instanceof Builder) {
+			$this->items = $this->items->getModel();
+		}
+
 		return clone $this->items;
 	}
 
@@ -153,7 +158,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	public function create(array $attributes = array())
 	{
 		// Create model and fetch it back
-		$item = $this->items->create($attributes);
+		$item = $this->items()->create($attributes);
 		$item = $this->find($item->id);
 		$item = $this->onUpdate($item, $attributes);
 
