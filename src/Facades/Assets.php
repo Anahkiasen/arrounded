@@ -12,6 +12,6 @@ class Assets extends Facade
 	 */
 	protected static function getFacadeAccessor()
 	{
-		return 'assets';
+		return 'Arrounded\Assets\AssetsHandler';
 	}
 }
