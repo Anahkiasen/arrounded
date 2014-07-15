@@ -1,5 +1,5 @@
 <?php
-namespace Weholi\Facades;
+namespace Arrounded\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
