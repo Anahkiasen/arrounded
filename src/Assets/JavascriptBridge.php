@@ -1,5 +1,5 @@
 <?php
-namespace Arrounded;
+namespace Arrounded\Assets;
 
 use Illuminate\Support\Contracts\JsonableInterface;
 

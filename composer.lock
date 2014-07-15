@@ -8,32 +8,30 @@
     "packages": [
         {
             "name": "illuminate/support",
-            "version": "v4.1.29",
+            "version": "v4.2.6",
             "target-dir": "Illuminate/Support",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "7716337401e573ba69923d335c0ee01fd5448df7"
+                "reference": "d59811c8d3e0b7c2b9ffd2c480e698b3352472d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/7716337401e573ba69923d335c0ee01fd5448df7",
-                "reference": "7716337401e573ba69923d335c0ee01fd5448df7",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/d59811c8d3e0b7c2b9ffd2c480e698b3352472d0",
+                "reference": "d59811c8d3e0b7c2b9ffd2c480e698b3352472d0",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.4.0"
             },
             "require-dev": {
-                "jeremeamia/superclosure": "1.0.*",
-                "mockery/mockery": "0.9.*",
-                "patchwork/utf8": "1.1.*",
-                "phpunit/phpunit": "4.0.*"
+                "jeremeamia/superclosure": "~1.0",
+                "patchwork/utf8": "1.1.*"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
@@ -56,7 +54,7 @@
                     "role": "Creator of Laravel"
                 }
             ],
-            "time": "2014-05-02 18:11:11"
+            "time": "2014-06-29 00:06:59"
         },
         {
             "name": "mockery/mockery",
@@ -64,12 +62,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "9e4914ac854fc0d900f93621a989e191eaafc7b8"
+                "reference": "33b01619721a925db8b61e8623fa8acf2c2be496"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/9e4914ac854fc0d900f93621a989e191eaafc7b8",
-                "reference": "9e4914ac854fc0d900f93621a989e191eaafc7b8",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/33b01619721a925db8b61e8623fa8acf2c2be496",
+                "reference": "33b01619721a925db8b61e8623fa8acf2c2be496",
                 "shasum": ""
             },
             "require": {
@@ -122,35 +120,32 @@
                 "test double",
                 "testing"
             ],
-            "time": "2014-05-19 08:14:43"
+            "time": "2014-06-27 12:23:08"
         }
     ],
     "packages-dev": [
         {
             "name": "illuminate/container",
-            "version": "v4.1.29",
+            "version": "v4.2.6",
             "target-dir": "Illuminate/Container",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
-                "reference": "1bc5798b2241219ec76c57736ab139527cc2d3ad"
+                "reference": "226ce5097ef587ef9e0b45ecd0858720c690e850"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/container/zipball/1bc5798b2241219ec76c57736ab139527cc2d3ad",
-                "reference": "1bc5798b2241219ec76c57736ab139527cc2d3ad",
+                "url": "https://api.github.com/repos/illuminate/container/zipball/226ce5097ef587ef9e0b45ecd0858720c690e850",
+                "reference": "226ce5097ef587ef9e0b45ecd0858720c690e850",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.0.*"
+                "php": ">=5.4.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
@@ -170,43 +165,41 @@
                     "role": "Creator of Laravel"
                 }
             ],
-            "time": "2014-04-21 18:20:26"
+            "time": "2014-06-24 22:00:11"
         },
         {
             "name": "illuminate/database",
-            "version": "v4.1.29",
+            "version": "v4.2.6",
             "target-dir": "Illuminate/Database",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "00babb09abdb2115c5380c3c1090ca8f533bd30b"
+                "reference": "35d47733b72203b5bb6f6b8cd8b0598a6ce2557b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/00babb09abdb2115c5380c3c1090ca8f533bd30b",
-                "reference": "00babb09abdb2115c5380c3c1090ca8f533bd30b",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/35d47733b72203b5bb6f6b8cd8b0598a6ce2557b",
+                "reference": "35d47733b72203b5bb6f6b8cd8b0598a6ce2557b",
                 "shasum": ""
             },
             "require": {
-                "illuminate/container": "4.1.*",
-                "illuminate/events": "4.1.*",
-                "illuminate/support": "4.1.*",
-                "nesbot/carbon": "1.*",
-                "php": ">=5.3.0"
+                "illuminate/container": "4.2.*",
+                "illuminate/events": "4.2.*",
+                "illuminate/support": "4.2.*",
+                "nesbot/carbon": "~1.0",
+                "php": ">=5.4.0"
             },
             "require-dev": {
-                "illuminate/cache": "4.1.*",
-                "illuminate/console": "4.1.*",
-                "illuminate/filesystem": "4.1.*",
-                "illuminate/pagination": "4.1.*",
-                "illuminate/support": "4.1.*",
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "4.0.*"
+                "illuminate/cache": "4.2.*",
+                "illuminate/console": "4.2.*",
+                "illuminate/filesystem": "4.2.*",
+                "illuminate/pagination": "4.2.*",
+                "illuminate/support": "4.2.*"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
@@ -232,36 +225,32 @@
                 "orm",
                 "sql"
             ],
-            "time": "2014-05-20 13:21:41"
+            "time": "2014-06-29 00:06:59"
         },
         {
             "name": "illuminate/events",
-            "version": "v4.1.29",
+            "version": "v4.2.6",
             "target-dir": "Illuminate/Events",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
-                "reference": "4e83ee4f255ec084d510e533ef8e98961aae8729"
+                "reference": "c95614873f4e437ed7a723c1734197b51feaf991"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/events/zipball/4e83ee4f255ec084d510e533ef8e98961aae8729",
-                "reference": "4e83ee4f255ec084d510e533ef8e98961aae8729",
+                "url": "https://api.github.com/repos/illuminate/events/zipball/c95614873f4e437ed7a723c1734197b51feaf991",
+                "reference": "c95614873f4e437ed7a723c1734197b51feaf991",
                 "shasum": ""
             },
             "require": {
-                "illuminate/container": "4.1.*",
-                "illuminate/support": "4.1.*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "4.0.*"
+                "illuminate/container": "4.2.*",
+                "illuminate/support": "4.2.*",
+                "php": ">=5.4.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "4.2-dev"
                 }
             },
             "autoload": {
@@ -281,7 +270,7 @@
                     "role": "Creator of Laravel"
                 }
             ],
-            "time": "2014-03-22 20:12:48"
+            "time": "2014-06-06 13:58:46"
         },
         {
             "name": "nesbot/carbon",
@@ -335,12 +324,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nicolas-grekas/Patchwork-UTF8.git",
-                "reference": "62a1f7f777fb121e13c9ddbbd4718060d2fda08f"
+                "reference": "d5e887f100e5f4f623cfd50b11d004e9846d0801"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/62a1f7f777fb121e13c9ddbbd4718060d2fda08f",
-                "reference": "62a1f7f777fb121e13c9ddbbd4718060d2fda08f",
+                "url": "https://api.github.com/repos/nicolas-grekas/Patchwork-UTF8/zipball/d5e887f100e5f4f623cfd50b11d004e9846d0801",
+                "reference": "d5e887f100e5f4f623cfd50b11d004e9846d0801",
                 "shasum": ""
             },
             "require": {
@@ -378,7 +367,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2014-05-26 16:05:57"
+            "time": "2014-06-17 08:22:48"
         }
     ],
     "aliases": [],
