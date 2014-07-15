@@ -55,7 +55,7 @@ class AssetsReplacer extends Command
 		foreach ($views as $view) {
 			$this->comment('Replacing calls in '.basename($view));
 			$contents = file_get_contents($view);
-			$contents = preg_replace_callback('/{{ ?Assets\.(styles|scripts)\(["\'](.+)["\']\) ?}}/', [$this, 'replaceAssetsCalls'], $contents);
+			$contents = preg_replace_callback('/{{ ?Assets\.(styles|scripts)\(["\'](.+)["\']\)(\|raw)? ?}}/', [$this, 'replaceAssetsCalls'], $contents);
 			file_put_contents($view, $contents);
 		}
 	}
