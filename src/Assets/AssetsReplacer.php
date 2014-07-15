@@ -2,6 +2,10 @@
 namespace Arrounded\Assets;
 
 use Illuminate\Console\Command;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RegexIterator;
+use Symfony\Component\Finder\Finder;
 
 class AssetsReplacer extends Command
 {
@@ -40,8 +44,33 @@ class AssetsReplacer extends Command
 	 */
 	public function fire()
 	{
-		$views = app_path('views');
-		$views = new \RecursiveDirectoryIterator($views);
-		!dd($views);
+		$views     = app_path('views');
+
+		// List all views
+		$finder = new Finder($views);
+		$views = $finder->files()->in($views)->getIterator();
+		$views = array_keys(iterator_to_array($views));
+
+		// Replace in views
+		foreach ($views as $view) {
+			$this->comment('Replacing calls in '.basename($view));
+			$contents = file_get_contents($view);
+			$contents = preg_replace_callback('/{{ ?Assets\.(styles|scripts)\(["\'](.+)["\']\) ?}}/', [$this, 'replaceAssetsCalls'], $contents);
+			file_put_contents($view, $contents);
+		}
+	}
+
+	/**
+	 * Replace Assets calls in views
+	 *
+	 * @param array $matches
+	 *
+	 * @return string
+	 */
+	protected function replaceAssetsCalls($matches)
+	{
+		list (, $type, $container) = $matches;
+
+		return $this->handler->$type($container);
 	}
 }
