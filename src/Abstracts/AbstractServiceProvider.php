@@ -47,7 +47,7 @@ abstract class AbstractServiceProvider extends ServiceProvider
 		/** @type \SplFileObject $file */
 		foreach ($files as $file) {
 			// Create instance of repository
-			$repository = sprintf($this->namespace.'\Repositories\%s', $file->getBasename('.php'));
+			$repository = sprintf('%s\Repositories\%s', $this->namespace, $file->getBasename('.php'));
 			$repository = $this->app->make($repository);
 
 			// Compute bindings
