@@ -8,7 +8,7 @@ use Symfony\Component\Finder\Finder;
 /**
  * Register the AbstractServiceProvider classes
  */
-class AbstractServiceProvider extends ServiceProvider
+abstract class AbstractServiceProvider extends ServiceProvider
 {
 	/**
 	 * The application's namespace
