@@ -67,7 +67,7 @@ abstract class AbstractSeeder extends Seeder
 	 *
 	 * @return void
 	 */
-	public function insertChunked($table, $items, $chunks = 2500)
+	public function insertChunked($table, $items, $chunks = null)
 	{
 		// Insert directly if less than chunks
 		if (sizeof($items) < $chunks) {
