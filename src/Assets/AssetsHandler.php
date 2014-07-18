@@ -1,6 +1,8 @@
 <?php
 namespace Arrounded\Assets;
 
+use Illuminate\Support\Facades\HTML;
+
 class AssetsHandler
 {
 	/**
@@ -83,7 +85,7 @@ class AssetsHandler
 
 		// Create HTML tags
 		$html    = [];
-		$pattern = $type === 'css' ? '<link rel="stylesheet" href="%s">' : '<script src="%s"></script>';
+		$pattern = $type === 'css' ? HTML::style('%s') : HTML::script('%s');
 		$html[]  = sprintf('<!-- build:%s builds/%s/%s.%s -->', $type, $type, $collection, $type);
 		foreach ($assets as $asset) {
 			$html[] = sprintf($pattern, $asset);
