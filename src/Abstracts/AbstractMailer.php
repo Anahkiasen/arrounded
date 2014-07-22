@@ -69,7 +69,6 @@ abstract class AbstractMailer
 	 */
 	public function setSender(User $user)
 	{
-		$this->user    = $user;
 		$this->databag = array(
 			'from' => $user,
 		);
