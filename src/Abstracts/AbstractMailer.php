@@ -69,7 +69,7 @@ abstract class AbstractMailer
 	 */
 	public function setSender(User $user)
 	{
-		$this->user = $user;
+		$this->user    = $user;
 		$this->databag = array(
 			'from' => $user,
 		);
@@ -129,17 +129,16 @@ abstract class AbstractMailer
 	 */
 	public function send()
 	{
+		$view = '_emails.'.$this->template;
+
 		foreach ($this->recipients as $recipient) {
-			$this->mailer->send('_emails.'.$this->template, $this->gatherData($recipient), function ($email) use (
-				$recipient
-			) {
-				$email = $this->alterMessage($email);
+			$this->mailer->send($view, $this->gatherData($recipient), function (Message $message) use ($recipient) {
 				try {
-					$email = $email->to($recipient->email);
+					$message = $message->to($recipient->email);
 				} catch (Swift_RfcComplianceException $exception) {
 				}
 
-				return $email;
+				return $this->alterMessage($message);
 			});
 		}
 
@@ -153,11 +152,12 @@ abstract class AbstractMailer
 	 *
 	 * @return array
 	 */
-	protected function gatherData($recipient)
+	protected function gatherData(User $recipient)
 	{
-		return array_merge($this->databag, array(
-			'user' => $recipient
-		));
+		$data = new Collection($this->databag);
+		$data['user'] = $recipient;
+
+		return $data->toArray();
 	}
 
 	////////////////////////////////////////////////////////////////////
