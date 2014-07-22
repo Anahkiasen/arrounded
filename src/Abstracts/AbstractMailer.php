@@ -131,7 +131,8 @@ abstract class AbstractMailer
 		$view = '_emails.'.$this->template;
 
 		foreach ($this->recipients as $recipient) {
-			$this->mailer->send($view, $this->gatherData($recipient), function (Message $message) use ($recipient) {
+			$data = $this->gatherData($recipient);
+			$this->mailer->send($view, $data, function (Message $message) use ($recipient) {
 				try {
 					$message = $message->to($recipient->email);
 				} catch (Swift_RfcComplianceException $exception) {
