@@ -34,6 +34,13 @@ abstract class AbstractMailer
 	protected $recipients = array();
 
 	/**
+	 * The message's subject
+	 *
+	 * @type string
+	 */
+	protected $subject;
+
+	/**
 	 * The template to use
 	 *
 	 * @var string
@@ -72,6 +79,14 @@ abstract class AbstractMailer
 		$this->databag = array(
 			'from' => $user,
 		);
+	}
+
+	/**
+	 * @param string $subject
+	 */
+	public function setSubject($subject)
+	{
+		$this->subject = $subject;
 	}
 
 	/**
@@ -119,7 +134,14 @@ abstract class AbstractMailer
 	 *
 	 * @return Message
 	 */
-	abstract protected function alterMessage(Message $email);
+	protected function alterMessage(Message $email)
+	{
+		if ($this->subject) {
+			$message->subject($this->subject);
+		}
+
+		return $message;
+	}
 
 	/**
 	 * Send the invitations
