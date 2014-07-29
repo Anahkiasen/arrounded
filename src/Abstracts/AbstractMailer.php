@@ -131,11 +131,11 @@ abstract class AbstractMailer
 	/**
 	 * Apply modifiers to an email
 	 *
-	 * @param  Message $email
+	 * @param  Message $message
 	 *
 	 * @return Message
 	 */
-	protected function alterMessage(Message $email)
+	protected function alterMessage(Message $message)
 	{
 		if ($this->subject) {
 			$message->subject($this->subject);
@@ -171,11 +171,11 @@ abstract class AbstractMailer
 	/**
 	 * Gather the data for the email
 	 *
-	 * @param User $recipient
+	 * @param AbstractModel $recipient
 	 *
 	 * @return array
 	 */
-	protected function gatherData(User $recipient)
+	protected function gatherData(AbstractModel $recipient)
 	{
 		$data         = new Collection($this->databag);
 		$data['user'] = $recipient;
@@ -196,7 +196,10 @@ abstract class AbstractMailer
 	 */
 	protected function translateRecipients($recipients)
 	{
-		$recipients = (array) $recipients;
+		if (!array_key_exists(0, $recipients)) {
+			$recipients = [$recipients];
+		}
+
 		$users      = new Collection($recipients);
 		$column     = 'email';
 		$model      = Config::get('auth.model');
