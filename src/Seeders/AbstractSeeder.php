@@ -52,6 +52,7 @@ abstract class AbstractSeeder extends Seeder
 
 		// Log results
 		$results = Str::singular($table);
+		$results = $this->qualify($results);
 		if (class_exists($results)) {
 			$timer = round(microtime(true) - $timer, 2);
 			$this->command->comment(sprintf('-- %s entries created (%ss)', $results::count(), $timer));
@@ -134,7 +135,7 @@ abstract class AbstractSeeder extends Seeder
 
 		$models = (array) $models;
 		foreach ($models as $model) {
-			$model   = $this->models.$model;
+			$model   = $this->qualify($model);
 			$entries = $model::lists('id');
 			foreach ($entries as $entry) {
 				$this->times(function () use ($closure, $entry, $model) {
@@ -197,7 +198,7 @@ abstract class AbstractSeeder extends Seeder
 		$foreignTwo = snake_case($modelTwo).'_id';
 		$table      = snake_case($model).'_'.snake_case($modelTwo);
 
-		$number = $this->models.$modelTwo;
+		$number = $this->qualify($modelTwo);
 		$number = $number::count() * 5;
 
 		for ($i = 0; $i <= $number; $i++) {
@@ -220,7 +221,7 @@ abstract class AbstractSeeder extends Seeder
 	protected function randomModels($model, $min = 5, $max = null)
 	{
 		// Get a random number of elements
-		$model     = $this->models.$model;
+		$model     = $this->qualify($model);
 		$available = $model::lists('id');
 
 		$this->times(function () use ($available, &$entries) {
@@ -239,7 +240,7 @@ abstract class AbstractSeeder extends Seeder
 	 */
 	protected function randomModel($model, $notIn = array())
 	{
-		$model  = $this->models.$model;
+		$model  = $this->qualify($model);
 		$models = $model::query();
 		if ($notIn) {
 			$models = $models->whereNotIn('id', $notIn);
@@ -270,5 +271,20 @@ abstract class AbstractSeeder extends Seeder
 		for ($i = 0; $i <= $times; $i++) {
 			$closure($i);
 		}
+	}
+
+	/**
+	 * Qualify a model
+	 *
+	 * @param string $model
+	 *
+	 * @return string
+	 */
+	protected function qualify($model)
+	{
+		$namespace = $this->models;
+		$namespace = trim($namespace, '\\');
+
+		return $namespace ? sprintf('%s\%s', $namespace, $model) : $model;
 	}
 }
