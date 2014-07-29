@@ -81,7 +81,8 @@ abstract class AbstractServiceProvider extends ServiceProvider
 			$instance = sprintf('%s\Observers\%sObserver', $this->namespace, $observer);
 			$instance = $this->app->make($instance);
 
-			$observer = class_exists($observer) ? $observer : sprintf('%s\Models\%s', $this->namespace, $observer);
+			$qualified = sprintf('%s\Models\%s', $this->namespace, $observer);
+			$observer = class_exists($qualified) ? $qualified : $observer;
 			$observer::observe($instance);
 		}
 	}
