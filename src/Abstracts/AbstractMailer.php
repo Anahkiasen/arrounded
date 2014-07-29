@@ -1,11 +1,12 @@
 <?php
 namespace Arrounded\Abstracts;
 
+use Auth;
+use Config;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Collection;
 use Swift_RfcComplianceException;
-use User;
 
 /**
  * An abstract class for mail services
@@ -176,7 +177,7 @@ abstract class AbstractMailer
 	 */
 	protected function gatherData(User $recipient)
 	{
-		$data = new Collection($this->databag);
+		$data         = new Collection($this->databag);
 		$data['user'] = $recipient;
 
 		return $data->toArray();
@@ -198,22 +199,23 @@ abstract class AbstractMailer
 		$recipients = (array) $recipients;
 		$users      = new Collection($recipients);
 		$column     = 'email';
+		$model      = Config::get('auth.model');
 
 		if (empty($recipients)) {
 			return $users;
 		}
 
 		// Convert recipients to User instances if necessary
-		if (!$recipients[0] instanceof User) {
+		if (!$recipients[0] instanceof $model) {
 			$column = (int) $recipients[0] === 0 ? 'email' : 'id';
-			$users  = User::whereIn($column, $recipients)->get();
+			$users  = $model::whereIn($column, $recipients)->get();
 		}
 
 		// If no users were found, create instances on the run
 		if ($users->isEmpty()) {
 			$users = new Collection;
 			foreach ($recipients as $recipient) {
-				$users[] = new User([$column => $recipient]);
+				$users[] = new $model([$column => $recipient]);
 			}
 		}
 
