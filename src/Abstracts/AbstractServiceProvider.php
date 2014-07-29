@@ -56,6 +56,7 @@ abstract class AbstractServiceProvider extends ServiceProvider
 
 			// Compute bindings
 			$model    = $repository->getModel();
+			$model    = class_basename($model);
 			$model    = Str::snake($model);
 			$bindings = array_map('strtolower', array(
 				$model,
@@ -79,6 +80,8 @@ abstract class AbstractServiceProvider extends ServiceProvider
 		foreach ($observers as $observer) {
 			$instance = sprintf('%s\Observers\%sObserver', $this->namespace, $observer);
 			$instance = $this->app->make($instance);
+
+			$observer = class_exists($observer) ? $observer : sprintf('%s\Models\%s', $this->namespace, $observer);
 			$observer::observe($instance);
 		}
 	}
