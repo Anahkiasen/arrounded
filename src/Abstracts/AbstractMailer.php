@@ -14,6 +14,13 @@ use Swift_RfcComplianceException;
 abstract class AbstractMailer
 {
 	/**
+	 * Whether mails should be queued or sent
+	 *
+	 * @type bool
+	 */
+	protected $queue = true;
+
+	/**
 	 * The mailer instance
 	 *
 	 * @var Mailer
@@ -115,6 +122,14 @@ abstract class AbstractMailer
 	}
 
 	/**
+	 * @param boolean $queue
+	 */
+	public function setQueue($queue)
+	{
+		$this->queue = $queue;
+	}
+
+	/**
 	 * Change the core databag
 	 *
 	 * @param array $databag
@@ -151,11 +166,12 @@ abstract class AbstractMailer
 	 */
 	public function send()
 	{
-		$view = '_emails.'.$this->template;
+		$view   = '_emails.'.$this->template;
+		$method = $this->queue ? 'queue' : 'send';
 
 		foreach ($this->recipients as $recipient) {
 			$data = $this->gatherData($recipient);
-			$this->mailer->send($view, $data, function (Message $message) use ($recipient) {
+			$this->mailer->$method($view, $data, function (Message $message) use ($recipient) {
 				try {
 					$message = $message->to($recipient->email);
 				} catch (Swift_RfcComplianceException $exception) {
@@ -200,9 +216,9 @@ abstract class AbstractMailer
 			$recipients = [$recipients];
 		}
 
-		$users      = new Collection($recipients);
-		$column     = 'email';
-		$model      = Config::get('auth.model');
+		$users  = new Collection($recipients);
+		$column = 'email';
+		$model  = Config::get('auth.model');
 
 		if (empty($recipients)) {
 			return $users;
