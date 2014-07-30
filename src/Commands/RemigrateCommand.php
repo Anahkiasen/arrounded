@@ -53,21 +53,6 @@ class RemigrateCommand extends Command
 	}
 
 	/**
-	 * @param $migrations
-	 *
-	 * @return array|string
-	 */
-	protected function hashFolder($migrations)
-	{
-		$migrations = app_path($migrations.'/*');
-		$migrations = $this->laravel['files']->glob($migrations);
-		$migrations = array_map('filemtime', $migrations);
-		$migrations = md5(implode($migrations));
-
-		return $migrations;
-	}
-
-	/**
 	 * Remigrate the database and back it up
 	 */
 	protected function remigrate()
@@ -96,6 +81,21 @@ class RemigrateCommand extends Command
 		$hash       = $migrations.$seeds.'.sql';
 
 		return $hash;
+	}
+
+	/**
+	 * @param $migrations
+	 *
+	 * @return array|string
+	 */
+	protected function hashFolder($migrations)
+	{
+		$migrations = app_path($migrations.'/*');
+		$migrations = $this->laravel['files']->glob($migrations);
+		$migrations = array_map('file_get_contents', $migrations);
+		$migrations = md5(implode($migrations));
+
+		return $migrations;
 	}
 }
 
