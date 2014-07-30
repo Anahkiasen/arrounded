@@ -144,19 +144,18 @@ abstract class AbstractMailer
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Apply modifiers to an email
+	 * Get modifiers to apply to an email
 	 *
-	 * @param  Message $message
-	 *
-	 * @return Message
+	 * @return array
 	 */
-	protected function alterMessage(Message $message)
+	public function getParameters()
 	{
+		$parameters = [];
 		if ($this->subject) {
-			$message->subject($this->subject);
+			$parameters['subject'] = $this->subject;
 		}
 
-		return $message;
+		return $parameters;
 	}
 
 	/**
@@ -166,18 +165,26 @@ abstract class AbstractMailer
 	 */
 	public function send()
 	{
-		$view   = '_emails.'.$this->template;
-		$method = $this->queue ? 'queue' : 'send';
+		$view       = '_emails.'.$this->template;
+		$method     = $this->queue ? 'queue' : 'send';
+		$parameters = $this->getParameters();
 
 		foreach ($this->recipients as $recipient) {
 			$data = $this->gatherData($recipient);
-			$this->mailer->$method($view, $data, function (Message $message) use ($recipient) {
+			$this->mailer->$method($view, $data, function (Message $message) use ($recipient, $parameters) {
+
+				// Catch errors
 				try {
 					$message = $message->to($recipient->email);
 				} catch (Swift_RfcComplianceException $exception) {
 				}
 
-				return $this->alterMessage($message);
+				// Set additional parameters
+				foreach ($parameters as $key => $value) {
+					$message->$key($value);
+				}
+
+				return $message;
 			});
 		}
 
