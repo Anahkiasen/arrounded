@@ -40,6 +40,16 @@ trait ReflectionModel
 	}
 
 	/**
+	 * Get the model's base class
+	 *
+	 * @return string
+	 */
+	public function getClassBasename()
+	{
+		return class_basename($this->getClass());
+	}
+
+	/**
 	 * Get the controller matching the model
 	 *
 	 * @return string
