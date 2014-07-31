@@ -219,7 +219,7 @@ abstract class AbstractMailer
 	 */
 	protected function translateRecipients($recipients)
 	{
-		if (!array_key_exists(0, $recipients)) {
+		if (!is_array($recipients) || !array_key_exists(0, $recipients)) {
 			$recipients = [$recipients];
 		}
 
