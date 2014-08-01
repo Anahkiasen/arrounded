@@ -68,7 +68,7 @@ class RemigrateCommand extends Command
 		$this->migrateThirdParty();
 
 		// Call seeders
-		$this->call('db:seed', ['-vvv' => null]);
+		$this->seedDatabase();
 	}
 
 	/**
@@ -96,6 +96,14 @@ class RemigrateCommand extends Command
 		$migrations = md5(implode($migrations));
 
 		return $migrations;
+	}
+
+	/**
+	 * Call the various seeders
+	 */
+	protected function seedDatabase()
+	{
+		$this->call('db:seed', ['-vvv' => null]);
 	}
 }
 
