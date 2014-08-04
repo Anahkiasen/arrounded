@@ -2,7 +2,8 @@
 namespace Arrounded\Abstracts;
 
 use Arrounded\Validation\ValidationException;
-use Illuminate\Validation\Factory as Validator;
+use Illuminate\Validation\Factory;
+use Illuminate\Validation\Validator;
 
 /**
  * A class representation of a form
@@ -12,7 +13,7 @@ abstract class AbstractForm
 	/**
 	 * The validator factory
 	 *
-	 * @var Validator
+	 * @var Factory
 	 */
 	protected $validator;
 
@@ -33,10 +34,10 @@ abstract class AbstractForm
 	/**
 	 * Build a new form
 	 *
-	 * @param Validator $validator
-	 * @param Request   $request
+	 * @param Factory $validator
+	 * @param Request $request
 	 */
-	public function __construct(Validator $validator)
+	public function __construct(Factory $validator)
 	{
 		$this->validator = $validator;
 	}
@@ -53,6 +54,9 @@ abstract class AbstractForm
 	{
 		// Get attributes and create Validator
 		$validation = $this->validator->make($attributes, $this->getRules());
+
+		// Alter rules and stuff
+		$validation = $this->alterValidation($validation);
 
 		if ($validation->fails()) {
 			throw new ValidationException('Validation failed', $validation->getMessageBag());
@@ -77,6 +81,22 @@ abstract class AbstractForm
 		$this->model = $model;
 
 		return $this->validate($attributes, $callback);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	//////////////////////////////// RULES ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Alter the rules on the Validator, etc
+	 *
+	 * @param Validator $validation
+	 *
+	 * @return Validator
+	 */
+	protected function alterValidation(Validator $validation)
+	{
+		return $validation;
 	}
 
 	/**
