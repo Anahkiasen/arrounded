@@ -171,7 +171,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	 * @param AbstractModel|integer $item
 	 * @param array                 $attributes
 	 *
-	 * @return Book
+	 * @return AbstractModel
 	 */
 	public function update($item, array $attributes = array())
 	{
@@ -180,6 +180,17 @@ abstract class AbstractRepository implements RepositoryInterface
 		$item = $this->onUpdate($item, $attributes);
 
 		return $item;
+	}
+
+	/**
+	 * Finds an item, including trashed ones
+	 *
+	 * @param  $item
+	 * @return AbstractModel
+	 */
+	public function findInTrash($item)
+	{
+		return $this->items->withTrashed()->findOrFail($item);
 	}
 
 	/**
