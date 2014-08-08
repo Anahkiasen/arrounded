@@ -2,6 +2,7 @@
 namespace Arrounded\Commands;
 
 use Illuminate\Console\Command;
+use Schema;
 
 class RemigrateCommand extends Command
 {
