@@ -2,7 +2,6 @@
 namespace Arrounded\Commands;
 
 use Illuminate\Console\Command;
-use Schema;
 
 class RemigrateCommand extends Command
 {
@@ -27,7 +26,7 @@ class RemigrateCommand extends Command
 	 */
 	public function fire()
 	{
-		if (!class_exists('Schickling\Backup\BackupServiceProvider')) {
+		if (!$this->hasBackups()) {
 			return $this->remigrate();
 		}
 
@@ -41,7 +40,9 @@ class RemigrateCommand extends Command
 
 		// Else remigrate database and back it up
 		$this->remigrate();
-		$this->call('db:backup', ['filename' => $dump]);
+		if ($this->hasBackups()) {
+			$this->call('db:backup', ['filename' => $dump]);
+		}
 	}
 
 	/**
@@ -104,6 +105,17 @@ class RemigrateCommand extends Command
 	protected function seedDatabase()
 	{
 		$this->call('db:seed', ['-vvv' => null]);
+	}
+
+	/**
+	 * @return boolean
+	 */
+	protected function hasBackups()
+	{
+		$provider = 'Schickling\Backup\BackupServiceProvider';
+		$provided = $this->laravel->getLoadedProviders();
+
+		return class_exists($provider) and array_get($provided, $provider);
 	}
 }
 
