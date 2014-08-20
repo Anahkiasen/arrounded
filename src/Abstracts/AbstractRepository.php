@@ -113,7 +113,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * Find a particular item
 	 *
-	 * @param  integer $item
+	 * @param array|string|integer $item
 	 *
 	 * @return AbstractModel
 	 */
@@ -125,8 +125,10 @@ abstract class AbstractRepository implements RepositoryInterface
 		}
 
 		// Find by slug
-		if (!preg_match('/^[0-9]+$/', $item) and $this->getModelInstance()->hasTrait('Sluggable')) {
-			return $this->items()->whereSlug($item)->firstOrFail();
+		if (!is_array($item)) {
+			if (!preg_match('/^[0-9]+$/', $item) and $this->getModelInstance()->hasTrait('Sluggable')) {
+				return $this->items()->whereSlug($item)->firstOrFail();
+			}
 		}
 
 		return $this->items()->findOrFail($item);
