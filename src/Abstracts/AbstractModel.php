@@ -32,6 +32,24 @@ abstract class AbstractModel extends Model
 		return new Collection($models);
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	/////////////////////////////// SCOPES ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Order entries in a specific order
+	 *
+	 * @param Query  $query
+	 * @param string $field
+	 * @param array  $values
+	 *
+	 * @return Query
+	 */
+	public function scopeOrderByField($query, $field, $values)
+	{
+		return $query->orderByRaw($field.' <> '.implode(', '.$field.' <> ', $values));
+	}
+
 	/**
 	 * Get all models belonging to other models
 	 *
@@ -46,6 +64,10 @@ abstract class AbstractModel extends Model
 
 		return $query->whereIn($relation.'_id', $ids);
 	}
+
+	//////////////////////////////////////////////////////////////////////
+	/////////////////////////// SERIALIZATION ////////////////////////////
+	//////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Cast the model to an array
