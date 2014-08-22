@@ -47,7 +47,7 @@ abstract class AbstractModel extends Model
 	 */
 	public function scopeOrderByField($query, $field, $values)
 	{
-		return $query->orderByRaw($field.' <> '.implode(', '.$field.' <> ', $values));
+		return $query->orderByRaw($field.' <> "'.implode('", '.$field.' <> "', $values).'"');
 	}
 
 	/**
