@@ -126,7 +126,7 @@ abstract class AbstractRepository implements RepositoryInterface
 
 		// Find by slug
 		if (!is_array($item)) {
-			if (!preg_match('/^[0-9]+$/', $item) and $this->getModelInstance()->hasTrait('Sluggable')) {
+			if (!preg_match('/^[0-9]+$/', (string) $item) and $this->getModelInstance()->hasTrait('Sluggable')) {
 				return $this->items()->whereSlug($item)->firstOrFail();
 			}
 		}
