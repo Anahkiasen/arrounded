@@ -75,8 +75,6 @@ class Crawler
 
 				// Replace models with their IDs
 				if ($model = $this->extractModelFromUrl($uri)) {
-					$model = $this->namespace.$model;
-
 					foreach ($model::take(1)->get() as $model) {
 						$model    = $this->replacePatternByKey($uri, $model->id);
 						$routes[] = $this->app['url']->to($model);
@@ -85,6 +83,7 @@ class Crawler
 				}
 
 				$routes[] = $this->app['url']->to($uri);
+
 			}
 
 			return $routes;
@@ -208,6 +207,7 @@ class Crawler
 		preg_match('/\{([^}]+)\}/', $url, $pattern);
 		$model = Str::studly(array_get($pattern, 1));
 		$model = Str::singular($model);
+		$model = $this->namespace.$model;
 
 		if (class_exists($model) and is_subclass_of($model, 'Illuminate\Database\Eloquent\Model')) {
 			return $model;
