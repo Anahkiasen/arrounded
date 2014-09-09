@@ -16,6 +16,8 @@ class ArroundedServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
+		$this->package('arrounded', 'arrounded', __DIR__.'/..');
+
 		$this->app->singleton('Arrounded\Assets\AssetsHandler', function ($app) {
 			return new AssetsHandler($app['config']['assets']);
 		});

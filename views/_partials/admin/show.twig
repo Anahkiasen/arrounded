@@ -1,0 +1,28 @@
+<dl class="dl-horizontal">
+	{% for name, value in item.getPresentableAttributes(additional) %}
+		{% set value = attribute(item.getPresenter(), name) %}
+		<dt>{{ name|title|replace('_', ' ') }}</dt>
+		<dd>
+			{% if value is iterable %}
+				<ul>
+					{% for key, subvalue in value %}
+						<li>
+							<strong>{{ key|title }}:</strong>
+							{% if subvalue is iterable %}
+								<ul>
+									{% for subkey, subsubvalue in subvalue %}
+										<li><strong>{{ subkey|title }}:</strong> {{ subsubvalue }}</li>
+									{% endfor %}
+								</ul>
+							{% else %}
+								{{ subvalue }}
+							{% endif %}
+						</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				{{ value }}
+			{% endif %}
+		</dd>
+	{% endfor %}
+</dl>

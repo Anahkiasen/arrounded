@@ -1,0 +1,14 @@
+{% extends '_layouts.admin' %}
+{% set title = item.name ? item.name : (item.id ? "#{item.getTable()|title} ##{item.id}" : "New #{Str.singular(item.getTable())}") %}
+
+{% block content %}
+	{{ Former.open_for_files().route(route, item.id).populate(item)|raw }}
+		{% block form %}{% endblock %}
+
+		<hr>
+		{{ Former.actions(
+			Former.lg_primary_submit(item.id ? 'Edit' : 'Create'),
+			Former.lg_default_link('Cancel', URL.route("admin.#{item.getTable()}.index"))
+		)|raw }}
+	{{ Former.close()|raw }}
+{% endblock %}
