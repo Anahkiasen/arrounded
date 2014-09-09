@@ -6,7 +6,7 @@
 {% endif %}
 
 {% if items.count() > 20 %}
-	{% include '_partials.admin.pagination' %}
+	{% include 'arrounded::_partials.admin.pagination' %}
 {% endif %}
 
 <table class="table table-striped table-hover admin__table">
@@ -31,7 +31,7 @@
 			<tr data-id="{{ item.id }}">
 				<td>{{ item.id }}</td>
 				{% for field, name in fields %}
-					<td>{{ attribute(item.getPresenter(), field) }}</td>
+					<td>{{ attribute(item.getPresenter(), field)|raw }}</td>
 				{% endfor %}
 				{% block columns %}{% endblock %}
 
