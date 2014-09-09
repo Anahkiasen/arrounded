@@ -20,6 +20,23 @@ abstract class AbstractModel extends Model
 		'integer' => ['id'],
 	);
 
+	//////////////////////////////////////////////////////////////////////
+	/////////////////////////// RELATED CLASSES //////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get tge application's namespace
+	 *
+	 * @return string
+	 */
+	public function getNamespace()
+	{
+		$path = get_class($this);
+		$path = explode('\\', $path);
+
+		return head($path);
+	}
+
 	/**
 	 * Create a new Eloquent Collection instance.
 	 *
@@ -29,7 +46,47 @@ abstract class AbstractModel extends Model
 	 */
 	public function newCollection(array $models = array())
 	{
+		$custom = $this->getNamespace().'\Collection';
+		if (class_exists($custom)) {
+			return new $custom($models);
+		}
+
 		return new Collection($models);
+	}
+
+	/**
+	 * Get the Presenter for this model
+	 *
+	 * @return AbstractPresenter
+	 */
+	public function getPresenter()
+	{
+		// Find custom presenter
+		$presenter = $this->getNamespace().'\Presenters\\'.get_class($this).'Presenter';
+		if (class_exists($presenter)) {
+			return new $presenter($this);
+		}
+
+		return new AbstractPresenter($this);
+	}
+
+	/**
+	 * Get the transformer instance.
+	 *
+	 * @return mixed
+	 */
+	public function getTransformer()
+	{
+		// Find custom transformer
+		$current     = $this->getClassBasename();
+		$transformer = sprintf($this->getNamespace().'\Transformers\%sTransformer', $current);
+
+		// Else default to a default transformer
+		if (!class_exists($transformer)) {
+			$transformer = $this->getNamespace().'\Transformers\DefaultTransformer';
+		}
+
+		return new $transformer;
 	}
 
 	//////////////////////////////////////////////////////////////////////
