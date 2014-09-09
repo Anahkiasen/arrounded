@@ -26,7 +26,7 @@ trait ReflectionModel
 	}
 
 	////////////////////////////////////////////////////////////////////
-	//////////////////////////////// ROUTES ////////////////////////////
+	////////////////////////////// REFLECTION //////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	/**
@@ -48,6 +48,23 @@ trait ReflectionModel
 	{
 		return class_basename($this->getClass());
 	}
+
+	/**
+	 * Get tge application's namespace
+	 *
+	 * @return string
+	 */
+	public function getNamespace()
+	{
+		$path = get_class($this);
+		$path = explode('\\', $path);
+
+		return array_get($path, 0);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// ROUTING ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Get the controller matching the model
@@ -105,6 +122,51 @@ trait ReflectionModel
 		$title = $title ?: $this->name;
 
 		return HTML::linkAction($this->getAction($action), $title, $this->slug, $attributes);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	/////////////////////////// RELATED CLASSES //////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the presenter instance
+	 *
+	 * @return AbstractPresenter
+	 */
+	public function getPresenter()
+	{
+		return $this->getRelatedClass('Presenter', $this->getNamespace().'\Presenters\DefaultPresenter');
+	}
+
+	/**
+	 * Get the transformer instance.
+	 *
+	 * @return AbstractTransformer
+	 */
+	public function getTransformer()
+	{
+		return $this->getRelatedClass('Transformer', $this->getNamespace().'\Transformers\DefaultTransformer');
+	}
+
+	/**
+	 * Get a related class
+	 *
+	 * @param string $type
+	 * @param string $default
+	 *
+	 * @return string
+	 */
+	public function getRelatedClass($type, $default)
+	{
+		// Find custom class
+		$transformer = sprintf('%s\%ss\%s%s', $this->getNamespace(), $type, $this->getClassBasename(), $type);
+
+		// Else default to a default class
+		if (!class_exists($transformer)) {
+			$transformer = $default;
+		}
+
+		return new $transformer($this);
 	}
 
 	/**
