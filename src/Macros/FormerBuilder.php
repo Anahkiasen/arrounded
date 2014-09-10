@@ -95,7 +95,7 @@ class FormerBuilder
 			$entries = $relation->lists('id');
 		}
 
-		return $this->former->multiselect($name)->options($options, $entries);
+		return $this->former->multiselect(class_basename($name))->options($options, $entries);
 	}
 
 	////////////////////////////////////////////////////////////////////
