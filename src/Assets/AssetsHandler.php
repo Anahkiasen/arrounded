@@ -61,8 +61,13 @@ class AssetsHandler
 		// Expand paths
 		$assets     = [];
 		$collection = array_get($this->collections, $collection.'.'.$type, []);
+		$negated    = array_filter($collection, function ($asset) {
+			return substr($asset, 0, 1) == '!';
+		});
+		$collection = array_diff($collection, $negated);
+
 		foreach ($collection as $asset) {
-			$asset  = $this->expandPaths($asset);
+			$asset  = $this->expandPaths($asset, $negated);
 			$assets = array_merge($assets, $asset);
 		}
 
@@ -100,7 +105,7 @@ class AssetsHandler
 	 *
 	 * @return array
 	 */
-	protected function expandPaths($asset)
+	protected function expandPaths($asset, array $negated = array())
 	{
 		// If no wildcard, return as is
 		if (strpos($asset, '*') === false) {
@@ -121,6 +126,10 @@ class AssetsHandler
 		$asset = array_map(function ($asset) {
 			return str_replace(public_path(), null, $asset);
 		}, $asset);
+
+		$asset = array_filter($asset, function ($file) use ($negated) {
+			return !in_array('!'.$file, $negated);
+		});
 
 		// Sort assets
 		sort($asset);
