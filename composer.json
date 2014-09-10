@@ -14,7 +14,6 @@
 	},
 	"require-dev": {
 		"illuminate/container": "~4.2.0",
-		"codesleeve/stapler": "1.0.*",
 		"illuminate/auth": "~4.2.0",
 		"illuminate/database": "~4.2.0",
 		"patchwork/utf8": "dev-master"

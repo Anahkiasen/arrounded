@@ -35,7 +35,6 @@ abstract class AbstractForm
 	 * Build a new form
 	 *
 	 * @param Factory $validator
-	 * @param Request $request
 	 */
 	public function __construct(Factory $validator)
 	{
@@ -46,8 +45,9 @@ abstract class AbstractForm
 	 * Validate an array of attributes
 	 *
 	 * @param array    $attributes
-	 * @param Callable $callback
+	 * @param callable $callback
 	 *
+	 * @throws ValidationException
 	 * @return mixed
 	 */
 	public function validate(array $attributes = array(), callable $callback = null)
@@ -72,8 +72,9 @@ abstract class AbstractForm
 	 *
 	 * @param AbstractModel $model
 	 * @param array         $attributes
-	 * @param Callabke      $callback
+	 * @param callable      $callback
 	 *
+	 * @throws ValidationException
 	 * @return void
 	 */
 	public function validateFor(AbstractModel $model, array $attributes = array(), callable $callback = null)
