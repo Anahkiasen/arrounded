@@ -70,7 +70,7 @@ class FormerBuilder
 		$users   = $this->getEntries($model);
 		$foreign = $foreign ?: strtolower($model).'_id';
 
-		return $this->former->select($foreign, $model)->options($users);
+		return $this->former->select($foreign, class_basename($model))->options($users);
 	}
 
 	/**
