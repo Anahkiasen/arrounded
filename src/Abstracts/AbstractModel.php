@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 abstract class AbstractModel extends Model
 {
 	use ReflectionModel;
-	use Serializable;
 
 	/**
 	 * The attributes to cast on serialization
