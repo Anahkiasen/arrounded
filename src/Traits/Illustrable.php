@@ -1,8 +1,6 @@
 <?php
 namespace Arrounded\Traits;
 
-use Arrounded\Models\Upload;
-
 /**
  * A model with uploads
  */
@@ -66,7 +64,8 @@ trait Illustrable
 	public function thumbnail($size = null)
 	{
 		if (!$this->thumb) {
-			return Upload::getPlaceholder($this->getClassBasename());
+			$upload = $this->getNamespace().'\Models\Upload';
+			return $upload::getPlaceholder($this->getClassBasename());
 		}
 
 		return $this->thumb->render($size);
