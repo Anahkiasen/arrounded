@@ -55,14 +55,7 @@ abstract class AbstractApiController extends Controller
 	public function update($item = null)
 	{
 		$attributes = Input::all();
-
-		// Cancel if invalid input
-		if ($errors = $item->getErrors()) {
-			$exception = sprintf('Dingo\Api\Exception\%sResourceFailedException', ucfirst(__FUNCTION__));
-			$message   = sprintf('Could not %s %s', __FUNCTION__, $item->getClass());
-
-			throw new $exception($message, $errors);
-		}
+		$item       = $this->repository->update($item, $attributes);
 
 		return $this->show($item->id);
 	}
