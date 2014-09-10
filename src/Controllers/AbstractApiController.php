@@ -55,7 +55,6 @@ abstract class AbstractApiController extends Controller
 	public function update($item = null)
 	{
 		$attributes = Input::all();
-		$item       = $this->repository->validate($attributes, $item);
 
 		// Cancel if invalid input
 		if ($errors = $item->getErrors()) {
