@@ -137,7 +137,7 @@ class AbstractPresenter extends Presenter
 			return;
 		}
 
-		$name = $model->name;
+		$name = method_exists($model, 'getPresenter') ? $model->getPresenter()->name : $model->name;
 		$name = $name ?: $model->getTable().' '.$model->id;
 
 		// Return straigt name if no route
