@@ -50,11 +50,13 @@
 		</tr>
 	{% endfor %}
 	</tbody>
-	<tfoot>
-	<tr>
-		<td colspan="50">
-			{{ HTML.linkRoute("#{resource}.create", 'Add an entry', {}, {class: 'btn btn-block btn-primary btn-lg'})|raw }}
-		</td>
-	</tr>
-	</tfoot>
+	{% if not hide_footer %}
+		<tfoot>
+		<tr>
+			<td colspan="50">
+				{{ HTML.linkRoute("#{resource}.create", 'Add an entry', {}, {class: 'btn btn-block btn-primary btn-lg'})|raw }}
+			</td>
+		</tr>
+		</tfoot>
+	{% endif %}
 </table>
