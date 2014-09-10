@@ -59,7 +59,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	 */
 	public function eagerLoad($relations)
 	{
-		$this->items->with($relations);
+		$this->items = $this->items->with($relations);
 
 		return $this;
 	}
