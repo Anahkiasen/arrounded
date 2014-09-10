@@ -27,7 +27,7 @@ trait Illustrable
 	 */
 	public function file()
 	{
-		return $this->morphOne(Upload::class, 'illustrable')->orderBy('file_file_name', 'ASC');
+		return $this->morphOne($this->getUploadClass(), 'illustrable')->orderBy('file_file_name', 'ASC');
 	}
 
 	/**
@@ -37,7 +37,7 @@ trait Illustrable
 	 */
 	public function files()
 	{
-		return $this->morphMany(Upload::class, 'illustrable')->orderBy('file_file_name', 'ASC');
+		return $this->morphMany($this->getUploadClass(), 'illustrable')->orderBy('file_file_name', 'ASC');
 	}
 
 	/**
@@ -47,7 +47,7 @@ trait Illustrable
 	 */
 	public function thumb()
 	{
-		return $this->morphOne(Upload::class, 'illustrable')->whereImages();
+		return $this->morphOne($this->getUploadClass(), 'illustrable')->whereImages();
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -64,10 +64,21 @@ trait Illustrable
 	public function thumbnail($size = null)
 	{
 		if (!$this->thumb) {
-			$upload = $this->getNamespace().'\Models\Upload';
+			$upload = $this->getUploadClass();
+
 			return $upload::getPlaceholder($this->getClassBasename());
 		}
 
 		return $this->thumb->render($size);
+	}
+
+	/**
+	 * Get the correct upload class
+	 *
+	 * @return string
+	 */
+	protected function getUploadClass()
+	{
+		return $this->getNamespace().'\Models\Upload';
 	}
 }
