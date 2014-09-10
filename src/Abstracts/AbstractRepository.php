@@ -167,6 +167,18 @@ abstract class AbstractRepository implements RepositoryInterface
 			? $this->find($item)->fill($attributes)
 			: $this->items->newInstance($attributes);
 	}
+	
+	/**
+	 * Get the first model matching attributes or create it
+	 *
+	 * @param array $attributes
+	 *
+	 * @return \Illuminate\Database\Eloquent\Model
+	 */
+	public function firstOrCreate(array $attributes = array())
+	{
+		return $this->items()->firstOrCreate($attributes);
+	}
 
 	/**
 	 * Create an entry from an array of attributes
