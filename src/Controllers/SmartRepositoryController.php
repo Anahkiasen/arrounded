@@ -114,13 +114,6 @@ abstract class SmartRepositoryController extends AbstractSmartController
 		// Execute hooks
 		$this->onUpdate($input, $item);
 
-		// Validation
-		if ($item->hasTrait('SelfValidating')) {
-			if (!$item->fill($input)->isValid()) {
-				return $this->redirectFailedValidation($item->getErrors());
-			}
-		}
-
 		// Update attributes
 		$item = $this->repository->update($item, $input);
 
