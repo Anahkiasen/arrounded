@@ -4,12 +4,10 @@ namespace Arrounded\Controllers;
 use Arrounded\Abstracts\AbstractRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Contracts\ArrayableInterface;
 use Illuminate\Support\Str;
-use Response;
 
 abstract class AbstractApiController extends Controller
 {
@@ -28,6 +26,61 @@ abstract class AbstractApiController extends Controller
 	public function __construct(AbstractRepository $repository)
 	{
 		$this->repository = $repository;
+	}
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+		return $this->repository->getPaginated();
+	}
+
+	/**
+	 * Create a new resource
+	 *
+	 * @return Response
+	 */
+	public function store()
+	{
+		return $this->update();
+	}
+
+	/**
+	 * Update an existing resource
+	 *
+	 * @param integer $item
+	 *
+	 * @return Response
+	 */
+	public function update($item = null)
+	{
+		$attributes = Input::all();
+		$item       = $this->repository->validate($attributes, $item);
+
+		// Cancel if invalid input
+		if ($errors = $item->getErrors()) {
+			$exception = sprintf('Dingo\Api\Exception\%sResourceFailedException', ucfirst(__FUNCTION__));
+			$message   = sprintf('Could not %s %s', __FUNCTION__, $item->getClass());
+
+			throw new $exception($message, $errors);
+		}
+
+		return $this->show($item->id);
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int $item
+	 *
+	 * @return Response
+	 */
+	public function show($item)
+	{
+		return $this->repository->find($item);
 	}
 
 	/**
