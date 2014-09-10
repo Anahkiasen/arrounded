@@ -198,7 +198,10 @@ abstract class Upload extends AbstractModel implements StaplerableInterface
 	/**
 	 * Get the placeholder image
 	 */
-	abstract public static function getPlaceholder($type = null);
+	public static function getPlaceholder($type = null)
+	{
+		return;
+	}
 
 	/**
 	 * Get the available thumbnail sizes
