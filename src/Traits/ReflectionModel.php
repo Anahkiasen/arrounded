@@ -30,6 +30,16 @@ trait ReflectionModel
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Get the object's identifier
+	 *
+	 * @return string|integer
+	 */
+	public function getIdentifier()
+	{
+		return $this->slug ?: $this->id;
+	}
+
+	/**
 	 * Get the model's class
 	 *
 	 * @return string
@@ -106,7 +116,7 @@ trait ReflectionModel
 	 */
 	public function getPath($action, $api = false)
 	{
-		return URL::action($this->getAction($action, $api), $this->slug);
+		return URL::action($this->getAction($action, $api), $this->getIdentifier());
 	}
 
 	/**
@@ -121,7 +131,7 @@ trait ReflectionModel
 	{
 		$title = $title ?: $this->name;
 
-		return HTML::linkAction($this->getAction($action), $title, $this->slug, $attributes);
+		return HTML::linkAction($this->getAction($action), $title, $this->getIdentifier(), $attributes);
 	}
 
 	//////////////////////////////////////////////////////////////////////
