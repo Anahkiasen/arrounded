@@ -1,189 +1,209 @@
 <?php
 namespace Arrounded\Models;
 
+use Arrounded\Abstracts\AbstractModel;
+use Codesleeve\Stapler\Attachment;
+use Codesleeve\Stapler\AttachmentConfig;
+use Codesleeve\Stapler\ORM\EloquentTrait;
+use Codesleeve\Stapler\ORM\StaplerableInterface;
+use Config;
 use HTML;
-use Illuminage;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-use Symfony\Component\HttpFoundation\File\File;
-use URL;
+use Str;
 
-class Upload extends Model
+/**
+ * @property Attachment file
+ */
+abstract class Upload extends AbstractModel implements StaplerableInterface
 {
+	use EloquentTrait;
+
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $fillable = array(
-		'name',
+	protected $fillable = [
+		'file',
+		'type',
 		'illustrable_id',
-		'illustrable_type',
-	);
+		'illustrable_type'
+	];
 
 	/**
-	 * Get the parent
-	 *
-	 * @return Model
+	 * @var array
+	 */
+	protected $appends = ['thumbs'];
+
+	/**
+	 * @param array $attributes
+	 */
+	public function __construct(array $attributes = array())
+	{
+		$this->hasAttachedFile('file');
+
+		parent::__construct($attributes);
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\MorphTo
 	 */
 	public function illustrable()
 	{
 		return $this->morphTo();
 	}
 
-	////////////////////////////////////////////////////////////////////
-	///////////////////////////// ATTRIBUTES ///////////////////////////
-	////////////////////////////////////////////////////////////////////
-
 	/**
-	 * Get the full path to the image
+	 * Call a method on the Attachment object
 	 *
-	 * @return string
+	 * @param string $method
+	 * @param array  $parameters
+	 *
+	 * @return mixed
 	 */
-	public function getPathAttribute()
+	public function __call($method, $parameters)
 	{
-		$path = public_path($this->getPath());
-		if (!$this->name or !$this->pathIsValid($path)) {
-			return;
+		if (method_exists($this->file, $method)) {
+			return call_user_func_array([$this->file, $method], $parameters);
 		}
 
-		return $path;
+		return parent::__call($method, $parameters);
 	}
 
-	/**
-	 * Get the full URL to the file
-	 *
-	 * @return string
-	 */
-	public function getUrlAttribute()
-	{
-		if ($this->isRemote()) {
-			return $this->name;
-		}
-
-		return URL::asset($this->getPath());
-	}
+	//////////////////////////////////////////////////////////////////////
+	/////////////////////////////// SCOPES ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get a thumbnail of the picture
+	 * Scope to only the illustrables of an instance
 	 *
-	 * @param  integer $width
-	 * @param  integer $height
-	 *
-	 * @return Illuminage\Image
-	 */
-	public function thumb($width, $height = null)
-	{
-		if (!$this->isValid()) {
-			return null;
-		}
-
-		$height = $height ?: $width;
-		$path   = URL::asset('');
-		$path   = str_replace($path, null, $this->url);
-
-		return Illuminage::thumb($path, $width, $height);
-	}
-
-	/**
-	 * Outputs the Upload as an image tag
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return HTML::image($this->getPath());
-	}
-
-	////////////////////////////////////////////////////////////////////
-	///////////////////////////// QUERY SCOPES /////////////////////////
-	////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get only images by a specific owner
-	 *
-	 * @param  Query   $query
-	 * @param  string  $model
-	 * @param  integer $key
+	 * @param               $query
+	 * @param AbstractModel $model
 	 *
 	 * @return Query
 	 */
-	public function scopeOwner($query, $model, $key)
+	public function scopeIllustrable($query, AbstractModel $model)
 	{
-		return $query
-			->where('illustrable_type', strtolower($model))
-			->where('illustrable_id', $key);
+		return $query->where(array(
+			'illustrable_type' => $model->getClass(),
+			'illustrable_id'   => $model->id,
+		));
 	}
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
+	/**
+	 * Scope to only images
+	 *
+	 * @param Query $query
+	 *
+	 * @return Query
+	 */
+	public function scopeWhereImages($query)
+	{
+		return $query->where('file_content_type', 'LIKE', 'image/%');
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	/////////////////////////////// THUMBS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Check if the image at the given path is valid
+	 * Check if the bound file is an image
 	 *
-	 * @param string $path
-	 *
-	 * @return boolean
+	 * @return bool
 	 */
-	public function pathIsValid($path)
+	public function isImage()
 	{
-		// Check if the file exists
-		if (!file_exists($path)) {
-			return false;
+		return Str::startsWith($this->file_content_type, 'image/');
+	}
+
+	/**
+	 * Get an array of the image's thumbs
+	 *
+	 * @return array
+	 */
+	public function getThumbsAttribute()
+	{
+		if (!$this->isImage()) {
+			return [];
 		}
 
-		// Check if the file is an image
-		$file  = new File($path);
-		$valid = $file->isFile() && in_array($file->guessExtension(), array('jpeg', 'png', 'gif', 'bmp'));
+		$config = $this->getImageConfig();
+		$this->file->setConfig($config);
 
-		return $valid;
+		// Fetch path to thumbnails
+		$thumbs = [];
+		foreach ($this->file->styles as $style) {
+			$thumbs[$style->name] = $this->file->url($style->name);
+		}
+
+		return $thumbs;
 	}
 
 	/**
-	 * Check if the bound image is valid
-	 *
-	 * @return boolean
+	 * Reprocess the styles. This will create all the styles for the current image.
 	 */
-	public function isValid()
+	public function reprocessStyles()
 	{
-		return $this->isRemote() || $this->path;
+		// styles only apply to images
+		if (!$this->isImage()) {
+			return;
+		}
+
+		$config = $this->getImageConfig();
+		$this->file->setConfig($config);
+
+		// Reprocess thumbnails
+		$this->file->reprocess();
 	}
 
 	/**
-	 * Check if an image is remote
-	 *
-	 * @return boolean
+	 * @return AttachmentConfig
 	 */
-	public function isRemote()
+	protected function getImageConfig()
 	{
-		return Str::contains($this->name, 'http');
+		// Get base configuration
+		$config = Config::get('laravel-stapler::stapler');
+		$config += Config::get('laravel-stapler::filesystem');
+
+		// Set styles
+		$config['styles']             = $this->getThumbnailsConfiguration();
+		$config['styles']['original'] = '';
+
+		return new AttachmentConfig('file', $config);
 	}
 
 	/**
-	 * Get the folder to the image
+	 * Renders the image at a certain size
+	 *
+	 * @param string $size
+	 * @param        array [optional] $attributes
 	 *
 	 * @return string
 	 */
-	public function getPath()
+	public function render($size = null, $attributes = null)
 	{
-		if ($this->isRemote()) {
-			return $this->name;
+		$url  = $this->file->url($size);
+		$path = $this->file->path();
+		if (!file_exists($path)) {
+			$type = $this->illustrable->getClassBasename();
+			$url  = static::getPlaceholder($type);
 		}
 
-		// If this is a generic image, return its path
-		$generic = 'app/img/'.$this->name;
-		if (!$this->illustrable_id) {
-			return $generic;
-		}
-
-		// If this is a model upload return that
-		$folder = Str::plural($this->illustrable_type);
-		$folder = 'uploads/'.strtolower($folder).'/'.$this->name;
-		if (file_exists(public_path($folder))) {
-			return $folder;
-		}
-
-		return $generic;
+		return HTML::image($url, null, $attributes);
 	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the placeholder image
+	 */
+	abstract public static function getPlaceholder($type = null);
+
+	/**
+	 * Get the available thumbnail sizes
+	 *
+	 * @return array
+	 */
+	abstract protected function getThumbnailsConfiguration();
 }

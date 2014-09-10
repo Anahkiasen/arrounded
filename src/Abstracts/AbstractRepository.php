@@ -24,6 +24,8 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * Get the core model instance
 	 *
+	 * @param array $attributes
+	 *
 	 * @return Model
 	 */
 	public function getModelInstance()
@@ -84,6 +86,8 @@ abstract class AbstractRepository implements RepositoryInterface
 	 * Change the core items
 	 *
 	 * @param AbstractModel $items
+	 *
+	 * @return $this
 	 */
 	public function setItems($items)
 	{
@@ -109,6 +113,20 @@ abstract class AbstractRepository implements RepositoryInterface
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// SINGLE ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Return a new instance
+	 *
+	 * @param array $attributes
+	 *
+	 * @return AbstractModel
+	 */
+	public function instance(array $attributes = array())
+	{
+		$model = $this->getModel();
+
+		return new $model($attributes);
+	}
 
 	/**
 	 * Find a particular item

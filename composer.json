@@ -8,15 +8,19 @@
 		}
 	],
 	"require": {
-		"php": ">=5.4.0",
+		"php": ">=5.5.0",
 		"illuminate/support": "~4.2.0",
 		"mockery/mockery": "dev-master"
 	},
 	"require-dev": {
 		"illuminate/container": "~4.2.0",
+		"codesleeve/stapler": "1.0.*",
 		"illuminate/auth": "~4.2.0",
 		"illuminate/database": "~4.2.0",
 		"patchwork/utf8": "dev-master"
+	},
+	"suggest": {
+		"codesleeve/laravel-stapler": "Uploads and thumbnails managment"
 	},
 	"autoload": {
 		"psr-4": {

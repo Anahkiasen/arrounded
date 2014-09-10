@@ -1,16 +1,19 @@
 <?php
-namespace Arrounded\Repositories;
+namespace Weholi\Repositories;
 
+use Arrounded\Abstracts\AbstractModel;
 use Arrounded\Abstracts\AbstractRepository;
 use Arrounded\Models\Upload;
 
+/**
+ * Repository for the Upload resource
+ */
 class UploadsRepository extends AbstractRepository
 {
 	/**
 	 * Build a new UploadsRepository
 	 *
-	 * @param Container $app
-	 * @param Image     $items
+	 * @param Upload $items
 	 */
 	public function __construct(Upload $items)
 	{
@@ -18,72 +21,115 @@ class UploadsRepository extends AbstractRepository
 	}
 
 	/**
-	 * Gather uploads for a model
+	 * Bind an unique image type to a model
 	 *
-	 * @param AbstractModel $model
-	 * @param array         $images
-	 * @param array         $attributes
+	 * @param Upload[]|Upload $uploads
+	 * @param AbstractModel   $model
+	 * @param array           $attributes
 	 *
-	 * @return AbstractModel
+	 * @return Upload
 	 */
-	public function bindUploads($model, $images, array $attributes = array())
+	public function bindUniqueTo($uploads, AbstractModel $model, $attributes = array())
 	{
-		// Get the name of the folder to send the image to
-		$images = is_array($images) ? $images : array($images);
-		$folder = $this->getModelFolder($model);
+		$model->files()->where($attributes)->delete();
 
-		$images = array_filter($images);
-		foreach ($images as $image) {
-
-			// Create database entry
-			$path     = $this->getImageFilepath($image, $folder);
-			$basename = basename($path);
-
-			$model->attachImage($basename, $attributes);
-
-			// Upload the file
-			$image->move(dirname($path), $basename);
-		}
-
-		return $model;
+		return $this->bindTo($uploads, $model, $attributes);
 	}
 
 	/**
-	 * Get the final path to use for an image
+	 * Bind an Upload to a model
 	 *
-	 * @param  SplFileInfo $image
+	 * @param Upload[]|Upload $uploads
+	 * @param AbstractModel   $model
+	 * @param array           $attributes
 	 *
-	 * @return string
+	 * @return Upload
 	 */
-	public function getImageFilepath(SplFileInfo $image, $folder)
+	public function bindTo($uploads, AbstractModel $model, $attributes = array())
 	{
-		$path = public_path('uploads/'.$folder);
+		// Recursive call
+		if (is_array($uploads)) {
+			foreach ($uploads as $upload) {
+				$this->bindTo($upload, $model, $attributes);
+			}
 
-		// Get the original extension
-		if ($pathinfo = $image->getExtension()) {
-			$extension = $pathinfo;
-		} elseif (method_exists($image, 'getClientOriginalExtension')) {
-			$extension = $image->getClientOriginalExtension();
-		} else {
-			$extension = 'jpg';
+			return $uploads;
 		}
 
-		// Concat name
-		$name = md5($image->getBasename()).'.'.$extension;
-		$name = $path.'/'.$name;
+		// If we passed a string or UploadedFile, etc.
+		if (!$uploads instanceof Upload) {
+			$attributes = array_merge($attributes, ['file' => $uploads]);
+			$uploads    = $this->instance($attributes);
+		}
 
-		return $name;
+		// Bind to model and save
+		$uploads->illustrable_type = $model->getClass();
+		$uploads->illustrable_id   = $model->getKey();
+		$uploads->type             = array_get($attributes, 'type', null);
+
+		$uploads->save();
+
+		// Recompile thumbnails
+		$uploads->reprocessStyles();
+
+		return $uploads;
 	}
 
 	/**
-	 * Get the folder to use for a model
+	 * Bind temporary images to a model
 	 *
 	 * @param AbstractModel $model
+	 * @param integer       $hash
+	 * @param  string|null  $type
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public function getModelFolder($model)
+	public function bindTemporaryTo(AbstractModel $model, $hash, $type = null)
 	{
-		return $model->getTable();
+		$query = $this->getTemporaryQuery($hash, $type);
+
+		$images = $query->update(array(
+			'illustrable_type' => $model->getClass(),
+			'illustrable_id'   => $model->id,
+		));
+
+		return $images;
+	}
+
+	/**
+	 * Find all uploads for a temporary hash.
+	 *
+	 * @param string      $hash
+	 * @param string|null $type
+	 *
+	 * @return \Illuminate\Support\Collection
+	 */
+	public function findForTemporary($hash, $type = null)
+	{
+		return $this->getTemporaryQuery($hash, $type)->get();
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @param string $hash
+	 * @param string $type
+	 *
+	 * @return mixed
+	 */
+	protected function getTemporaryQuery($hash, $type)
+	{
+		$query = $this->items()->where(array(
+			'illustrable_type' => 'Arrounded\Models\Temporary',
+			'illustrable_id'   => $hash
+		));
+
+		if ($type) {
+			$query->where('type', $type);
+		}
+
+		return $query;
 	}
 }
