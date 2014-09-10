@@ -9,16 +9,14 @@
 	],
 	"require": {
 		"php": ">=5.4.0",
-		"illuminate/support": "~4",
+		"illuminate/support": "~4.2.0",
 		"mockery/mockery": "dev-master"
 	},
 	"require-dev": {
-		"illuminate/container": "~4",
-		"illuminate/database": "~4",
+		"illuminate/container": "~4.2.0",
+		"illuminate/auth": "~4.2.0",
+		"illuminate/database": "~4.2.0",
 		"patchwork/utf8": "dev-master"
-	},
-	"suggest": {
-		"kevinlebrun/colors.php": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {

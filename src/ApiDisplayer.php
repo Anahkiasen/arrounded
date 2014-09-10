@@ -29,8 +29,7 @@ class ApiDisplayer extends RoutesCommand
 	/**
 	 * Get the route information for a given route.
 	 *
-	 * @param  string $name
-	 * @param  Route  $route
+	 * @param  Route $route
 	 *
 	 * @return array
 	 */
