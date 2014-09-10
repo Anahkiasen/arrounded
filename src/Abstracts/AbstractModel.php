@@ -72,21 +72,4 @@ abstract class AbstractModel extends Model
 
 		return $query->whereIn($relation.'_id', $ids);
 	}
-
-	//////////////////////////////////////////////////////////////////////
-	/////////////////////////// SERIALIZATION ////////////////////////////
-	//////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Cast the model to an array
-	 *
-	 * @return array
-	 */
-	public function toArray()
-	{
-		$model = parent::toArray();
-		$model = $this->serializeEntity($model);
-
-		return $model;
-	}
 }
