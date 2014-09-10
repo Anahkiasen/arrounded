@@ -1,5 +1,5 @@
 <?php
-namespace Weholi\Repositories;
+namespace Arrounded\Repositories;
 
 use Arrounded\Abstracts\AbstractModel;
 use Arrounded\Abstracts\AbstractRepository;

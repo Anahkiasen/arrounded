@@ -167,7 +167,7 @@ abstract class AbstractRepository implements RepositoryInterface
 			? $this->find($item)->fill($attributes)
 			: $this->items->newInstance($attributes);
 	}
-	
+
 	/**
 	 * Get the first model matching attributes or create it
 	 *
