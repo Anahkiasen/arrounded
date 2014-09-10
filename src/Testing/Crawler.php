@@ -83,7 +83,6 @@ class Crawler
 				}
 
 				$routes[] = $this->app['url']->to($uri);
-
 			}
 
 			return $routes;

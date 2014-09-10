@@ -119,4 +119,3 @@ class RemigrateCommand extends Command
 		return class_exists($provider) and array_get($provided, $provider);
 	}
 }
-

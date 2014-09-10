@@ -188,6 +188,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	 * Finds an item, including trashed ones
 	 *
 	 * @param  $item
+	 *
 	 * @return AbstractModel
 	 */
 	public function findInTrash($item)

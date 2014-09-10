@@ -50,7 +50,7 @@ abstract class AbstractForm
 	 *
 	 * @return mixed
 	 */
-	public function validate(array $attributes = array(), Callable $callback = null)
+	public function validate(array $attributes = array(), callable $callback = null)
 	{
 		// Get attributes and create Validator
 		$validation = $this->validator->make($attributes, $this->getRules());
@@ -76,7 +76,7 @@ abstract class AbstractForm
 	 *
 	 * @return void
 	 */
-	public function validateFor(AbstractModel $model, array $attributes = array(), Callable $callback = null)
+	public function validateFor(AbstractModel $model, array $attributes = array(), callable $callback = null)
 	{
 		$this->model = $model;
 

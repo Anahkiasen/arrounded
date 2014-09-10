@@ -2,9 +2,6 @@
 namespace Arrounded\Assets;
 
 use Illuminate\Console\Command;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use RegexIterator;
 use Symfony\Component\Finder\Finder;
 
 class AssetsReplacer extends Command
@@ -44,12 +41,12 @@ class AssetsReplacer extends Command
 	 */
 	public function fire()
 	{
-		$views     = app_path('views');
+		$views = app_path('views');
 
 		// List all views
 		$finder = new Finder($views);
-		$views = $finder->files()->in($views)->getIterator();
-		$views = array_keys(iterator_to_array($views));
+		$views  = $finder->files()->in($views)->getIterator();
+		$views  = array_keys(iterator_to_array($views));
 
 		// Replace in views
 		foreach ($views as $view) {

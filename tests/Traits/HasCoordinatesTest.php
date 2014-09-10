@@ -30,7 +30,7 @@ class HasCoordinatesTest extends ArroundedTestCase
 		$coordinates = $this->getCoordinates(array(
 			'622 Treat Avenue',
 			'San Fransisco',
-			'94110'
+			'94110',
 		));
 
 		$this->assertEquals(array(

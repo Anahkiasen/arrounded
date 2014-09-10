@@ -166,7 +166,7 @@ class AbstractPresenter extends Presenter
 	 *
 	 * @param string $relation
 	 *
-	 * @return string
+	 * @return string|integer
 	 */
 	protected function collectionCount($relation)
 	{

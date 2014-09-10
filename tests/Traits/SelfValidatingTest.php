@@ -60,10 +60,10 @@ class SelfValidatingTest extends ArroundedTestCase
 
 	public function testCanReplaceSelfReferencesInRules()
 	{
-		$validModel = new DummyValidatingModel(array(
+		$validModel         = new DummyValidatingModel(array(
 			'name' => 'foobar',
 		));
-		$validModel->id = 1;
+		$validModel->id     = 1;
 		$validModel::$rules = ['name' => 'unique:users,{id}'];
 
 		$this->assertEquals(['name' => 'unique:users,1'], $validModel->getRules());

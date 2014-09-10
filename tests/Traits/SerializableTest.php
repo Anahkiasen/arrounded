@@ -27,7 +27,7 @@ class SerializableTest extends ArroundedTestCase
 
 	public function testCanCastAttributes()
 	{
-		$this->model->id = '1';
+		$this->model->id     = '1';
 		$this->model->status = 'true';
 
 		$model = $this->model->serializeEntity();
