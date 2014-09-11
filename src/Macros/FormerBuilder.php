@@ -61,28 +61,33 @@ class FormerBuilder
 	/**
 	 * A select for a model belonging to another
 	 *
-	 * @param string $model
+	 * @param string      $model
+	 * @param string|null $foreign
+	 * @param string|null $label
 	 *
 	 * @return Select
 	 */
-	public function belongsTo($model, $foreign = null)
+	public function belongsTo($model, $foreign = null, $label = null)
 	{
 		$users   = $this->getEntries($model);
 		$foreign = $foreign ?: strtolower($model).'_id';
+		$label   = $label ?: class_basename($model);
 
-		return $this->former->select($foreign, class_basename($model))->options($users);
+		return $this->former->select($foreign, $label)->options($users);
 	}
 
 	/**
 	 * Generates a field group to pick one or more related models
 	 *
-	 * @param string $name
+	 * @param string      $name
+	 * @param string|null $label
 	 *
 	 * @return Group
 	 */
-	public function manyToMany($name)
+	public function manyToMany($name, $label = null)
 	{
 		$options = $this->getEntries($name, 'id');
+		$label = $label ?: class_basename($name);
 
 		// Format entries
 		foreach ($options as $key => $value) {
@@ -95,7 +100,7 @@ class FormerBuilder
 			$entries = $relation->lists('id');
 		}
 
-		return $this->former->multiselect(class_basename($name))->options($options, $entries);
+		return $this->former->multiselect($label)->options($options, $entries);
 	}
 
 	////////////////////////////////////////////////////////////////////
