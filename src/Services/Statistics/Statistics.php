@@ -45,6 +45,18 @@ abstract class AbstractStatistics
 	abstract public function compute();
 
 	/**
+	 * Return the computed graphs
+	 *
+	 * @return array
+	 */
+	public function get()
+	{
+		$this->compute();
+
+		return $this->graphs;
+	}
+
+	/**
 	 * Render the graphs out
 	 *
 	 * @return string
