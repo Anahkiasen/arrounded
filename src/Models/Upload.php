@@ -184,7 +184,7 @@ abstract class Upload extends AbstractModel implements StaplerableInterface
 		$url  = $this->file->url($size);
 		$path = $this->file->path();
 		if (!file_exists($path)) {
-			$type = $this->illustrable->getClassBasename();
+			$type = $this->illustrable ? $this->illustrable->getClassBasename() : null;
 			$url  = static::getPlaceholder($type);
 		}
 
