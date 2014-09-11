@@ -1,5 +1,5 @@
 <?php
-namespace Arrounded\Assets;
+namespace Arrounded\Services\Statistics;
 
 use Arrounded\Collection;
 
