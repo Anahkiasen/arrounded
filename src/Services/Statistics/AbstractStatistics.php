@@ -11,6 +11,13 @@ abstract class AbstractStatistics
 	protected $graphs = [];
 
 	/**
+	 * The default chart options
+	 *
+	 * @type array
+	 */
+	protected $options = [];
+
+	/**
 	 * @type AbstractModel
 	 */
 	protected $model;
@@ -35,7 +42,10 @@ abstract class AbstractStatistics
 		$keys   = array_keys($data);
 		$values = array_values($data);
 
-		$this->graphs[$name] = Chart::make($type, $name)->setLabels($keys)->setDatasets([$values]);
+		$this->graphs[$name] = Chart::make($type, $name)
+		                            ->setOptions($this->options)
+		                            ->setLabels($keys)
+		                            ->setDatasets([$values]);
 	}
 
 	/**
