@@ -182,6 +182,33 @@ class AbstractPresenter extends Presenter
 	}
 
 	/**
+	 * Present tags
+	 *
+	 * @param array|string $tags
+	 *
+	 * @return string
+	 */
+	protected function tags($tags)
+	{
+		// Fetch from model
+		if (!is_array($tags)) {
+			$tags = $this->getFromModel($tags);
+			$tags = $tags instanceof Collection ? $tags->toArray() : $tags;
+		}
+
+		// Simplify and sort
+		$tags = array_values($tags);
+		sort($tags);
+
+		// Wrap in badges
+		foreach ($tags as &$tag) {
+			$tag = '<span class="badge">' .$tag. '</span>';
+		}
+
+		return implode(' ', $tags);
+	}
+
+	/**
 	 * Format a boolean value
 	 *
 	 * @param boolean $boolean
