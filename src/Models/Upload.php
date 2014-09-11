@@ -6,9 +6,9 @@ use Codesleeve\Stapler\Attachment;
 use Codesleeve\Stapler\AttachmentConfig;
 use Codesleeve\Stapler\ORM\EloquentTrait;
 use Codesleeve\Stapler\ORM\StaplerableInterface;
-use Config;
-use HTML;
-use Str;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\HTML;
+use Illuminate\Support\Str;
 
 /**
  * @property Attachment file
@@ -53,6 +53,14 @@ abstract class Upload extends AbstractModel implements StaplerableInterface
 	}
 
 	/**
+	 * @return boolean
+	 */
+	public function hasIllustrable()
+	{
+		return strpos($this->illustrable_type, 'Temporary') === false && $this->illustrable;
+	}
+
+	/**
 	 * Call a method on the Attachment object
 	 *
 	 * @param string $method
@@ -68,9 +76,9 @@ abstract class Upload extends AbstractModel implements StaplerableInterface
 
 		return parent::__call($method, $parameters);
 	}
-
 	//////////////////////////////////////////////////////////////////////
 	/////////////////////////////// SCOPES ///////////////////////////////
+
 	//////////////////////////////////////////////////////////////////////
 
 	/**
@@ -100,9 +108,9 @@ abstract class Upload extends AbstractModel implements StaplerableInterface
 	{
 		return $query->where('file_content_type', 'LIKE', 'image/%');
 	}
-
 	//////////////////////////////////////////////////////////////////////
 	/////////////////////////////// THUMBS ///////////////////////////////
+
 	//////////////////////////////////////////////////////////////////////
 
 	/**
@@ -184,15 +192,15 @@ abstract class Upload extends AbstractModel implements StaplerableInterface
 		$url  = $this->file->url($size);
 		$path = $this->file->path();
 		if (!file_exists($path)) {
-			$type = $this->illustrable ? $this->illustrable->getClassBasename() : null;
+			$type = $this->hasIllustrable() ? $this->illustrable->getClassBasename() : null;
 			$url  = static::getPlaceholder($type);
 		}
 
 		return HTML::image($url, null, $attributes);
 	}
-
 	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// HELPERS ///////////////////////////////
+
 	//////////////////////////////////////////////////////////////////////
 
 	/**
