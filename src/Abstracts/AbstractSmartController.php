@@ -2,9 +2,9 @@
 namespace Arrounded\Abstracts;
 
 use Arrounded\Controllers\ReflectionController;
-use Controller;
-use Redirect;
-use View;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\View;
 
 /**
  * A base controller with smart capabilities
@@ -33,7 +33,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return View
+	 * @return \Illuminate\View\View
 	 */
 	public function index()
 	{
@@ -43,7 +43,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Show the form for creating a new resource.
 	 *
-	 * @return View
+	 * @return \Illuminate\View\View
 	 */
 	public function create()
 	{
@@ -53,7 +53,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @return Redirect
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function store()
 	{
@@ -65,7 +65,7 @@ abstract class AbstractSmartController extends Controller
 	 *
 	 * @param  int $item
 	 *
-	 * @return View
+	 * @return \Illuminate\View\View
 	 */
 	public function show($item)
 	{
@@ -77,7 +77,7 @@ abstract class AbstractSmartController extends Controller
 	 *
 	 * @param  int $item
 	 *
-	 * @return View
+	 * @return \Illuminate\View\View
 	 */
 	public function edit($item)
 	{
@@ -89,7 +89,7 @@ abstract class AbstractSmartController extends Controller
 	 *
 	 * @param  int $item
 	 *
-	 * @return Redirect
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function update($item)
 	{
@@ -101,7 +101,7 @@ abstract class AbstractSmartController extends Controller
 	 *
 	 * @param  int $item
 	 *
-	 * @return Redirect
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function destroy($item)
 	{
@@ -144,7 +144,7 @@ abstract class AbstractSmartController extends Controller
 	 *
 	 * @param  array $data Additional data
 	 *
-	 * @return View
+	 * @return \Illuminate\View\View
 	 */
 	abstract protected function coreCreate($data = array());
 
@@ -163,7 +163,7 @@ abstract class AbstractSmartController extends Controller
 	 * @param  integer $item
 	 * @param  array   $data Additional data
 	 *
-	 * @return View
+	 * @return \Illuminate\View\View
 	 */
 	abstract protected function coreEdit($item, $data = array());
 
@@ -172,7 +172,7 @@ abstract class AbstractSmartController extends Controller
 	 *
 	 * @param  integer|null $item
 	 *
-	 * @return Redirect
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	abstract protected function coreUpdate($item = null);
 
@@ -181,7 +181,7 @@ abstract class AbstractSmartController extends Controller
 	 *
 	 * @param  integer $item
 	 *
-	 * @return Redirect
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	abstract protected function coreDestroy($item);
 
@@ -224,7 +224,7 @@ abstract class AbstractSmartController extends Controller
 	 * @param string $action
 	 * @param array  $parameters
 	 *
-	 * @return Redirect
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	protected function redirectHere($action, $parameters = array())
 	{
@@ -238,7 +238,7 @@ abstract class AbstractSmartController extends Controller
 	 *
 	 * @param Validator $validation
 	 *
-	 * @return Redirect
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	protected function redirectFailedValidation($validation)
 	{
@@ -263,7 +263,7 @@ abstract class AbstractSmartController extends Controller
 	 *
 	 * @param  string $route
 	 *
-	 * @return Redirect
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	protected function getRedirect($route)
 	{
@@ -276,7 +276,7 @@ abstract class AbstractSmartController extends Controller
 	 * @param  string $view
 	 * @param  array  $data
 	 *
-	 * @return View
+	 * @return \Illuminate\View\View
 	 */
 	protected function getView($view, $data = array())
 	{
