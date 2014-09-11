@@ -14,7 +14,7 @@ abstract class AbstractStatistics
 	/**
 	 * @type AbstractModel
 	 */
-	private $model;
+	protected $model;
 
 	/**
 	 * @param AbstractModel $user
