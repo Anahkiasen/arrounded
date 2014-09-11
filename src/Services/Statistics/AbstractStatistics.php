@@ -2,7 +2,6 @@
 namespace Arrounded\Services\Statistics;
 
 use Arrounded\Abstracts\AbstractModel;
-use Arrounded\Assets\Chart;
 
 abstract class AbstractStatistics
 {
@@ -40,7 +39,7 @@ abstract class AbstractStatistics
 	}
 
 	/**
-	 * @return array
+	 * @return void
 	 */
 	abstract public function compute();
 
