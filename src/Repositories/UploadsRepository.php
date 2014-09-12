@@ -122,7 +122,7 @@ class UploadsRepository extends AbstractRepository
 	protected function getTemporaryQuery($hash, $type)
 	{
 		$query = $this->items()->where(array(
-			'illustrable_type' => 'Arrounded\Models\Temporary',
+			'illustrable_type' => $this->getModelInstance()->getNamespace().'\Models\Temporary',
 			'illustrable_id'   => $hash
 		));
 
