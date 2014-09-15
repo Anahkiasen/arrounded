@@ -55,6 +55,18 @@ trait Illustrable
 	//////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Get the model's thumb or its parent
+	 *
+	 * @param string $parent
+	 *
+	 * @return Upload
+	 */
+	public function parentableThumb($parent)
+	{
+		return $this->thumb ?: $this->$parent->thumb;
+	}
+
+	/**
 	 * Renders the thumbnail of the model
 	 *
 	 * @param string|null $size
