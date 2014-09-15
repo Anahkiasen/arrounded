@@ -68,10 +68,28 @@ class Metadata
 		// Append attributes
 		foreach ($attributes as $name => $value) {
 			$twitter = array_get($twitterProperties, $name, $name);
-			$html .= sprintf('<meta name="twitter:%s" property="og:%s" content="%s">', $twitter, $name, $value).PHP_EOL;
+			$html .= $this->getWrapper($twitter, $name, $value).PHP_EOL;
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Get the correct HTML wrapper
+	 *
+	 * @param string $twitter
+	 * @param string $name
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	protected function getWrapper($twitter, $name, $value)
+	{
+		if (in_array($name, ['title', 'keywords', 'description'])) {
+			return sprintf('<meta name="%s" contents="%s">', $name, $value);
+		}
+
+		return sprintf('<meta name="twitter:%s" property="og:%s" content="%s">', $twitter, $name, $value);
 	}
 
 	/**
