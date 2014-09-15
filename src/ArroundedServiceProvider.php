@@ -2,6 +2,8 @@
 namespace Arrounded;
 
 use Arrounded\Assets\AssetsHandler;
+use Arrounded\Macros\HtmlBuilder;
+use Illuminate\Support\Facades\HTML;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -10,6 +12,13 @@ use Illuminate\Support\ServiceProvider;
 class ArroundedServiceProvider extends ServiceProvider
 {
 	/**
+	 * Indicates if loading of the provider is deferred.
+	 *
+	 * @var bool
+	 */
+	protected $defer = true;
+
+	/**
 	 * Register the service provider.
 	 *
 	 * @return void
@@ -17,7 +26,34 @@ class ArroundedServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->package('arrounded', 'arrounded', __DIR__.'/..');
+		$this->app->singleton('arrounded.meta', 'Arrounded\Services\Metadata');
 
+		$this->registerAssets();
+	}
+
+	/**
+	 * Bootstrap the application events.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		// This is needed to make sure the original HTML class
+		// doesn't replace Arrounded's
+		$this->app['html'];
+
+		$this->app->singleton('html', 'Arrounded\Macros\HtmlBuilder');
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// BINDINGS //////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Register the assets handler
+	 */
+	protected function registerAssets()
+	{
 		$this->app->singleton('Arrounded\Assets\AssetsHandler', function ($app) {
 			return new AssetsHandler($app['config']['assets']);
 		});
