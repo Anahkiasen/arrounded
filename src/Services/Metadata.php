@@ -1,6 +1,7 @@
 <?php
 namespace Arrounded\Services;
 
+use Illuminate\Container\Container;
 use Illuminate\Support\Facades\URL;
 
 /**
@@ -17,6 +18,19 @@ class Metadata
 	 * @type array
 	 */
 	protected $defaults = [];
+
+	/**
+	 * @type Container
+	 */
+	protected $app;
+
+	/**
+	 * @param Container $app
+	 */
+	public function __construct(Container $app)
+	{
+		$this->app = $app;
+	}
 
 	/**
 	 * @param string $project
@@ -49,15 +63,15 @@ class Metadata
 		$attributes = array_merge(array(
 			'card' => 'summary',
 			'site' => $this->project,
-			'url'  => URL::current(),
+			'url'  => $this->app['url']->current(),
 		), $this->defaults, $attributes);
 
 		// Format URLs if provided
 		$image = array_get($attributes, 'image');
-		if (!file_exists($image) or strpos($image, 'placeholder') !== false) {
+		if (!file_exists($this->app['path.public'].$image) or strpos($image, 'placeholder') !== false) {
 			$image = $this->getPlaceholderIllustration();
 		}
-		$attributes['image'] = URL::asset($image);
+		$attributes['image'] = $this->app['url']->asset($image);
 
 		// Get Twitter equivalents
 		$twitterProperties = array(
