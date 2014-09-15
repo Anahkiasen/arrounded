@@ -1,6 +1,8 @@
 <?php
 namespace Arrounded\Traits;
 
+use Illuminate\Support\Facades\HTML;
+
 /**
  * A model with uploads
  */
@@ -77,8 +79,9 @@ trait Illustrable
 	{
 		if (!$this->thumb) {
 			$upload = $this->getUploadClass();
+			$upload = $upload::getPlaceholder($this->getClassBasename());
 
-			return $upload::getPlaceholder($this->getClassBasename());
+			return HTML::image($upload);
 		}
 
 		return $this->thumb->render($size);
