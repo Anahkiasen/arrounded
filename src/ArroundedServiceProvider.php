@@ -12,13 +12,6 @@ use Illuminate\Support\ServiceProvider;
 class ArroundedServiceProvider extends ServiceProvider
 {
 	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = true;
-
-	/**
 	 * Register the service provider.
 	 *
 	 * @return void
@@ -43,6 +36,16 @@ class ArroundedServiceProvider extends ServiceProvider
 		$this->app['html'];
 
 		$this->app->singleton('html', 'Arrounded\Macros\HtmlBuilder');
+	}
+
+	/**
+	 * Get the services provided by the provider.
+	 *
+	 * @return array
+	 */
+	public function provides()
+	{
+		return array('html', 'arrounded.meta');
 	}
 
 	//////////////////////////////////////////////////////////////////////
