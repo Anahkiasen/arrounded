@@ -59,10 +59,11 @@ abstract class AbstractStatistics extends Collection
 	 *
 	 * @param string   $dataset
 	 * @param callable $callback
+	 * @param array    $keys
 	 *
 	 * @return array
 	 */
-	public function on($dataset, Closure $callback)
+	public function on($dataset, Closure $callback, $keys = array())
 	{
 		// Cache result
 		if (!isset($this->results[$dataset])) {
@@ -71,7 +72,7 @@ abstract class AbstractStatistics extends Collection
 
 		// Get and format results
 		$results = $callback(clone $this->results[$dataset]);
-		$results = $this->formatResults($results);
+		$results = $this->formatResults($results, $keys);
 
 		return $results;
 	}
@@ -137,6 +138,48 @@ abstract class AbstractStatistics extends Collection
 	abstract public function compute();
 
 	//////////////////////////////////////////////////////////////////////
+	///////////////////////////// FORMATTING /////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Fill the gaps in an array
+	 *
+	 * @param array  $results
+	 * @param string $keys
+	 *
+	 * @return array
+	 */
+	protected function fillGaps(array $results, $keys)
+	{
+		$filler = array_fill(0, sizeof($keys), 0);
+		$filler = array_combine($keys, $filler);
+
+		return array_merge($filler, $results);
+	}
+
+	/**
+	 * Format results to usable array
+	 *
+	 * @param string|array $method
+	 * @param array        $keys
+	 *
+	 * @return array
+	 */
+	protected function formatResults($method, $keys = array())
+	{
+		$result = is_string($method) ? $this->$method() : $method;
+		$result = $result instanceof Collection ? $result->toArray() : $result;
+
+		// Add keys
+		if ($keys) {
+			$keys   = array_intersect_key($keys, $result);
+			$result = array_combine($keys, $result);
+		}
+
+		return $result;
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// RENDERING /////////////////////////////
 	//////////////////////////////////////////////////////////////////////
 
@@ -148,18 +191,5 @@ abstract class AbstractStatistics extends Collection
 	public function render()
 	{
 		return implode(PHP_EOL, $this->getGraphs());
-	}
-
-	/**
-	 * @param string|array $method
-	 *
-	 * @return array
-	 */
-	protected function formatResults($method)
-	{
-		$result = is_string($method) ? $this->$method() : $method;
-		$result = $result instanceof Collection ? $result->toArray() : $result;
-
-		return $result;
 	}
 }
