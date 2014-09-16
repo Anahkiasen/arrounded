@@ -65,7 +65,7 @@ abstract class AbstractStatistics extends Collection
 	public function on($dataset, Closure $callback)
 	{
 		// Cache result
-		if (!$this->results[$dataset]) {
+		if (!isset($this->results[$dataset])) {
 			$this->results[$dataset] = $this->$dataset->all();
 		}
 
