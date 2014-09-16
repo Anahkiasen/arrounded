@@ -96,6 +96,18 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
 	}
 
 	/**
+	 * Get the distribution of an attribute
+	 *
+	 * @param string $attribute
+	 *
+	 * @return Collection
+	 */
+	public function distribution($attribute)
+	{
+		return $this->groupBy($attribute)->sortByKeys()->counts();
+	}
+
+	/**
 	 * Get the average of a Collection
 	 *
 	 * @return integer
