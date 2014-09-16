@@ -90,8 +90,7 @@ abstract class AbstractStatistics extends Collection
 	{
 		foreach ($compute as $type => $graphs) {
 			foreach ($graphs as $name => $method) {
-				$result = is_string($method) ? $this->$method() : $method;
-				$this->addGraph($name, $type, $result);
+				$this->addGraph($name, $type, $this->getResultFromMethodSignature($method));
 			}
 		}
 
@@ -117,5 +116,18 @@ abstract class AbstractStatistics extends Collection
 	public function render()
 	{
 		return implode(PHP_EOL, $this->getGraphs());
+	}
+
+	/**
+	 * @param string|array $method
+	 *
+	 * @return array
+	 */
+	protected function getResultFromMethodSignature($method)
+	{
+		$result = is_string($method) ? $this->$method() : $method;
+		$result = $result instanceof Collection ? $result->toArray() : $result;
+
+		return $result;
 	}
 }
