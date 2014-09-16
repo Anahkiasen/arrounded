@@ -90,7 +90,8 @@ abstract class AbstractStatistics extends Collection
 	{
 		foreach ($compute as $type => $graphs) {
 			foreach ($graphs as $name => $method) {
-				$this->addGraph($name, $type, $this->$method());
+				$result = is_string($method) ? $this->$method() : $method;
+				$this->addGraph($name, $type, $result);
 			}
 		}
 

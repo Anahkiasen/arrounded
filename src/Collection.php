@@ -1,6 +1,7 @@
 <?php
 namespace Arrounded;
 
+use Arrounded\Abstracts\AbstractModel;
 use Paginator;
 
 /**
@@ -89,6 +90,10 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
 		$self = clone $this;
 
 		foreach ($self->items as &$item) {
+			if ($item instanceof AbstractModel) {
+				$item = $item->get();
+			}
+
 			$item = sizeof($item);
 		}
 
