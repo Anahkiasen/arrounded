@@ -69,7 +69,11 @@ abstract class AbstractStatistics extends Collection
 			$this->results[$dataset] = $this->$dataset->all();
 		}
 
-		return $callback(clone $this->results[$dataset]);
+		// Get and format results
+		$results = $callback(clone $this->results[$dataset]);
+		$results = $this->formatResults($results);
+
+		return $results;
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -111,12 +115,14 @@ abstract class AbstractStatistics extends Collection
 	 * Compute from a passed array
 	 *
 	 * @param array $compute
+	 *
+	 * @return array
 	 */
 	protected function computeFrom(array $compute = array())
 	{
 		foreach ($compute as $type => $graphs) {
 			foreach ($graphs as $name => $method) {
-				$this->addGraph($name, $type, $this->getResultFromMethodSignature($method));
+				$this->addGraph($name, $type, $this->formatResults($method));
 			}
 		}
 
@@ -149,7 +155,7 @@ abstract class AbstractStatistics extends Collection
 	 *
 	 * @return array
 	 */
-	protected function getResultFromMethodSignature($method)
+	protected function formatResults($method)
 	{
 		$result = is_string($method) ? $this->$method() : $method;
 		$result = $result instanceof Collection ? $result->toArray() : $result;
