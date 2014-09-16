@@ -3,6 +3,7 @@ namespace Arrounded\Services\Statistics;
 
 use Arrounded\Abstracts\AbstractModel;
 use Arrounded\Collection;
+use Closure;
 
 /**
  * Computes and renders statistics based on datasets
@@ -22,6 +23,13 @@ abstract class AbstractStatistics extends Collection
 	 * @type array
 	 */
 	protected $options = [];
+
+	/**
+	 * Cached results of the datasets
+	 *
+	 * @type array
+	 */
+	protected $results = [];
 
 	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// DATASETS //////////////////////////////
@@ -44,6 +52,24 @@ abstract class AbstractStatistics extends Collection
 	public function __set($name, $value)
 	{
 		$this->items[$name] = $value;
+	}
+
+	/**
+	 * Execute a closure on a set of results
+	 *
+	 * @param string   $dataset
+	 * @param callable $callback
+	 *
+	 * @return array
+	 */
+	public function on($dataset, Closure $callback)
+	{
+		// Cache result
+		if (!$this->results[$dataset]) {
+			$this->results[$dataset] = $this->$dataset->all();
+		}
+
+		return $callback(clone $this->results[$dataset]);
 	}
 
 	//////////////////////////////////////////////////////////////////////
