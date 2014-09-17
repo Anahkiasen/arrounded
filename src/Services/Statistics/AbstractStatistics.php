@@ -67,7 +67,7 @@ abstract class AbstractStatistics extends Collection
 	{
 		// Cache result
 		if (!isset($this->results[$dataset])) {
-			$this->results[$dataset] = $this->$dataset->all();
+			$this->results[$dataset] = $this->$dataset->get();
 		}
 
 		// Get and format results
