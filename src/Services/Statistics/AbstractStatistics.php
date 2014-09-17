@@ -18,6 +18,11 @@ abstract class AbstractStatistics extends Collection
 	protected $graphs = [];
 
 	/**
+	 * @type array
+	 */
+	protected $labels = [];
+
+	/**
 	 * The default chart options
 	 *
 	 * @type array
@@ -110,6 +115,14 @@ abstract class AbstractStatistics extends Collection
 		$this->compute();
 
 		return $this->graphs;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getLabels()
+	{
+		return $this->labels;
 	}
 
 	/**
