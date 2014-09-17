@@ -38,7 +38,7 @@ class Chart
 	 *
 	 * @var array
 	 */
-	protected $colors = array('#21323D', '#584A5E', '#7D4F6D', '#9D9B7F', '#C7604C', '#D97041');
+	protected $colors = ['#16A085', '#2980B9', '#8E44AD', '#F1C40F', '#E67E22', '#C0392B', '#BDC3C7'];
 
 	/**
 	 * The various labels
@@ -157,7 +157,7 @@ class Chart
 	 */
 	public function setLabels(array $labels)
 	{
-		$this->labels = $labels;
+		$this->labels = $this->formatLabels($labels);
 
 		return $this;
 	}
@@ -190,6 +190,22 @@ class Chart
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Fill holes in labels
+	 *
+	 * @param array $labels
+	 *
+	 * @return array
+	 */
+	protected function formatLabels(array $labels)
+	{
+		foreach ($labels as &$label) {
+			$label = $label ?: 'N/A';
+		}
+
+		return $labels;
+	}
+
+	/**
 	 * Format datasets
 	 *
 	 * @param array|Collection $datasets
@@ -198,13 +214,16 @@ class Chart
 	 */
 	protected function formatDatasets($datasets)
 	{
-		$data = [];
+		$data     = [];
+		$datasets = is_array($datasets[0]) ? $datasets[0] : $datasets;
+
 		switch ($this->type) {
 
 			case 'Pie':
 			case 'Doughnut':
 				foreach ($datasets as $key => $value) {
 					$data[] = array(
+						'label' => array_get($this->labels, $key),
 						'value' => $value,
 						'color' => array_get($this->colors, $key),
 					);
