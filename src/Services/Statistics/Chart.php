@@ -215,12 +215,12 @@ class Chart
 	protected function formatDatasets($datasets)
 	{
 		$data     = [];
-		$datasets = is_array($datasets[0]) ? $datasets[0] : $datasets;
 
 		switch ($this->type) {
 
 			case 'Pie':
 			case 'Doughnut':
+				$datasets = is_array($datasets[0]) ? $datasets[0] : $datasets;
 				foreach ($datasets as $key => $value) {
 					$data[] = array(
 						'label' => array_get($this->labels, $key),
