@@ -2,6 +2,7 @@
 namespace Arrounded;
 
 use Arrounded\Abstracts\AbstractModel;
+use Illuminate\Database\Eloquent\Builder;
 use Paginator;
 
 /**
@@ -91,6 +92,8 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
 
 		foreach ($self->items as &$item) {
 			if ($item instanceof AbstractModel) {
+				$item = $item->get();
+			} elseif ($item instanceof Builder) {
 				$item = $item->get();
 			}
 
