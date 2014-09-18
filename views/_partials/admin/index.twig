@@ -45,7 +45,7 @@
 				<a href="{{ URL.route("#{resource}.edit", item.id) }}"><i class="glyphicon glyphicon-pencil"></i></a>
 			</td>
 			<td>
-				<a ng-click="controller.delete({{ item.id }})" data-action="delete" href="{{ URL.route("#{resource}.destroy", item.id) }}"><i class="glyphicon glyphicon-remove"></i></a>
+				<a ng-click="controller.delete({{ item.id }}, $event)" data-action="delete" href="{{ URL.route("#{resource}.destroy", item.id) }}"><i class="glyphicon glyphicon-remove"></i></a>
 			</td>
 		</tr>
 	{% endfor %}
