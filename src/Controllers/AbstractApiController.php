@@ -55,7 +55,7 @@ abstract class AbstractApiController extends Controller
 	public function update($item = null)
 	{
 		$attributes = Input::all();
-		$item       = $this->repository->update($item, $attributes);
+		$item       = $item ? $this->repository->update($item, $attributes) : $this->repository->create($attributes);
 
 		return $this->show($item->id);
 	}
