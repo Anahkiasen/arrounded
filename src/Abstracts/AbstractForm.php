@@ -53,7 +53,7 @@ abstract class AbstractForm
 	public function validate(array $attributes = array(), callable $callback = null)
 	{
 		// Get attributes and create Validator
-		$validation = $this->validator->make($attributes, $this->getRules());
+		$validation = $this->validator->make($attributes, $this->getRules($attributes));
 
 		// Alter rules and stuff
 		$validation = $this->alterValidation($validation);
@@ -103,9 +103,11 @@ abstract class AbstractForm
 	/**
 	 * Get the rules in use
 	 *
+	 * @param array $attributes
+	 *
 	 * @return array
 	 */
-	public function getRules()
+	public function getRules(array $attributes = array())
 	{
 		$rules = $this->rules;
 		if (!$this->model) {
