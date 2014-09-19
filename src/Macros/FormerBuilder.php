@@ -96,7 +96,7 @@ class FormerBuilder
 
 		// Fetch entries from model
 		$entries = array();
-		if ($relation = $this->former->getValue($name)) {
+		if ($relation = $this->former->getValue($label)) {
 			$entries = $relation->lists('id');
 		}
 
