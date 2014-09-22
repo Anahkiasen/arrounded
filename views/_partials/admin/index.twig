@@ -1,7 +1,7 @@
 {% set model = model|default(title|lower) %}
 {% set resource = "admin.#{model}" %}
 
-{% if Session.has('success') %}
+{% if Session.has('success') and not hide_footer %}
 	<p class="alert alert-success">The entry was successfully created/updated</p>
 {% endif %}
 
