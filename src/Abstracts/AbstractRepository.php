@@ -4,6 +4,7 @@ namespace Arrounded\Abstracts;
 use Arrounded\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
@@ -131,25 +132,25 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * Find a particular item
 	 *
-	 * @param array|string|integer $item
+	 * @param AbstractModel|array|string|integer $item
 	 *
 	 * @return AbstractModel
 	 */
 	public function find($item)
 	{
-		// If we have an instance already, return it
-		if ($item instanceof Model) {
-			return $item;
-		}
+		return $this->findFromQuery($this->items(), $item);
+	}
 
-		// Find by slug
-		if (!is_array($item)) {
-			if (!preg_match('/^[0-9]+$/', (string) $item) and $this->getModelInstance()->hasTrait('Sluggable')) {
-				return $this->items()->whereSlug($item)->firstOrFail();
-			}
-		}
-
-		return $this->items()->findOrFail($item);
+	/**
+	 * Search for a model in the trash.
+	 *
+	 * @param AbstractModel|array|string|integer $item
+	 *
+	 * @return AbstractModel
+	 */
+	public function findInTrash($item)
+	{
+		return $this->findFromQuery($this->items()->withTrashed(), $item);
 	}
 
 	/**
@@ -215,18 +216,6 @@ abstract class AbstractRepository implements RepositoryInterface
 	}
 
 	/**
-	 * Finds an item, including trashed ones
-	 *
-	 * @param  $item
-	 *
-	 * @return AbstractModel
-	 */
-	public function findInTrash($item)
-	{
-		return $this->items->withTrashed()->findOrFail($item);
-	}
-
-	/**
 	 * Delete an item
 	 *
 	 * @param AbstractModel|integer $item
@@ -236,8 +225,12 @@ abstract class AbstractRepository implements RepositoryInterface
 	 */
 	public function delete($item, $force = false)
 	{
-		$method = $force ? 'forceDelete' : 'delete';
-		$item   = $this->find($item);
+		// Check if the model soft deletes or not
+		$softDeletes = $this->getModelInstance()->hasTrait(SoftDeletingTrait::class);
+		$finder      = $softDeletes ? 'findInTrash' : 'find';
+		$method      = $force && $softDeletes ? 'forceDelete' : 'delete';
+
+		$item = $this->find($item);
 
 		return $item->$method();
 	}
@@ -289,5 +282,32 @@ abstract class AbstractRepository implements RepositoryInterface
 		$perPage = $perPage ?: $this->perPage;
 
 		return $this->items->paginate($perPage);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @param                              $query
+	 * @param integer|string|AbstractModel $item
+	 *
+	 * @return AbstractModel
+	 */
+	protected function findFromQuery($query, $item)
+	{
+		// If we have an instance already, return it
+		if ($item instanceof Model) {
+			return $item;
+		}
+
+		// Find by slug
+		if (!is_array($item)) {
+			if (!preg_match('/^[0-9]+$/', (string) $item) and $this->getModelInstance()->hasTrait('Sluggable')) {
+				return $query->whereSlug($item)->firstOrFail();
+			}
+		}
+
+		return $query->findOrFail($item);
 	}
 }
