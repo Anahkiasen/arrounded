@@ -217,6 +217,6 @@ class AbstractPresenter extends Presenter
 	 */
 	protected function boolean($boolean)
 	{
-		return $boolean ? 'Yes' : 'No';
+		return $this->getFromModel($boolean) ? 'Yes' : 'No';
 	}
 }

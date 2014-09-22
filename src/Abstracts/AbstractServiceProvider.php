@@ -64,8 +64,9 @@ abstract class AbstractServiceProvider extends ServiceProvider
 			));
 
 			// Register with router
+			$repository = get_class($repository);
 			foreach ($bindings as $binding) {
-				$this->app['router']->bind($binding, get_class($repository).'@find');
+				$this->app['router']->bind($binding, $repository.'@find');
 			}
 		}
 	}
