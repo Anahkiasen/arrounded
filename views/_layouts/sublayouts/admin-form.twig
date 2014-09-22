@@ -2,6 +2,10 @@
 {% set title = item.name ? item.name : (item.id ? "#{item.getTable()|title} ##{item.id}" : "New #{Str.singular(item.getTable())}") %}
 
 {% block content %}
+	{% if Session.has('success') %}
+		<p class="alert alert-success">The entry was successfully created/updated</p>
+	{% endif %}
+
 	{{ Former.open_for_files().route(route, item.id).populate(item)|raw }}
 		{% block form %}{% endblock %}
 
