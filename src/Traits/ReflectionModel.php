@@ -179,6 +179,20 @@ trait ReflectionModel
 		return new $transformer($this);
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	/////////////////////////////// TRAITS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Whether the model soft deletes or not
+	 *
+	 * @return boolean
+	 */
+	public function softDeletes()
+	{
+		return $this->hasTrait('Illuminate\Database\Eloquent\SoftDeletingTrait');
+	}
+
 	/**
 	 * Check if the model uses a trait
 	 *
@@ -190,29 +204,8 @@ trait ReflectionModel
 	{
 		// Try both given name and fully qualified name
 		$qualified = 'Arrounded\Traits\\'.$trait;
-		$traits    = $this->classUsesDeep($this);
+		$traits    = class_uses_recursive($this);
 
 		return in_array($trait, $traits) || in_array($qualified, $traits);
-	}
-
-	/**
-	 * Get all traits used by a class and its parents
-	 *
-	 * @param string|object $class
-	 * @param boolean       $autoload
-	 *
-	 * @return array
-	 */
-	protected function classUsesDeep($class, $autoload = true)
-	{
-		$traits = [];
-		do {
-			$traits = array_merge(class_uses($class, $autoload), $traits);
-		} while ($class = get_parent_class($class));
-		foreach ($traits as $trait => $same) {
-			$traits = array_merge(class_uses($trait, $autoload), $traits);
-		}
-
-		return array_unique($traits);
 	}
 }

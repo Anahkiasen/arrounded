@@ -150,6 +150,11 @@ abstract class AbstractRepository implements RepositoryInterface
 	 */
 	public function findInTrash($item)
 	{
+		// Cancel if model doesn't soft-delete
+		if (!$this->getModelInstance()->softDeletes()) {
+			return $this->find($item);
+		}
+
 		return $this->findFromQuery($this->items()->withTrashed(), $item);
 	}
 
