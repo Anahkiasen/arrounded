@@ -12,7 +12,9 @@
 <table class="table table-striped table-hover admin__table">
 	<thead>
 	<tr>
-		<th>#</th>
+		{% if attribute(items|first, 'id') %}
+			<th>#</th>
+		{% endif %}
 		{% for field, name in fields %}
 			<th>{{ name }}</th>
 		{% endfor %}
@@ -29,7 +31,9 @@
 	<tbody>
 	{% for item in items %}
 		<tr data-id="{{ item.id }}">
-			<td>{{ item.id }}</td>
+			{% if item.id %}
+				<td>{{ item.id }}</td>
+			{% endif %}
 			{% for field, name in fields %}
 				<td>{{ (attribute(item, 'getPresenter') is defined ? attribute(item.getPresenter(), field) : attribute(item, field))|raw }}</td>
 			{% endfor %}
