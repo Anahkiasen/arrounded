@@ -7,7 +7,7 @@
 
 		<hr>
 		{{ Former.actions(
-			Former.lg_primary_submit(item.id ? 'Edit' : 'Create'),
+			Former.lg_primary_submit('Save'),
 			Former.lg_default_link('Cancel', URL.route("admin.#{item.getTable()}.index"))
 		)|raw }}
 	{{ Former.close()|raw }}
