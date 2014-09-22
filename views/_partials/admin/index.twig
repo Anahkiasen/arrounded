@@ -31,7 +31,7 @@
 		<tr data-id="{{ item.id }}">
 			<td>{{ item.id }}</td>
 			{% for field, name in fields %}
-				<td>{{ attribute(item.getPresenter(), field)|raw }}</td>
+				<td>{{ (attribute(item, 'getPresenter') is defined ? attribute(item.getPresenter(), field) : attribute(item, field))|raw }}</td>
 			{% endfor %}
 			{% block columns %}{% endblock %}
 
