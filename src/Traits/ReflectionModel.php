@@ -204,7 +204,7 @@ trait ReflectionModel
 	{
 		// Try both given name and fully qualified name
 		$qualified = 'Arrounded\Traits\\'.$trait;
-		$traits    = class_uses_recursive($this);
+		$traits    = class_uses_recursive($this->getClass());
 
 		return in_array($trait, $traits) || in_array($qualified, $traits);
 	}

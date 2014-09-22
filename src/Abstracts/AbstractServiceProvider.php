@@ -43,6 +43,9 @@ abstract class AbstractServiceProvider extends ServiceProvider
 	 */
 	protected function bootRouteBindings()
 	{
+		// Compute finding method
+		$method = $this->app['request']->is('admin/*') ? 'findInTrash' : 'find';
+
 		// List all repositories
 		$repositories = app_path($this->namespace.'/Repositories');
 		$finder       = new Finder();
@@ -66,7 +69,7 @@ abstract class AbstractServiceProvider extends ServiceProvider
 			// Register with router
 			$repository = get_class($repository);
 			foreach ($bindings as $binding) {
-				$this->app['router']->bind($binding, $repository.'@find');
+				$this->app['router']->bind($binding, $repository.'@'.$method);
 			}
 		}
 	}
