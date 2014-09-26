@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.2.2 - 2014-09-26
+
+- Changes to how soft-deletes are handled
+- Allow string boolean presenters
+- Work on presenters
+
 ## 0.2.1 - 2014-09-19
 
 - Add statistics and charts classes
