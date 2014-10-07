@@ -49,6 +49,7 @@ class UploadsRepository extends AbstractRepository
 	{
 		// Recursive call
 		if (is_array($uploads)) {
+			$uploads = array_filter($uploads);
 			foreach ($uploads as $upload) {
 				$this->bindTo($upload, $model, $attributes);
 			}
