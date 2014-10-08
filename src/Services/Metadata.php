@@ -20,6 +20,11 @@ class Metadata
 	protected $defaults = [];
 
 	/**
+	 * @type array
+	 */
+	protected $unwrapped = ['title', 'keywords', 'description'];
+
+	/**
 	 * @type Container
 	 */
 	protected $app;
@@ -46,6 +51,14 @@ class Metadata
 	public function setDefaults($defaults)
 	{
 		$this->defaults = $defaults;
+	}
+
+	/**
+	 * @param array $unwrapped
+	 */
+	public function setUnwrapped($unwrapped)
+	{
+		$this->unwrapped = array_merge(['title', 'keywords', 'description'], $unwrapped);
 	}
 
 	/**
@@ -99,7 +112,7 @@ class Metadata
 	 */
 	protected function getWrapper($twitter, $name, $value)
 	{
-		if (in_array($name, ['title', 'keywords', 'description'])) {
+		if (in_array($name, $this->unwrapped)) {
 			return sprintf('<meta name="%s" contents="%s">', $name, $value);
 		}
 
