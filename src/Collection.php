@@ -37,6 +37,20 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
 	}
 
 	/**
+	 * Filter items by a column
+	 *
+	 * @param string $column
+	 *
+	 * @return self
+	 */
+	public function filterByNot($column = null)
+	{
+		return $this->filter(function ($item) use ($column) {
+			return $column ? !data_get($item, $column) : !$item;
+		});
+	}
+
+	/**
 	 * Gather the first items of all subarrays
 	 *
 	 * @return self
