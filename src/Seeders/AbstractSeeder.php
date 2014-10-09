@@ -45,7 +45,7 @@ abstract class AbstractSeeder extends Seeder
 
 		// Log results
 		$results = Str::singular($table);
-		$results = $this->container['arrounded']->qualifyModelByName($results);
+		$results = $this->container['arrounded']->qualifyModel($results);
 		if (class_exists($results)) {
 			$timer = round(microtime(true) - $timer, 2);
 			$this->command->comment(sprintf('-- %s entries created (%ss)', $results::count(), $timer));

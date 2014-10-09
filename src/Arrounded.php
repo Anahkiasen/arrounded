@@ -52,17 +52,6 @@ class Arrounded
 	}
 
 	/**
-	 * @param $model
-	 * @param $type
-	 *
-	 * @return mixed
-	 */
-	public function getModelServiceInstance($model, $type)
-	{
-		return $this->app->make($this->getModelService($model, $type));
-	}
-
-	/**
 	 * @param string $model
 	 *
 	 * @return AbstractRepository
@@ -82,7 +71,7 @@ class Arrounded
 	 *
 	 * @return string
 	 */
-	public function qualifyModelByName($name)
+	public function qualifyModel($name)
 	{
 		$name = trim($name, '\\');
 		$name = ucfirst($name);
@@ -93,6 +82,6 @@ class Arrounded
 			return $default;
 		}
 
-		return $this->getRepositoryFromModel($name)->getModel();
+		return $this->getRepository($name)->getModel();
 	}
 }
