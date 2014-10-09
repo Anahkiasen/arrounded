@@ -28,6 +28,14 @@ class Arrounded
 		$this->namespace = $namespace;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getNamespace()
+	{
+		return $this->namespace;
+	}
+
 	//////////////////////////////////////////////////////////////////////
 	///////////////////////////// REFLECTION /////////////////////////////
 	//////////////////////////////////////////////////////////////////////
@@ -35,17 +43,20 @@ class Arrounded
 	/**
 	 * Get a model service
 	 *
-	 * @param string      $model
-	 * @param string      $type
-	 * @param string|null $default
+	 * @param string            $model
+	 * @param string            $type
+	 * @param string|array|null $defaults
 	 *
 	 * @return object
 	 */
-	public function getModelService($model, $type, $default = null)
+	public function getModelService($model, $type, $defaults = null)
 	{
 		$service = sprintf('%s\%s\%s%s', $this->namespace, Str::plural($type), $model, $type);
-		if (!class_exists($service) && $default) {
-			$service = $default;
+
+		$defaults = (array) $defaults;
+		$defaults = array_filter($defaults, 'class_exists');
+		if (!class_exists($service) && $defaults) {
+			$service = head($defaults);
 		}
 
 		// Cancel if the class doesn't exist

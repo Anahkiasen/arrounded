@@ -62,16 +62,13 @@ trait ReflectionModel
 	}
 
 	/**
-	 * Get tge application's namespace
+	 * Get the application's namespace
 	 *
 	 * @return string
 	 */
 	public function getNamespace()
 	{
-		$path = get_class($this);
-		$path = explode('\\', $path);
-
-		return array_get($path, 0);
+		return app('arrounded')->getNamespace();
 	}
 
 	/**
@@ -181,7 +178,10 @@ trait ReflectionModel
 	 */
 	public function getTransformer()
 	{
-		return $this->getRelatedClass('Transformer', $this->getNamespace().'\Transformers\DefaultTransformer');
+		return $this->getRelatedClass('Transformer', array(
+			$this->getNamespace().'\Transformers\DefaultTransformer',
+			'Arrounded\Services\Transformers\DefaultTransformer',
+		));
 	}
 
 	/**
