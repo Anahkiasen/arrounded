@@ -4,6 +4,8 @@ namespace Arrounded\Traits;
 use Auth;
 use HTML;
 use Illuminate\Support\Str;
+use ReflectionClass;
+use ReflectionMethod;
 use URL;
 
 /**
@@ -70,6 +72,30 @@ trait ReflectionModel
 		$path = explode('\\', $path);
 
 		return array_get($path, 0);
+	}
+
+	/**
+	 * Get the model's available relations
+	 *
+	 * @return array
+	 */
+	public function getAvailableRelations()
+	{
+		$reflection = new ReflectionClass($this);
+
+		// Gather uninherited public methods
+		$relations = [];
+		$methods   = $reflection->getMethods(ReflectionMethod::IS_PUBLIC);
+		foreach ($methods as $method) {
+			if (
+				$method->getDeclaringClass()->getName() === $reflection->getName() &&
+				!Str::startsWith($method->getName(), ['get', 'scope'])
+			) {
+				$relations[] = $method->getName();
+			}
+		}
+
+		return $relations;
 	}
 
 	//////////////////////////////////////////////////////////////////////

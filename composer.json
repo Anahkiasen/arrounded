@@ -19,7 +19,8 @@
 		"patchwork/utf8": "dev-master"
 	},
 	"suggest": {
-		"codesleeve/laravel-stapler": "Uploads and thumbnails managment"
+		"codesleeve/laravel-stapler": "Uploads and thumbnails managment",
+		"dingo/api": "API creation"
 	},
 	"autoload": {
 		"psr-4": {

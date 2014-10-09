@@ -48,6 +48,11 @@ class Arrounded
 			$service = $default;
 		}
 
+		// Cancel if the class doesn't exist
+		if (!class_exists($service)) {
+			return;
+		}
+
 		return $this->app->make($service);
 	}
 
@@ -82,6 +87,8 @@ class Arrounded
 			return $default;
 		}
 
-		return $this->getRepository($name)->getModel();
+		$repository = $this->getRepository($name);
+
+		return $repository ? $repository->getModel() : null;
 	}
 }
