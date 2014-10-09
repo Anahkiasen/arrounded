@@ -1,6 +1,8 @@
 <?php
-namespace Arrounded\Traits;
+namespace Arrounded\Traits\Reflection;
 
+use Arrounded\Traits\AbstractPresenter;
+use Arrounded\Traits\AbstractTransformer;
 use Auth;
 use HTML;
 use Illuminate\Support\Str;
@@ -13,6 +15,8 @@ use URL;
  */
 trait ReflectionModel
 {
+	use RoutableModel;
+
 	////////////////////////////////////////////////////////////////////
 	//////////////////////////////// STATE /////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -93,68 +97,6 @@ trait ReflectionModel
 		}
 
 		return $relations;
-	}
-
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// ROUTING ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Get the controller matching the model
-	 *
-	 * @return string
-	 */
-	public function getController()
-	{
-		$name = $this->getClass();
-		$name = class_basename($name);
-		$name = Str::plural($name);
-
-		return $name.'Controller';
-	}
-
-	/**
-	 * Get an action from the model's controller
-	 *
-	 * @param string  $action
-	 * @param boolean $api
-	 *
-	 * @return string
-	 */
-	public function getAction($action, $api = false)
-	{
-		$prefix = $api ? 'Api\\' : '';
-		$prefix .= $this->getController().'@';
-
-		return $prefix.$action;
-	}
-
-	/**
-	 * Get the path to an action
-	 *
-	 * @param string  $action
-	 * @param boolean $api
-	 *
-	 * @return string
-	 */
-	public function getPath($action, $api = false)
-	{
-		return URL::action($this->getAction($action, $api), $this->getIdentifier());
-	}
-
-	/**
-	 * Get the link to an action
-	 *
-	 * @param string $action
-	 * @param array  $attributes
-	 *
-	 * @return string
-	 */
-	public function getLink($action, $title = null, array $attributes = array())
-	{
-		$title = $title ?: $this->name;
-
-		return HTML::linkAction($this->getAction($action), $title, $this->getIdentifier(), $attributes);
 	}
 
 	//////////////////////////////////////////////////////////////////////
