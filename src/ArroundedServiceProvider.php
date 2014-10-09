@@ -19,7 +19,9 @@ class ArroundedServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->package('arrounded', 'arrounded', __DIR__.'/..');
+
 		$this->app->singleton('arrounded.meta', 'Arrounded\Services\Metadata');
+		$this->app->singleton('arrounded', 'Arrounded\Arrounded');
 
 		$this->registerAssets();
 	}

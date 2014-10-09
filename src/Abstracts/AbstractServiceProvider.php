@@ -17,6 +17,16 @@ abstract class AbstractServiceProvider extends ServiceProvider
 	 */
 	protected $namespace;
 
+	/**
+	 * Set the namespace to be used by Arrounded
+	 *
+	 * @param string $namespace
+	 */
+	protected function setNamespace($namespace = null)
+	{
+		$this->app['arrounded']->setNamespace($namespace ?: $this->namespace);
+	}
+
 	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// REGISTER //////////////////////////////
 	//////////////////////////////////////////////////////////////////////
@@ -54,8 +64,8 @@ abstract class AbstractServiceProvider extends ServiceProvider
 		/** @type \SplFileObject $file */
 		foreach ($files as $file) {
 			// Create instance of repository
-			$repository = sprintf('%s\Repositories\%s', $this->namespace, $file->getBasename('.php'));
-			$repository = $this->app->make($repository);
+			$basename   = $file->getBasename('.php');
+			$repository = $this->app['arrounded']->getRepository($basename);
 
 			// Compute bindings
 			$model    = $repository->getModel();
@@ -82,11 +92,9 @@ abstract class AbstractServiceProvider extends ServiceProvider
 	protected function bootModelObserver(array $observers)
 	{
 		foreach ($observers as $observer) {
-			$instance = sprintf('%s\Observers\%sObserver', $this->namespace, $observer);
-			$instance = $this->app->make($instance);
+			$instance = $this->app['arrounded']->getModelService($observer, 'Observer');
 
-			$qualified = sprintf('%s\Models\%s', $this->namespace, $observer);
-			$observer  = class_exists($qualified) ? $qualified : $observer;
+			$observer = $this->app['arrounded']->qualifyModelByName($observer);
 			$observer::observe($instance);
 		}
 	}
