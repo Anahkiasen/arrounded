@@ -93,7 +93,7 @@ abstract class AbstractServiceProvider extends ServiceProvider
 	{
 		foreach ($observers as $observer) {
 			$instance = $this->app['arrounded']->getModelService($observer, 'Observer');
-			$observer = $this->app['arrounded']->qualifyModelByName($observer);
+			$observer = $this->app['arrounded']->qualifyModel($observer);
 			$observer::observe($instance);
 		}
 	}
