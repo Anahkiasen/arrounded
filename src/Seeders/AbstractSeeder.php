@@ -20,13 +20,6 @@ abstract class AbstractSeeder extends Seeder
 	protected $faker;
 
 	/**
-	 * The namespace where the models are
-	 *
-	 * @var string
-	 */
-	protected $models;
-
-	/**
 	 * Build a new Seed
 	 */
 	public function __construct()
@@ -52,7 +45,7 @@ abstract class AbstractSeeder extends Seeder
 
 		// Log results
 		$results = Str::singular($table);
-		$results = $this->qualify($results);
+		$results = $this->container['arrounded']->qualifyModelByName($results);
 		if (class_exists($results)) {
 			$timer = round(microtime(true) - $timer, 2);
 			$this->command->comment(sprintf('-- %s entries created (%ss)', $results::count(), $timer));
@@ -113,20 +106,5 @@ abstract class AbstractSeeder extends Seeder
 			$closure($value, $progress);
 		}
 		$progress->finish();
-	}
-
-	/**
-	 * Qualify a model
-	 *
-	 * @param string $model
-	 *
-	 * @return string
-	 */
-	protected function qualify($model)
-	{
-		$namespace = $this->models;
-		$namespace = trim($namespace, '\\');
-
-		return $namespace ? sprintf('%s\%s', $namespace, $model) : $model;
 	}
 }

@@ -35,17 +35,31 @@ class Arrounded
 	/**
 	 * Get a model service
 	 *
-	 * @param string $model
-	 * @param string $type
+	 * @param string      $model
+	 * @param string      $type
+	 * @param string|null $default
 	 *
 	 * @return object
 	 */
-	public function getModelService($model, $type)
+	public function getModelService($model, $type, $default = null)
 	{
-		$instance = sprintf('%s\%s\%s%s', $this->namespace, Str::plural($type), $model, $type);
-		$instance = $this->app->make($instance);
+		$service = sprintf('%s\%s\%s%s', $this->namespace, Str::plural($type), $model, $type);
+		if (!class_exists($service) && $default) {
+			$service = $default;
+		}
 
-		return $instance;
+		return $this->app->make($service);
+	}
+
+	/**
+	 * @param $model
+	 * @param $type
+	 *
+	 * @return mixed
+	 */
+	public function getModelServiceInstance($model, $type)
+	{
+		return $this->app->make($this->getModelService($model, $type));
 	}
 
 	/**
@@ -70,8 +84,15 @@ class Arrounded
 	 */
 	public function qualifyModelByName($name)
 	{
-		$repository = $this->getRepositoryFromModel($name);
+		$name = trim($name, '\\');
+		$name = ucfirst($name);
 
-		return $repository->getModel();
+		// Look into default path
+		$default = sprintf('%s\Models\%s', $this->namespace, $name);
+		if (class_exists($default)) {
+			return $default;
+		}
+
+		return $this->getRepositoryFromModel($name)->getModel();
 	}
 }

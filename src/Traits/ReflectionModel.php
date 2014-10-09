@@ -168,15 +168,7 @@ trait ReflectionModel
 	 */
 	public function getRelatedClass($type, $default)
 	{
-		// Find custom class
-		$transformer = sprintf('%s\%ss\%s%s', $this->getNamespace(), $type, $this->getClassBasename(), $type);
-
-		// Else default to a default class
-		if (!class_exists($transformer)) {
-			$transformer = $default;
-		}
-
-		return new $transformer($this);
+		return app('arrounded')->getModelService($this->getClassBasename(), $type, $default);
 	}
 
 	//////////////////////////////////////////////////////////////////////
