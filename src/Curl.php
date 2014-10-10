@@ -9,7 +9,7 @@ class Curl
 	/**
 	 * The internal CURL instance
 	 *
-	 * @var resource
+	 * @type resource
 	 */
 	protected $curl;
 
@@ -62,8 +62,8 @@ class Curl
 	//////////////////////////////////////////////////////////////////////
 
 	/**
-	 * @param string $key
-	 * @param string $value
+	 * @param string       $key
+	 * @param string|array $value
 	 *
 	 * @return self
 	 */
@@ -99,7 +99,9 @@ class Curl
 	 */
 	public function setBody($contents)
 	{
-		return $this->set('postFields', $contents);
+		$this->set('postFields', $contents);
+
+		return $this;
 	}
 
 	//////////////////////////////////////////////////////////////////////

@@ -14,14 +14,14 @@ class BenchQueries extends Command
 	/**
 	 * The console command name.
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $name = 'arrounded:bench';
 
 	/**
 	 * The console command description.
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $description = 'Bench queries per page and list the biggest offenders';
 

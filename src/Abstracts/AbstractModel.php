@@ -12,7 +12,7 @@ abstract class AbstractModel extends Model
 	/**
 	 * The attributes to cast on serialization
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $casts = array(
 		'integer' => ['id'],
@@ -46,11 +46,11 @@ abstract class AbstractModel extends Model
 	/**
 	 * Order entries in a specific order
 	 *
-	 * @param Query  $query
-	 * @param string $field
-	 * @param array  $values
+	 * @param \Illuminate\Database\Eloquent\Builder $query
+	 * @param string                                $field
+	 * @param array                                 $values
 	 *
-	 * @return Query
+	 * @return \Illuminate\Database\Eloquent\Builder
 	 */
 	public function scopeOrderByField($query, $field, $values)
 	{
@@ -60,11 +60,11 @@ abstract class AbstractModel extends Model
 	/**
 	 * Get all models belonging to other models
 	 *
-	 * @param \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder $query
-	 * @param string                                                                   $relation
-	 * @param array                                                                    $ids
+	 * @param \Illuminate\Database\Eloquent\Builder $query
+	 * @param string                                $relation
+	 * @param array                                 $ids
 	 *
-	 * @return \Arrounded\Abstracts\Query
+	 * @return \Illuminate\Database\Eloquent\Builder
 	 */
 	public function scopeWhereBelongsTo($query, $relation, array $ids = array())
 	{

@@ -19,7 +19,7 @@ class DummyModel extends Model
 	/**
 	 * The guarded attributes
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $guarded = array();
 }

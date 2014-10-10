@@ -9,7 +9,7 @@ abstract class AbstractDecorator
 	/**
 	 * An array of classes to decorate
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $decorates = array();
 

@@ -1,8 +1,8 @@
 <?php
 namespace Arrounded\Repositories;
 
-use Arrounded\Abstracts\AbstractModel;
 use Arrounded\Abstracts\AbstractRepository;
+use Arrounded\Interfaces\IllustrableInterface;
 use Arrounded\Models\AbstractUploadModel;
 
 /**
@@ -24,12 +24,12 @@ class UploadsRepository extends AbstractRepository
 	 * Bind an unique image type to a model
 	 *
 	 * @param AbstractUploadModel[]|AbstractUploadModel $uploads
-	 * @param AbstractModel                             $model
+	 * @param IllustrableInterface                      $model
 	 * @param array                                     $attributes
 	 *
-	 * @return AbstractUploadModel
+	 * @return \Arrounded\Models\AbstractUploadModel
 	 */
-	public function bindUniqueTo($uploads, AbstractModel $model, $attributes = array())
+	public function bindUniqueTo($uploads, IllustrableInterface $model, $attributes = array())
 	{
 		$model->files()->where($attributes)->delete();
 
@@ -40,12 +40,12 @@ class UploadsRepository extends AbstractRepository
 	 * Bind an AbstractUploadModel to a model
 	 *
 	 * @param AbstractUploadModel[]|AbstractUploadModel $uploads
-	 * @param AbstractModel                             $model
+	 * @param IllustrableInterface                      $model
 	 * @param array                                     $attributes
 	 *
 	 * @return AbstractUploadModel|AbstractUploadModel[]
 	 */
-	public function bindTo($uploads, AbstractModel $model, $attributes = array())
+	public function bindTo($uploads, IllustrableInterface $model, $attributes = array())
 	{
 		// Recursive call
 		if (is_array($uploads)) {
@@ -80,16 +80,15 @@ class UploadsRepository extends AbstractRepository
 	/**
 	 * Bind temporary images to a model
 	 *
-	 * @param AbstractModel $model
-	 * @param integer       $hash
-	 * @param  string|null  $type
+	 * @param IllustrableInterface $model
+	 * @param integer              $hash
+	 * @param  string|null         $type
 	 *
 	 * @return array
 	 */
-	public function bindTemporaryTo(AbstractModel $model, $hash, $type = null)
+	public function bindTemporaryTo(IllustrableInterface $model, $hash, $type = null)
 	{
-		$query = $this->getTemporaryQuery($hash, $type);
-
+		$query  = $this->getTemporaryQuery($hash, $type);
 		$images = $query->update(array(
 			'illustrable_type' => $model->getClass(),
 			'illustrable_id'   => $model->id,

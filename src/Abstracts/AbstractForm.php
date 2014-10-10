@@ -13,21 +13,21 @@ abstract class AbstractForm
 	/**
 	 * The validator factory
 	 *
-	 * @var Factory
+	 * @type Factory
 	 */
 	protected $validator;
 
 	/**
 	 * The validation rules
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $rules = [];
 
 	/**
 	 * A model to fine-tune rules to
 	 *
-	 * @var AbstractModel
+	 * @type AbstractModel
 	 */
 	protected $model;
 

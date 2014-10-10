@@ -8,7 +8,7 @@ class DefaultTransformer extends AbstractTransformer
 	/**
 	 * Default transformation for an item
 	 *
-	 * @param $item
+	 * @param \Arrounded\Abstracts\AbstractModel $item
 	 *
 	 * @return array
 	 */

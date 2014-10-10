@@ -10,7 +10,7 @@ abstract class ArroundedTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * The tests container
 	 *
-	 * @var Container
+	 * @type Container
 	 */
 	protected $app;
 

@@ -125,8 +125,8 @@ trait ReflectionModel
 	/**
 	 * Get a related class
 	 *
-	 * @param string $type
-	 * @param string $default
+	 * @param string          $type
+	 * @param string|string[] $default
 	 *
 	 * @return string
 	 */

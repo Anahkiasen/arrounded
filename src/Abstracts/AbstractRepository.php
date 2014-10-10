@@ -11,14 +11,14 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * The items to fetch from
 	 *
-	 * @var AbstractModel|Builder
+	 * @type AbstractModel|Builder
 	 */
 	protected $items;
 
 	/**
 	 * Default number of results per page
 	 *
-	 * @var integer
+	 * @type integer
 	 */
 	protected $perPage = 25;
 

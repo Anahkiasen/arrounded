@@ -10,14 +10,14 @@ class AssetsReplacer extends Command
 	/**
 	 * The console command name.
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $name = 'assets:replace';
 
 	/**
 	 * The console command description.
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $description = 'Replace calls to assets collections in the files with their minified version';
 

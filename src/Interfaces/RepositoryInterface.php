@@ -3,7 +3,7 @@ namespace Arrounded\Interfaces;
 
 use Arrounded\Abstracts\AbstractModel;
 use Arrounded\Collection;
-use Illuminate\Support\Facades\Paginator;
+use Illuminate\Pagination\Paginator;
 
 interface RepositoryInterface
 {
@@ -32,7 +32,7 @@ interface RepositoryInterface
 	/**
 	 * Get the core items query
 	 *
-	 * @return Query
+	 * @return AbstractModel
 	 */
 	public function items();
 
@@ -81,10 +81,11 @@ interface RepositoryInterface
 	 * Delete an item
 	 *
 	 * @param AbstractModel|integer $item
+	 * @param boolean               $force
 	 *
 	 * @return boolean
 	 */
-	public function delete($item);
+	public function delete($item, $force);
 
 	////////////////////////////////////////////////////////////////////
 	////////////////////////////// MULTIPLE ////////////////////////////

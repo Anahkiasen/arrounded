@@ -16,14 +16,14 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
 	/**
 	 * The repository in use
 	 *
-	 * @var RepositoryInterface
+	 * @type RepositoryInterface
 	 */
 	protected $repository;
 
 	/**
 	 * The relationships to eager load automatically
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $eagerLoaded = array();
 

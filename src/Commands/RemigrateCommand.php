@@ -9,14 +9,14 @@ class RemigrateCommand extends Command
 	/**
 	 * The console command name.
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $name = 'arrounded:remigrate';
 
 	/**
 	 * The console command description.
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $description = 'Remigrates the database.';
 

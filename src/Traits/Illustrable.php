@@ -15,7 +15,7 @@ trait Illustrable
 	/**
 	 * Get the model's images
 	 *
-	 * @return \Illuminate\Support\Collection
+	 * @return \Illuminate\Database\Eloquent\Relations\MorphMany
 	 */
 	public function images()
 	{
@@ -25,7 +25,7 @@ trait Illustrable
 	/**
 	 * Get one of the model's files
 	 *
-	 * @return \Illuminate\Support\Collection
+	 * @return \Illuminate\Database\Eloquent\Relations\MorphOne
 	 */
 	public function file()
 	{
@@ -35,7 +35,7 @@ trait Illustrable
 	/**
 	 * Get the model's files
 	 *
-	 * @return \Illuminate\Support\Collection
+	 * @return \Illuminate\Database\Eloquent\Relations\MorphMany
 	 */
 	public function files()
 	{
@@ -45,7 +45,7 @@ trait Illustrable
 	/**
 	 * Get the model's thumbnail
 	 *
-	 * @return mixed|null
+	 * @return \Illuminate\Database\Eloquent\Relations\MorphOne
 	 */
 	public function thumb()
 	{
@@ -61,7 +61,7 @@ trait Illustrable
 	 *
 	 * @param string $parent
 	 *
-	 * @return Upload
+	 * @return \Arrounded\Models\AbstractUploadModel
 	 */
 	public function parentableThumb($parent)
 	{
@@ -92,7 +92,7 @@ trait Illustrable
 	 *
 	 * @return string
 	 */
-	protected function getUploadClass()
+	public function getUploadClass()
 	{
 		return $this->getNamespace().'\Models\Upload';
 	}

@@ -11,7 +11,7 @@ trait UsesContainer
 	/**
 	 * The IoC Container
 	 *
-	 * @var Container
+	 * @type Container
 	 */
 	protected $app;
 

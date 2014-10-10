@@ -23,21 +23,21 @@ abstract class AbstractMailer
 	/**
 	 * The mailer instance
 	 *
-	 * @var Mailer
+	 * @type Mailer
 	 */
 	protected $mailer;
 
 	/**
 	 * The user sending invitations
 	 *
-	 * @var User
+	 * @type User
 	 */
 	protected $from;
 
 	/**
 	 * The friends to invite
 	 *
-	 * @var Collection
+	 * @type Collection
 	 */
 	protected $recipients = array();
 
@@ -51,14 +51,14 @@ abstract class AbstractMailer
 	/**
 	 * The template to use
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $template;
 
 	/**
 	 * The core databag all messages inherit
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $databag = array();
 

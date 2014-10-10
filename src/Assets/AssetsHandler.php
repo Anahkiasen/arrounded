@@ -4,7 +4,7 @@ namespace Arrounded\Assets;
 class AssetsHandler
 {
 	/**
-	 * @var array
+	 * @type array
 	 */
 	private $collections;
 

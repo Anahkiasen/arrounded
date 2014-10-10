@@ -15,7 +15,7 @@ abstract class AbstractSeeder extends Seeder
 	/**
 	 * The Faker instance
 	 *
-	 * @var Faker
+	 * @type Faker
 	 */
 	protected $faker;
 
@@ -34,8 +34,6 @@ abstract class AbstractSeeder extends Seeder
 	 * Run a seeder
 	 *
 	 * @param  string $table
-	 *
-	 * @return void
 	 */
 	public function seed($table)
 	{
@@ -55,11 +53,9 @@ abstract class AbstractSeeder extends Seeder
 	/**
 	 * Insert items by chunks
 	 *
-	 * @param string  $table
-	 * @param array   $items
-	 * @param integer $chunks
-	 *
-	 * @return void
+	 * @param string       $table
+	 * @param array        $items
+	 * @param integer|null $chunks
 	 */
 	public function insertChunked($table, $items, $chunks = null)
 	{
@@ -85,8 +81,6 @@ abstract class AbstractSeeder extends Seeder
 	 * Print progress on an iterator
 	 *
 	 * @param array $items
-	 *
-	 * @return void
 	 */
 	public function progressIterator($items, Closure $closure)
 	{

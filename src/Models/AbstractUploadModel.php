@@ -6,6 +6,7 @@ use Codesleeve\Stapler\Attachment;
 use Codesleeve\Stapler\AttachmentConfig;
 use Codesleeve\Stapler\ORM\EloquentTrait;
 use Codesleeve\Stapler\ORM\StaplerableInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\HTML;
 use Illuminate\Support\Str;
@@ -20,7 +21,7 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
 	/**
 	 * The attributes that are mass assignable.
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $fillable = [
 		'file',
@@ -30,7 +31,7 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
 	];
 
 	/**
-	 * @var array
+	 * @type array
 	 */
 	protected $appends = ['thumbs'];
 
@@ -84,10 +85,10 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
 	/**
 	 * Scope to only the illustrables of an instance
 	 *
-	 * @param               $query
+	 * @param Builder       $query
 	 * @param AbstractModel $model
 	 *
-	 * @return Query
+	 * @return Builder
 	 */
 	public function scopeIllustrable($query, AbstractModel $model)
 	{
@@ -100,17 +101,17 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
 	/**
 	 * Scope to only images
 	 *
-	 * @param Query $query
+	 * @param Builder $query
 	 *
-	 * @return Query
+	 * @return Builder
 	 */
 	public function scopeWhereImages($query)
 	{
 		return $query->where('file_content_type', 'LIKE', 'image/%');
 	}
+
 	//////////////////////////////////////////////////////////////////////
 	/////////////////////////////// THUMBS ///////////////////////////////
-
 	//////////////////////////////////////////////////////////////////////
 
 	/**
@@ -182,8 +183,8 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
 	/**
 	 * Renders the image at a certain size
 	 *
-	 * @param string $size
-	 * @param array  $attributes
+	 * @param string|null $size
+	 * @param array       $attributes
 	 *
 	 * @return string
 	 */
@@ -198,9 +199,9 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
 
 		return HTML::image($url, null, $attributes);
 	}
+
 	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// HELPERS ///////////////////////////////
-
 	//////////////////////////////////////////////////////////////////////
 
 	/**
@@ -208,7 +209,7 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
 	 *
 	 * @param string|null $type
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public static function getPlaceholder($type = null)
 	{

@@ -14,7 +14,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * The ReflectionController instance
 	 *
-	 * @var ReflectionController
+	 * @type ReflectionController
 	 */
 	protected $reflection;
 

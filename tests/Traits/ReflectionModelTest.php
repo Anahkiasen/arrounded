@@ -9,7 +9,7 @@ class ReflectionModelTest extends ArroundedTestCase
 	/**
 	 * A dummy instance
 	 *
-	 * @var DummyModel
+	 * @type DummyModel
 	 */
 	protected $model;
 

@@ -9,7 +9,7 @@ class ValidationException extends Exception
 	/**
 	 * The bound errors
 	 *
-	 * @var MessageBag
+	 * @type MessageBag
 	 */
 	protected $errors;
 

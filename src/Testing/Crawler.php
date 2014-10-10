@@ -18,21 +18,21 @@ class Crawler
 	/**
 	 * The routes to ignore
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $ignored = array();
 
 	/**
 	 * Lifetime of the cache
 	 *
-	 * @var integer
+	 * @type integer
 	 */
 	protected $lifetime = 60;
 
 	/**
 	 * The model namespace
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $namespace;
 
@@ -103,6 +103,8 @@ class Crawler
 
 	/**
 	 * Get the routes in a PHPUnit-friendly forma
+	 *
+	 * @param array $additional
 	 *
 	 * @return array
 	 */

@@ -11,7 +11,7 @@ abstract class AbstractApiController extends Controller
 	/**
 	 * The repository in use
 	 *
-	 * @var AbstractRepository
+	 * @type AbstractRepository
 	 */
 	protected $repository;
 

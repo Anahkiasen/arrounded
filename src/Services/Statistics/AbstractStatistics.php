@@ -157,8 +157,8 @@ abstract class AbstractStatistics extends Collection
 	/**
 	 * Fill the gaps in an array
 	 *
-	 * @param array  $results
-	 * @param string $keys
+	 * @param array    $results
+	 * @param string[] $keys
 	 *
 	 * @return array
 	 */

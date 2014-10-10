@@ -6,7 +6,7 @@ class CollectionTest extends ArroundedTestCase
 	/**
 	 * A dummy Collection
 	 *
-	 * @var Collection
+	 * @type Collection
 	 */
 	protected $collection;
 

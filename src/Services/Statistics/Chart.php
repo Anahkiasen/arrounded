@@ -8,42 +8,42 @@ class Chart
 	/**
 	 * The element the graphic is for
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $element;
 
 	/**
 	 * The type of the graphic
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $type = 'Line';
 
 	/**
 	 * The datasets
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $datasets = array();
 
 	/**
 	 * The graphics options
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $options = array();
 
 	/**
 	 * The color scheme to use
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $colors = ['#16A085', '#2980B9', '#8E44AD', '#F1C40F', '#E67E22', '#C0392B', '#BDC3C7'];
 
 	/**
 	 * The various labels
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $labels = array();
 

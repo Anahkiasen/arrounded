@@ -10,7 +10,7 @@ class ApiDisplayer extends RoutesCommand
 	/**
 	 * The namespace to filter with
 	 *
-	 * @var string
+	 * @type string
 	 */
 	protected $namespace = 'Api\\';
 

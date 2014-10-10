@@ -8,7 +8,7 @@ class JavascriptBridge
 	/**
 	 * And array of data to pass to Javascript
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected static $data = array();
 

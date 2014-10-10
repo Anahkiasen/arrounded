@@ -6,6 +6,7 @@ use Auth;
 use Closure;
 use DB;
 use Eloquent;
+use Illuminate\Auth\UserInterface;
 use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
 use Mockery;
 use Redirect;
@@ -17,7 +18,7 @@ class TestCase extends IlluminateTestCase
 	/**
 	 * Some aliases for mocks
 	 *
-	 * @var array
+	 * @type array
 	 */
 	protected $namespaces = array(
 		'app'    => '',
@@ -135,9 +136,11 @@ class TestCase extends IlluminateTestCase
 	/**
 	 * Authentify as an User
 	 *
-	 * @return User
+	 * @param UserInterface $user
+	 *
+	 * @return UserInterface
 	 */
-	public function authentify($user = null)
+	public function authentify(UserInterface $user = null)
 	{
 		$model = $this->namespaces['models'].'User';
 		if (!class_exists($model)) {
@@ -160,7 +163,7 @@ class TestCase extends IlluminateTestCase
 	/**
 	 * Get the test user
 	 *
-	 * @return User
+	 * @return UserInterface
 	 */
 	public function testUser()
 	{
@@ -204,8 +207,6 @@ class TestCase extends IlluminateTestCase
 	 *
 	 * @param sring   $repository
 	 * @param Closure $expectations
-	 *
-	 * @return Mockery
 	 */
 	protected function mockRepository($repository, Closure $expectations)
 	{
@@ -219,8 +220,6 @@ class TestCase extends IlluminateTestCase
 	 *
 	 * @param  string  $class
 	 * @param  Closure $expectations
-	 *
-	 * @return void
 	 */
 	protected function mock($class, $expectations)
 	{
