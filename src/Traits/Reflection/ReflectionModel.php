@@ -163,9 +163,20 @@ trait ReflectionModel
 	public function hasTrait($trait)
 	{
 		// Try both given name and fully qualified name
-		$qualified = 'Arrounded\Traits\\'.$trait;
-		$traits    = class_uses_recursive($this->getClass());
+		$places = array(
+			'Arrounded\Traits\%s',
+			'Arrounded\Traits\Reflection\%s',
+			'%s',
+		);
 
-		return in_array($trait, $traits) || in_array($qualified, $traits);
+		$traits = class_uses_recursive($this->getClass());
+		foreach ($places as $place) {
+			$place = sprintf($place, $trait);
+			if (in_array($place, $traits)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
