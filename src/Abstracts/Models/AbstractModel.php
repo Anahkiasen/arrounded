@@ -1,5 +1,5 @@
 <?php
-namespace Arrounded\Abstracts;
+namespace Arrounded\Abstracts\Models;
 
 use Arrounded\Collection;
 use Arrounded\Traits\Reflection\ReflectionModel;

@@ -1,6 +1,7 @@
 <?php
 namespace Arrounded\Abstracts;
 
+use Arrounded\Abstracts\Models\AbstractModel;
 use Arrounded\Collection;
 use Arrounded\Services\Transformers\DefaultTransformer;
 use Illuminate\Support\Str;

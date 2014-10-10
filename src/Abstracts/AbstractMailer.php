@@ -1,6 +1,7 @@
 <?php
 namespace Arrounded\Abstracts;
 
+use Arrounded\Abstracts\Models\AbstractModel;
 use Auth;
 use Config;
 use Illuminate\Auth\UserInterface;

@@ -1,7 +1,7 @@
 <?php
 namespace Arrounded;
 
-use Arrounded\Abstracts\AbstractModel;
+use Arrounded\Abstracts\Models\AbstractModel;
 use Illuminate\Database\Eloquent\Builder;
 use Paginator;
 

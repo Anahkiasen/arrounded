@@ -1,7 +1,7 @@
 <?php
 namespace Arrounded\Services\Statistics;
 
-use Arrounded\Abstracts\AbstractModel;
+use Arrounded\Abstracts\Models\AbstractModel;
 use Arrounded\Collection;
 use Closure;
 

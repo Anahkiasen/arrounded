@@ -5,6 +5,11 @@ use Illuminate\Container\Container;
 
 /**
  * A class using the container underneath
+ *
+ * @property \Illuminate\Config\Repository     config
+ * @property \Illuminate\Events\Dispatcher     events
+ * @property \Illuminate\Filesystem\Filesystem files
+ * @property \Illuminate\Log\Writer            log
  */
 trait UsesContainer
 {

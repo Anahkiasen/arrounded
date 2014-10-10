@@ -2,8 +2,8 @@
 namespace Arrounded\Repositories;
 
 use Arrounded\Abstracts\AbstractRepository;
+use Arrounded\Abstracts\Models\AbstractUploadModel;
 use Arrounded\Interfaces\IllustrableInterface;
-use Arrounded\Models\AbstractUploadModel;
 
 /**
  * Repository for the AbstractUploadModel resource
@@ -12,8 +12,10 @@ class UploadsRepository extends AbstractRepository
 {
 	/**
 	 * Build a new UploadsRepository
-	 *
-	 * @param AbstractUploadModel $items
+
+
+*
+*@param \Arrounded\Abstracts\Models\AbstractUploadModel $items
 	 */
 	public function __construct(AbstractUploadModel $items)
 	{
@@ -22,12 +24,19 @@ class UploadsRepository extends AbstractRepository
 
 	/**
 	 * Bind an unique image type to a model
-	 *
-	 * @param AbstractUploadModel[]|AbstractUploadModel $uploads
+
+
+
+
+
+
+
+*
+	 * @param \Arrounded\Abstracts\Models\AbstractUploadModel[]|\Arrounded\Abstracts\Models\AbstractUploadModel $uploads
 	 * @param IllustrableInterface                      $model
 	 * @param array                                     $attributes
 	 *
-	 * @return \Arrounded\Models\AbstractUploadModel
+	 * @return \Arrounded\Abstracts\Models\AbstractUploadModel
 	 */
 	public function bindUniqueTo($uploads, IllustrableInterface $model, $attributes = array())
 	{
@@ -39,11 +48,11 @@ class UploadsRepository extends AbstractRepository
 	/**
 	 * Bind an AbstractUploadModel to a model
 	 *
-	 * @param AbstractUploadModel[]|AbstractUploadModel $uploads
+	 * @param \Arrounded\Abstracts\Models\AbstractUploadModel[]|AbstractUploadModel $uploads
 	 * @param IllustrableInterface                      $model
 	 * @param array                                     $attributes
 	 *
-	 * @return AbstractUploadModel|AbstractUploadModel[]
+	 * @return \Arrounded\Abstracts\Models\AbstractUploadModel|\Arrounded\Abstracts\Models\AbstractUploadModel[]
 	 */
 	public function bindTo($uploads, IllustrableInterface $model, $attributes = array())
 	{

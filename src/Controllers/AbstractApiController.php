@@ -37,8 +37,10 @@ abstract class AbstractApiController extends Controller
 
 	/**
 	 * Create a new resource
-	 *
-	 * @return \Arrounded\Abstracts\AbstractModel
+
+
+*
+*@return \Arrounded\Abstracts\Models\AbstractModel
 	 */
 	public function store()
 	{
@@ -47,10 +49,14 @@ abstract class AbstractApiController extends Controller
 
 	/**
 	 * Update an existing resource
-	 *
-	 * @param integer|null $item
-	 *
-	 * @return \Arrounded\Abstracts\AbstractModel
+
+
+*
+*@param integer|null $item
+
+
+*
+*@return \Arrounded\Abstracts\Models\AbstractModel
 	 */
 	public function update($item = null)
 	{
@@ -62,10 +68,14 @@ abstract class AbstractApiController extends Controller
 
 	/**
 	 * Display the specified resource.
-	 *
-	 * @param  int $item
-	 *
-	 * @return \Arrounded\Abstracts\AbstractModel
+
+
+*
+*@param  int $item
+
+
+*
+	 * @return \Arrounded\Abstracts\Models\AbstractModel
 	 */
 	public function show($item)
 	{

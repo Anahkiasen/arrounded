@@ -1,7 +1,7 @@
 <?php
 namespace Arrounded\Interfaces;
 
-use Arrounded\Abstracts\AbstractModel;
+use Arrounded\Abstracts\Models\AbstractModel;
 use Arrounded\Collection;
 use Illuminate\Pagination\Paginator;
 

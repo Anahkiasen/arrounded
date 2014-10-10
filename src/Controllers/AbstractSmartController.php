@@ -1,7 +1,8 @@
 <?php
-namespace Arrounded\Abstracts;
+namespace Arrounded\Controllers;
 
-use Arrounded\Controllers\ReflectionController;
+use Arrounded\Abstracts\Eloquent;
+use Arrounded\Abstracts\Validator;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;

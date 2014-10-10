@@ -7,10 +7,14 @@ class DefaultTransformer extends AbstractTransformer
 {
 	/**
 	 * Default transformation for an item
-	 *
-	 * @param \Arrounded\Abstracts\AbstractModel $item
-	 *
-	 * @return array
+
+
+*
+*@param \Arrounded\Abstracts\Models\AbstractModel $item
+
+
+*
+*@return array
 	 */
 	public function transform($item)
 	{

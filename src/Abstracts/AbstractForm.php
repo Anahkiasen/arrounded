@@ -1,6 +1,7 @@
 <?php
 namespace Arrounded\Abstracts;
 
+use Arrounded\Abstracts\Models\AbstractModel;
 use Arrounded\Validation\ValidationException;
 use Illuminate\Validation\Factory;
 use Illuminate\Validation\Validator;

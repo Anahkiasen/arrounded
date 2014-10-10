@@ -1,7 +1,6 @@
 <?php
 namespace Arrounded\Controllers;
 
-use Arrounded\Abstracts\AbstractSmartController;
 use Arrounded\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

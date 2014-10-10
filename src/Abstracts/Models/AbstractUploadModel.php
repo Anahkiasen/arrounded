@@ -1,7 +1,6 @@
 <?php
-namespace Arrounded\Models;
+namespace Arrounded\Abstracts\Models;
 
-use Arrounded\Abstracts\AbstractModel;
 use Codesleeve\Stapler\Attachment;
 use Codesleeve\Stapler\AttachmentConfig;
 use Codesleeve\Stapler\ORM\EloquentTrait;
