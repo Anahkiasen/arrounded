@@ -93,11 +93,14 @@ class AbstractRepositoryTest extends ArroundedTestCase
 	public function testCanDeleteItem()
 	{
 		$model = Mockery::mock('Model', function ($mock) {
-			$mock->shouldReceive('delete')->once()->andReturn(true);
+			$mock
+				->shouldReceive('delete')->once()->andReturn(true);
 		});
 
 		$eloquent = Mockery::mock('Eloquent', function ($mock) use ($model) {
-			$mock->shouldReceive('findOrFail')->once()->with(1)->andReturn($model);
+			$mock
+				->shouldReceive('hasTrait')->andReturn(false)
+				->shouldReceive('findOrFail')->once()->with(1)->andReturn($model);
 		});
 
 		$repository = new DummyRepository($eloquent);

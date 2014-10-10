@@ -1,7 +1,7 @@
 <?php
 namespace Arrounded\Dummies;
 
-use Arrounded\Traits\Serializable;
+use Arrounded\Traits\Reflection\ReflectionModel;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class DummyModel extends Model
 {
-	use \Arrounded\Traits\Reflection\ReflectionModel;
-	use Serializable;
+	use ReflectionModel;
 
 	protected $casts = array(
 		'integer' => 'id',

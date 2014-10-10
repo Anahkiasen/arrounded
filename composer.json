@@ -1,30 +1,34 @@
 {
-	"name": "anahkiasen/arrounded",
-	"description": "A set of self-aware Laravel abstracts that know their way around",
-	"authors": [
-		{
-			"name": "Maxime Fabre",
-			"email": "ehtnam6@gmail.com"
-		}
-	],
-	"require": {
-		"php": ">=5.5.0",
-		"illuminate/support": "~4.2.0",
-		"mockery/mockery": "dev-master"
-	},
-	"require-dev": {
-		"illuminate/container": "~4.2.0",
-		"illuminate/auth": "~4.2.0",
-		"illuminate/database": "~4.2.0",
-		"patchwork/utf8": "dev-master"
-	},
-	"suggest": {
-		"codesleeve/laravel-stapler": "Uploads and thumbnails managment",
-		"dingo/api": "API creation"
-	},
-	"autoload": {
-		"psr-4": {
-			"Arrounded\\": ["src", "tests"]
-		}
+  "name": "anahkiasen/arrounded",
+  "description": "A set of self-aware Laravel abstracts that know their way around",
+  "authors": [
+	{
+	  "name": "Maxime Fabre",
+	  "email": "ehtnam6@gmail.com"
 	}
+  ],
+  "require": {
+	"php": ">=5.5.0",
+	"illuminate/support": "~4.2.0",
+	"mockery/mockery": "dev-master"
+  },
+  "require-dev": {
+	"illuminate/container": "~4.2.0",
+	"illuminate/auth": "~4.2.0",
+	"illuminate/database": "~4.2.0",
+	"patchwork/utf8": "dev-master",
+    "phpunit/phpunit": "~4.3"
+  },
+  "suggest": {
+	"codesleeve/laravel-stapler": "Uploads and thumbnails managment",
+	"dingo/api": "API creation"
+  },
+  "autoload": {
+	"psr-4": {
+	  "Arrounded\\": [
+		"src",
+		"tests"
+	  ]
+	}
+  }
 }
