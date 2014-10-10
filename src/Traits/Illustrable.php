@@ -58,14 +58,10 @@ trait Illustrable
 
 	/**
 	 * Get the model's thumb or its parent
-
-
-*
-*@param string $parent
-
-
-*
-*@return \Arrounded\Abstracts\Models\AbstractUploadModel
+	 *
+	 * @param string $parent
+	 *
+	 * @return \Arrounded\Abstracts\Models\AbstractUploadModel
 	 */
 	public function parentableThumb($parent)
 	{

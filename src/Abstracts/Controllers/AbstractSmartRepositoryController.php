@@ -1,5 +1,5 @@
 <?php
-namespace Arrounded\Controllers;
+namespace Arrounded\Abstracts\Controllers;
 
 use Arrounded\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Model;

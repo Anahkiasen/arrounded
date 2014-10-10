@@ -12,10 +12,8 @@ class UploadsRepository extends AbstractRepository
 {
 	/**
 	 * Build a new UploadsRepository
-
-
-*
-*@param \Arrounded\Abstracts\Models\AbstractUploadModel $items
+	 *
+	 * @param \Arrounded\Abstracts\Models\AbstractUploadModel $items
 	 */
 	public function __construct(AbstractUploadModel $items)
 	{
@@ -24,17 +22,10 @@ class UploadsRepository extends AbstractRepository
 
 	/**
 	 * Bind an unique image type to a model
-
-
-
-
-
-
-
-*
+	 *
 	 * @param \Arrounded\Abstracts\Models\AbstractUploadModel[]|\Arrounded\Abstracts\Models\AbstractUploadModel $uploads
-	 * @param IllustrableInterface                      $model
-	 * @param array                                     $attributes
+	 * @param IllustrableInterface                                                                              $model
+	 * @param array                                                                                             $attributes
 	 *
 	 * @return \Arrounded\Abstracts\Models\AbstractUploadModel
 	 */
@@ -49,8 +40,8 @@ class UploadsRepository extends AbstractRepository
 	 * Bind an AbstractUploadModel to a model
 	 *
 	 * @param \Arrounded\Abstracts\Models\AbstractUploadModel[]|AbstractUploadModel $uploads
-	 * @param IllustrableInterface                      $model
-	 * @param array                                     $attributes
+	 * @param IllustrableInterface                                                  $model
+	 * @param array                                                                 $attributes
 	 *
 	 * @return \Arrounded\Abstracts\Models\AbstractUploadModel|\Arrounded\Abstracts\Models\AbstractUploadModel[]
 	 */

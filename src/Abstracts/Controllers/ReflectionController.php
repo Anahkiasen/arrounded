@@ -1,6 +1,7 @@
 <?php
-namespace Arrounded\Controllers;
+namespace Arrounded\Abstracts\Controllers;
 
+use Arrounded\Controllers\Model;
 use Illuminate\Support\Str;
 use ReflectionClass;
 

@@ -1,5 +1,5 @@
 <?php
-namespace Arrounded\Controllers;
+namespace Arrounded\Abstracts\Controllers;
 
 use Arrounded\Abstracts\Eloquent;
 use Arrounded\Abstracts\Validator;
