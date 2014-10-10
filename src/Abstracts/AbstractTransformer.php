@@ -90,7 +90,7 @@ class AbstractTransformer extends TransformerAbstract
 	 * Transform a model for the API
 	 *
 	 * @param AbstractModel $model
-	 * @param Callable      $callback
+	 * @param callable|null $callback
 	 *
 	 * @return array
 	 */

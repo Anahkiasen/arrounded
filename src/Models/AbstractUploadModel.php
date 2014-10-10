@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 /**
  * @property Attachment file
  */
-abstract class Upload extends AbstractModel implements StaplerableInterface
+abstract class AbstractUploadModel extends AbstractModel implements StaplerableInterface
 {
 	use EloquentTrait;
 
@@ -183,11 +183,11 @@ abstract class Upload extends AbstractModel implements StaplerableInterface
 	 * Renders the image at a certain size
 	 *
 	 * @param string $size
-	 * @param        array [optional] $attributes
+	 * @param array  $attributes
 	 *
 	 * @return string
 	 */
-	public function render($size = null, $attributes = null)
+	public function render($size = null, $attributes = array())
 	{
 		$url  = $this->file->url($size);
 		$path = $this->file->path();
@@ -205,6 +205,10 @@ abstract class Upload extends AbstractModel implements StaplerableInterface
 
 	/**
 	 * Get the placeholder image
+	 *
+	 * @param string|null $type
+	 *
+	 * @return string
 	 */
 	public static function getPlaceholder($type = null)
 	{

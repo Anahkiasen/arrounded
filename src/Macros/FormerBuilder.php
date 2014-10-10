@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 /**
  * Injects macros into the current Former instance
+ *
+ * @property \Former\Former former
  */
 class FormerBuilder
 {
@@ -27,7 +29,7 @@ class FormerBuilder
 
 		// Register macros
 		foreach ($macros as $name) {
-			$this->app['former']->macro($name, $class.'@'.$name);
+			$this->former->macro($name, $class.'@'.$name);
 		}
 	}
 
@@ -48,8 +50,8 @@ class FormerBuilder
 	/**
 	 * Generates a boolean-type select
 	 *
-	 * @param string $name
-	 * @param string $label
+	 * @param string      $name
+	 * @param string|null $label
 	 *
 	 * @return Select
 	 */

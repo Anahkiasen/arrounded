@@ -16,14 +16,16 @@
 	"illuminate/container": "~4.2.0",
 	"illuminate/auth": "~4.2.0",
 	"illuminate/database": "~4.2.0",
+	"illuminate/pagination": "~4.2.0",
 	"illuminate/mail": "~4.2.0",
 	"illuminate/view": "~4.2.0",
 	"patchwork/utf8": "dev-master",
-    "phpunit/phpunit": "~4.3"
+	"phpunit/phpunit": "~4.3"
   },
   "suggest": {
 	"codesleeve/laravel-stapler": "Uploads and thumbnails managment",
-	"dingo/api": "API creation"
+	"dingo/api": "API creation",
+	"anahkiasen/form": "Form builder"
   },
   "autoload": {
 	"psr-4": {

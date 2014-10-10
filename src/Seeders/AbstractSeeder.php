@@ -64,13 +64,13 @@ abstract class AbstractSeeder extends Seeder
 	public function insertChunked($table, $items, $chunks = null)
 	{
 		// Insert directly if less than chunks
-		if (sizeof($items) < $chunks) {
+		if (count($items) < $chunks) {
 			return DB::table($table)->insert($items);
 		}
 
 		// Enforce SQLite limitations
 		if (DB::getDriverName() == 'sqlite') {
-			$chunks = sizeof(head($items)) ?: 10;
+			$chunks = count(head($items)) ?: 10;
 			$chunks = floor(999 / $chunks);
 		}
 
@@ -91,7 +91,7 @@ abstract class AbstractSeeder extends Seeder
 	public function progressIterator($items, Closure $closure)
 	{
 		$output     = $this->command->getOutput();
-		$iterations = sizeof($items);
+		$iterations = count($items);
 
 		if (class_exists('Symfony\Component\Console\Helper\ProgressBar')) {
 			$progress = new \Symfony\Component\Console\Helper\ProgressBar($output, $iterations);

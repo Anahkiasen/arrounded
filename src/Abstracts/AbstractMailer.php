@@ -189,7 +189,7 @@ abstract class AbstractMailer
 			});
 		}
 
-		return sizeof($this->recipients);
+		return count($this->recipients);
 	}
 
 	/**

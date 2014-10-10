@@ -66,7 +66,7 @@ abstract class AbstractComposer
 		$page = $loose ? $page : '^'.$page.'$';
 		$page = str_replace('#', '\#', $page);
 
-		return preg_match("#$page#", $this->app['request']->path());
+		return preg_match('#'.$page.'#', $this->app['request']->path());
 	}
 
 	/**

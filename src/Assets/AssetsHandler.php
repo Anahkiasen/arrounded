@@ -102,6 +102,7 @@ class AssetsHandler
 	 * Expand the paths in an asset
 	 *
 	 * @param string $asset
+	 * @param array  $negated
 	 *
 	 * @return array
 	 */

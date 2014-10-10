@@ -28,7 +28,7 @@ abstract class AbstractApiController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Pagination\Paginator
 	 */
 	public function index()
 	{
@@ -48,7 +48,7 @@ abstract class AbstractApiController extends Controller
 	/**
 	 * Update an existing resource
 	 *
-	 * @param integer $item
+	 * @param integer|null $item
 	 *
 	 * @return \Arrounded\Abstracts\AbstractModel
 	 */

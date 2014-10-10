@@ -16,8 +16,8 @@ class Curl
 	/**
 	 * Build a new Curl instance
 	 *
-	 * @param string $url
-	 * @param array  $options
+	 * @param string|null $url
+	 * @param array       $options
 	 */
 	public function __construct($url = null, $options = array())
 	{
@@ -25,13 +25,13 @@ class Curl
 
 		// Set endpoint
 		if ($url) {
-			$this->url = $url;
+			$this->set('url', $url);
 		}
 
 		// Set options
 		if ($options) {
 			foreach ($options as $key => $value) {
-				$this->$key = $value;
+				$this->set($key, $value);
 			}
 		}
 	}
@@ -44,9 +44,7 @@ class Curl
 	 */
 	public function __set($key, $value)
 	{
-		$option = constant('CURLOPT_'.strtoupper($key));
-
-		curl_setopt($this->curl, $option, $value);
+		$this->set($key, $value);
 	}
 
 	/**
@@ -57,6 +55,25 @@ class Curl
 	public function close()
 	{
 		curl_close($this->curl);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	///////////////////////////// ATTRIBUTES /////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 *
+	 * @return self
+	 */
+	protected function set($key, $value)
+	{
+		$option = constant('CURLOPT_'.strtoupper($key));
+
+		curl_setopt($this->curl, $option, $value);
+
+		return $this;
 	}
 
 	/**
@@ -74,6 +91,22 @@ class Curl
 	}
 
 	/**
+	 * Set the body of the request
+	 *
+	 * @param string|array $contents
+	 *
+	 * @return self
+	 */
+	public function setBody($contents)
+	{
+		return $this->set('postFields', $contents);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// RESPONSE //////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Send and get results
 	 *
 	 * @return mixed
@@ -84,27 +117,13 @@ class Curl
 	}
 
 	/**
-	 * Set the body of the request
-	 *
-	 * @param string|array $contents
-	 *
-	 * @return self
-	 */
-	public function setBody($contents)
-	{
-		$this->postFields = $contents;
-
-		return $this;
-	}
-
-	/**
-	 * Get contents of the remote URL
+	 * Get the contents of the remote URL
 	 *
 	 * @return mixed
 	 */
 	public function getBody()
 	{
-		$this->returnTransfer = 1;
+		$this->set('returnTransfer', 1);
 
 		return $this->send();
 	}

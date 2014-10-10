@@ -60,10 +60,11 @@ abstract class AbstractModel extends Model
 	/**
 	 * Get all models belonging to other models
 	 *
-	 * @param string $relation
-	 * @param array  $ids
+	 * @param \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder $query
+	 * @param string                                                                   $relation
+	 * @param array                                                                    $ids
 	 *
-	 * @return Query
+	 * @return \Arrounded\Abstracts\Query
 	 */
 	public function scopeWhereBelongsTo($query, $relation, array $ids = array())
 	{

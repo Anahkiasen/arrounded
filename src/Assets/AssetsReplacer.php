@@ -49,7 +49,7 @@ class AssetsReplacer extends Command
 		$views  = array_keys(iterator_to_array($views));
 
 		// Replace in views
-		$matcher  = '/{{ ?Assets\.(styles|scripts)\(["\'](.+)["\']\)(\|raw)? ?}}/';
+		$matcher = '/{{ ?Assets\.(styles|scripts)\(["\'](.+)["\']\)(\|raw)? ?}}/';
 		foreach ($views as $view) {
 			$this->comment('Replacing calls in '.basename($view));
 			$contents = file_get_contents($view);

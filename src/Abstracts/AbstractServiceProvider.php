@@ -20,7 +20,7 @@ abstract class AbstractServiceProvider extends ServiceProvider
 	/**
 	 * Set the namespace to be used by Arrounded
 	 *
-	 * @param string $namespace
+	 * @param string|null $namespace
 	 */
 	protected function setNamespace($namespace = null)
 	{

@@ -29,14 +29,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	 */
 	public function getModelInstance()
 	{
-		$model = $this->items;
-
-		// If the items is a Query, unwrap it
-		if ($model instanceof Builder) {
-			$model = $model->getModel();
-		}
-
-		return $model;
+		return $this->unwrapQueries($this->items);
 	}
 
 	/**
@@ -70,7 +63,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * Set the number of results to display per page
 	 *
-	 * @param integer $perPage
+	 * @param integer|null $perPage
 	 *
 	 * @return self
 	 */
@@ -86,7 +79,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * Change the core items
 	 *
-	 * @param AbstractModel $items
+	 * @param AbstractModel|Builder $items
 	 *
 	 * @return $this
 	 */
@@ -100,15 +93,11 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * Get the core items query
 	 *
-	 * @return Query
+	 * @return AbstractModel
 	 */
 	public function items()
 	{
-		if ($this->items instanceof Builder) {
-			$this->items = $this->items->getModel();
-		}
-
-		return clone $this->items;
+		return clone $this->getModelInstance();
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -171,7 +160,7 @@ abstract class AbstractRepository implements RepositoryInterface
 
 		return $item
 			? $this->find($item)->fill($attributes)
-			: $this->items->newInstance($attributes);
+			: $this->items()->newInstance($attributes);
 	}
 
 	/**
@@ -263,7 +252,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * Return all items
 	 *
-	 * @param integer $perPage
+	 * @param integer|null $perPage
 	 *
 	 * @return Collection
 	 */
@@ -277,9 +266,9 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * Get all items, paginated
 	 *
-	 * @param integer $perPage
+	 * @param integer|null $perPage
 	 *
-	 * @return Paginator
+	 * @return \Illuminate\Pagination\Paginator
 	 */
 	public function getPaginated($perPage = null)
 	{
@@ -293,7 +282,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	//////////////////////////////////////////////////////////////////////
 
 	/**
-	 * @param                              $query
+	 * @param Builder                      $query
 	 * @param integer|string|AbstractModel $item
 	 *
 	 * @return AbstractModel
@@ -313,5 +302,19 @@ abstract class AbstractRepository implements RepositoryInterface
 		}
 
 		return $query->findOrFail($item);
+	}
+
+	/**
+	 * @param AbstractModel|Builder $query
+	 *
+	 * @return Model
+	 */
+	protected function unwrapQueries($query)
+	{
+		if ($query instanceof Builder) {
+			return $query->getModel();
+		}
+
+		return $query;
 	}
 }

@@ -2,6 +2,8 @@
 namespace Arrounded\Interfaces;
 
 use Arrounded\Abstracts\AbstractModel;
+use Arrounded\Collection;
+use Illuminate\Support\Facades\Paginator;
 
 interface RepositoryInterface
 {
@@ -91,7 +93,7 @@ interface RepositoryInterface
 	/**
 	 * Return all items
 	 *
-	 * @param integer $perPage
+	 * @param integer|null $perPage
 	 *
 	 * @return Collection
 	 */

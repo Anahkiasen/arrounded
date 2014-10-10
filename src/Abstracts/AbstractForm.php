@@ -44,8 +44,8 @@ abstract class AbstractForm
 	/**
 	 * Validate an array of attributes
 	 *
-	 * @param array    $attributes
-	 * @param callable $callback
+	 * @param array         $attributes
+	 * @param callable|null $callback
 	 *
 	 * @throws ValidationException
 	 * @return mixed
@@ -72,7 +72,7 @@ abstract class AbstractForm
 	 *
 	 * @param AbstractModel $model
 	 * @param array         $attributes
-	 * @param callable      $callback
+	 * @param callable|null $callback
 	 *
 	 * @throws ValidationException
 	 * @return void
@@ -116,8 +116,8 @@ abstract class AbstractForm
 
 		// Replace placeholders in rules
 		foreach ($rules as $key => $rule) {
-			preg_match_all('/\{([a-z_]+)\}/', $rule, $attributes);
-			foreach ($attributes[1] as $attribute) {
+			preg_match_all('/\{([a-z_]+)\}/', $rule, $matches);
+			foreach ($matches[1] as $attribute) {
 				$rule = str_replace('{'.$attribute.'}', $this->model->$attribute, $rule);
 			}
 

@@ -2,6 +2,7 @@
 namespace Arrounded\Commands;
 
 use Arrounded\Testing\Crawler;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Testing\Client;
 use Illuminate\Support\Facades\DB;
@@ -60,7 +61,7 @@ class BenchQueries extends Command
 		foreach ($this->queries as $route => $log) {
 			$table[$route] = array(
 				$route,
-				sizeof($log['queries']),
+				count($log['queries']),
 			);
 		}
 
@@ -80,7 +81,7 @@ class BenchQueries extends Command
 
 		if ($route = $this->option('route')) {
 			$route = $this->laravel['url']->to($route);
-			print $this->queries[$route]['response'];
+			echo $this->queries[$route]['response'];
 			print_r($this->queries[$route]['queries']);
 		}
 	}
@@ -103,8 +104,6 @@ class BenchQueries extends Command
 
 	/**
 	 * Get all queries by route
-	 *
-	 * @return array
 	 */
 	protected function getQueries()
 	{
@@ -121,7 +120,7 @@ class BenchQueries extends Command
 
 		// Crawl routes
 		$routes = $crawler->getRoutes();
-		$this->info('Found '.sizeof($routes).' routes');
+		$this->info('Found '.count($routes).' routes');
 		foreach ($routes as $route) {
 			$this->inspect($client, $route);
 		}
@@ -138,7 +137,7 @@ class BenchQueries extends Command
 		try {
 			$this->info('Inspecting '.$route);
 			$client->request('GET', $route);
-		} catch (\Exception $exception) {
+		} catch (Exception $exception) {
 			$this->error('Error inspecting '.$route);
 		}
 

@@ -25,7 +25,7 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
 	/**
 	 * Filter items by a column
 	 *
-	 * @param string $column
+	 * @param string|null $column
 	 *
 	 * @return self
 	 */
@@ -39,7 +39,7 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
 	/**
 	 * Filter items by a column
 	 *
-	 * @param string $column
+	 * @param string|null $column
 	 *
 	 * @return self
 	 */
@@ -111,7 +111,7 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
 				$item = $item->get();
 			}
 
-			$item = sizeof($item);
+			$item = count($item);
 		}
 
 		return $self;
@@ -132,12 +132,14 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
 	/**
 	 * Get the average of a Collection
 	 *
-	 * @return integer
+	 * @param string|null $key
+	 *
+	 * @return integer|double
 	 */
 	public function average($key = null)
 	{
 		$results = $key ? $this->lists($key) : $this->items;
-		$results = array_sum($results) / sizeof($results);
+		$results = array_sum($results) / count($results);
 
 		return $results;
 	}

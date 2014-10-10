@@ -3,20 +3,20 @@ namespace Arrounded\Controllers;
 
 use Arrounded\Abstracts\AbstractSmartController;
 use Arrounded\Interfaces\RepositoryInterface;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\Response;
 use Input;
 use Request;
 
 /**
  * A smart controller based on a Repository implementation
  */
-abstract class SmartRepositoryController extends AbstractSmartController
+abstract class AbstractSmartRepositoryController extends AbstractSmartController
 {
 	/**
 	 * The repository in use
 	 *
-	 * @var AbstractRepository
+	 * @var RepositoryInterface
 	 */
 	protected $repository;
 
@@ -28,7 +28,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	protected $eagerLoaded = array();
 
 	/**
-	 * Build a new SmartRepositoryController
+	 * Build a new AbstractSmartRepositoryController
 	 *
 	 * @param RepositoryInterface $repository
 	 */

@@ -31,7 +31,7 @@ class ApiDisplayer extends RoutesCommand
 	 *
 	 * @param  Route $route
 	 *
-	 * @return array
+	 * @return array|null
 	 */
 	protected function getRouteInformation(Route $route)
 	{

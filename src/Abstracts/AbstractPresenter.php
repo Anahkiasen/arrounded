@@ -124,7 +124,7 @@ class AbstractPresenter extends Presenter
 	/**
 	 * Show a model's main identifier
 	 *
-	 * @param AbstractPresenter $model
+	 * @param AbstractPresenter|null $model
 	 *
 	 * @return string
 	 */

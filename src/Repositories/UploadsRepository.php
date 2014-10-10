@@ -3,19 +3,19 @@ namespace Arrounded\Repositories;
 
 use Arrounded\Abstracts\AbstractModel;
 use Arrounded\Abstracts\AbstractRepository;
-use Arrounded\Models\Upload;
+use Arrounded\Models\AbstractUploadModel;
 
 /**
- * Repository for the Upload resource
+ * Repository for the AbstractUploadModel resource
  */
 class UploadsRepository extends AbstractRepository
 {
 	/**
 	 * Build a new UploadsRepository
 	 *
-	 * @param Upload $items
+	 * @param AbstractUploadModel $items
 	 */
-	public function __construct(Upload $items)
+	public function __construct(AbstractUploadModel $items)
 	{
 		$this->items = $items;
 	}
@@ -23,11 +23,11 @@ class UploadsRepository extends AbstractRepository
 	/**
 	 * Bind an unique image type to a model
 	 *
-	 * @param Upload[]|Upload $uploads
-	 * @param AbstractModel   $model
-	 * @param array           $attributes
+	 * @param AbstractUploadModel[]|AbstractUploadModel $uploads
+	 * @param AbstractModel                             $model
+	 * @param array                                     $attributes
 	 *
-	 * @return Upload
+	 * @return AbstractUploadModel
 	 */
 	public function bindUniqueTo($uploads, AbstractModel $model, $attributes = array())
 	{
@@ -37,13 +37,13 @@ class UploadsRepository extends AbstractRepository
 	}
 
 	/**
-	 * Bind an Upload to a model
+	 * Bind an AbstractUploadModel to a model
 	 *
-	 * @param Upload[]|Upload $uploads
-	 * @param AbstractModel   $model
-	 * @param array           $attributes
+	 * @param AbstractUploadModel[]|AbstractUploadModel $uploads
+	 * @param AbstractModel                             $model
+	 * @param array                                     $attributes
 	 *
-	 * @return Upload|Upload[]
+	 * @return AbstractUploadModel|AbstractUploadModel[]
 	 */
 	public function bindTo($uploads, AbstractModel $model, $attributes = array())
 	{
@@ -59,7 +59,7 @@ class UploadsRepository extends AbstractRepository
 		}
 
 		// If we passed a string or UploadedFile, etc.
-		if (!$uploads instanceof Upload) {
+		if (!$uploads instanceof AbstractUploadModel) {
 			$attributes = array_merge($attributes, ['file' => $uploads]);
 			$uploads    = $this->instance($attributes);
 		}

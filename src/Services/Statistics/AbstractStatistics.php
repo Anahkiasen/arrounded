@@ -164,7 +164,7 @@ abstract class AbstractStatistics extends Collection
 	 */
 	protected function fillGaps(array $results, $keys)
 	{
-		$filler = array_fill(0, sizeof($keys), 0);
+		$filler = array_fill(0, count($keys), 0);
 		$filler = array_combine($keys, $filler);
 
 		return array_merge($filler, $results);

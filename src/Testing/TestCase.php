@@ -61,7 +61,7 @@ class TestCase extends IlluminateTestCase
 			$data[$variable] = $response->$variable;
 		}
 
-		if (sizeof($data) == 1) {
+		if (count($data) == 1) {
 			return reset($data);
 		}
 
