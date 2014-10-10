@@ -1,4 +1,6 @@
+# Development
 .idea
+
+# Dependencies
 composer.lock
-.DS_Store
 vendor
