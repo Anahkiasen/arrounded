@@ -49,7 +49,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 * @param  array        $eager
 	 * @param  integer|null $paginate
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\View\View
 	 */
 	protected function coreIndex($eager = array(), $paginate = null)
 	{
@@ -63,7 +63,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 *
 	 * @param  array $data Additional data
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\View\View
 	 */
 	protected function coreCreate($data = array())
 	{
@@ -75,7 +75,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 *
 	 * @param  int $user
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\View\View
 	 */
 	protected function coreShow($user)
 	{
@@ -88,7 +88,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 * @param  integer $item
 	 * @param  array   $data Additional data
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\View\View
 	 */
 	protected function coreEdit($item, $data = array())
 	{

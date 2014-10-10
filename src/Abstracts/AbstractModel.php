@@ -2,11 +2,12 @@
 namespace Arrounded\Abstracts;
 
 use Arrounded\Collection;
+use Arrounded\Traits\Reflection\ReflectionModel;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class AbstractModel extends Model
 {
-	use \Arrounded\Traits\Reflection\ReflectionModel;
+	use ReflectionModel;
 
 	/**
 	 * The attributes to cast on serialization

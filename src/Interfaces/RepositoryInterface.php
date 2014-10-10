@@ -1,6 +1,8 @@
 <?php
 namespace Arrounded\Interfaces;
 
+use Arrounded\Abstracts\AbstractModel;
+
 interface RepositoryInterface
 {
 	////////////////////////////////////////////////////////////////////
@@ -12,7 +14,7 @@ interface RepositoryInterface
 	 *
 	 * @param array $relations
 	 *
-	 * @return void
+	 * @return self
 	 */
 	public function eagerLoad($relations);
 
@@ -41,7 +43,7 @@ interface RepositoryInterface
 	 *
 	 * @param  integer $item
 	 *
-	 * @return \Arrounded\Abstracts\AbstractModel
+	 * @return AbstractModel
 	 */
 	public function find($item);
 
@@ -50,7 +52,7 @@ interface RepositoryInterface
 	 *
 	 * @param array $attributes
 	 *
-	 * @return \Arrounded\Abstracts\AbstractModel
+	 * @return AbstractModel
 	 */
 	public function findOrNew($attributes = array());
 
@@ -59,7 +61,7 @@ interface RepositoryInterface
 	 *
 	 * @param  array $attributes
 	 *
-	 * @return \Arrounded\Abstracts\AbstractModel
+	 * @return AbstractModel
 	 */
 	public function create(array $attributes = array());
 

@@ -95,7 +95,7 @@ class RemigrateCommand extends Command
 		$migrations = app_path($migrations.'/*');
 		$migrations = $this->laravel['files']->glob($migrations);
 		$migrations = array_map('file_get_contents', $migrations);
-		$migrations = md5(implode($migrations));
+		$migrations = md5(implode(null, $migrations));
 
 		return $migrations;
 	}

@@ -11,7 +11,7 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * The items to fetch from
 	 *
-	 * @var AbstractModel
+	 * @var AbstractModel|Builder
 	 */
 	protected $items;
 
@@ -25,12 +25,14 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * Get the core model instance
 	 *
-	 * @return Model
+	 * @return AbstractModel
 	 */
 	public function getModelInstance()
 	{
 		$model = $this->items;
-		if (method_exists($model, 'getModel')) {
+
+		// If the items is a Query, unwrap it
+		if ($model instanceof Builder) {
 			$model = $model->getModel();
 		}
 

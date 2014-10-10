@@ -80,8 +80,8 @@ class BenchQueries extends Command
 
 		if ($route = $this->option('route')) {
 			$route = $this->laravel['url']->to($route);
-			print $queries[$route]['response'];
-			print_r($queries[$route]['queries']);
+			print $this->queries[$route]['response'];
+			print_r($this->queries[$route]['queries']);
 		}
 	}
 

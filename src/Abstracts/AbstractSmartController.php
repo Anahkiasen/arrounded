@@ -135,7 +135,7 @@ abstract class AbstractSmartController extends Controller
 	 * @param  array        $eager
 	 * @param  integer|null $paginate
 	 *
-	 * @return Response
+	 * @return \Illuminate\View\View
 	 */
 	abstract protected function coreIndex($eager = array(), $paginate = null);
 
@@ -153,7 +153,7 @@ abstract class AbstractSmartController extends Controller
 	 *
 	 * @param  int $user
 	 *
-	 * @return Response
+	 * @return \Illuminate\View\View
 	 */
 	abstract protected function coreShow($user);
 

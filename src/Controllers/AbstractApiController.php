@@ -28,7 +28,7 @@ abstract class AbstractApiController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return Response
+	 * @return \Illuminate\Http\Response
 	 */
 	public function index()
 	{
@@ -77,7 +77,7 @@ abstract class AbstractApiController extends Controller
 	 *
 	 * @param  int $item
 	 *
-	 * @return Response
+	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy($item)
 	{

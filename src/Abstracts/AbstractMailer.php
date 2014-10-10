@@ -37,7 +37,7 @@ abstract class AbstractMailer
 	/**
 	 * The friends to invite
 	 *
-	 * @var array
+	 * @var Collection
 	 */
 	protected $recipients = array();
 
