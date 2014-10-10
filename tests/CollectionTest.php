@@ -1,6 +1,8 @@
 <?php
 namespace Arrounded;
 
+use Arrounded\TestCases\ArroundedTestCase;
+
 class CollectionTest extends ArroundedTestCase
 {
 	/**

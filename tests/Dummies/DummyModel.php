@@ -11,11 +11,6 @@ class DummyModel extends Model
 {
 	use ReflectionModel;
 
-	protected $casts = array(
-		'integer' => 'id',
-		'boolean' => ['status'],
-	);
-
 	/**
 	 * The guarded attributes
 	 *

@@ -3,6 +3,7 @@ namespace Arrounded\Abstracts;
 
 use Auth;
 use Config;
+use Illuminate\Auth\UserInterface;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Collection;
@@ -70,7 +71,6 @@ abstract class AbstractMailer
 	public function __construct(Mailer $mailer)
 	{
 		$this->mailer = $mailer;
-		$this->from   = Auth::user();
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -80,9 +80,9 @@ abstract class AbstractMailer
 	/**
 	 * Set the user inviting the others
 	 *
-	 * @param User $user
+	 * @param UserInterface $user
 	 */
-	public function setSender(User $user)
+	public function setSender(UserInterface $user)
 	{
 		$this->databag = array(
 			'from' => $user,
@@ -112,6 +112,14 @@ abstract class AbstractMailer
 	}
 
 	/**
+	 * @return Collection
+	 */
+	public function getRecipients()
+	{
+		return $this->recipients;
+	}
+
+	/**
 	 * Set the template to use
 	 *
 	 * @param string $template
@@ -137,6 +145,14 @@ abstract class AbstractMailer
 	public function setDatabag(array $databag)
 	{
 		$this->databag = array_merge($this->databag, $databag);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getDatabag()
+	{
+		return $this->databag;
 	}
 
 	////////////////////////////////////////////////////////////////////

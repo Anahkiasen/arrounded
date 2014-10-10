@@ -1,9 +1,9 @@
 <?php
 namespace Arrounded\Abstracts;
 
-use Arrounded\ArroundedTestCase;
 use Arrounded\Dummies\DummyModel;
 use Arrounded\Dummies\DummyRepository;
+use Arrounded\TestCases\ArroundedTestCase;
 use Mockery;
 
 class AbstractRepositoryTest extends ArroundedTestCase
