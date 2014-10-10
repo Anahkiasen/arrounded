@@ -56,6 +56,8 @@ abstract class AbstractSeeder extends Seeder
 	 * @param string       $table
 	 * @param array        $items
 	 * @param integer|null $chunks
+	 *
+	 * @return boolean
 	 */
 	public function insertChunked($table, $items, $chunks = null)
 	{
@@ -71,10 +73,13 @@ abstract class AbstractSeeder extends Seeder
 		}
 
 		// Chunk entries
-		$slices = $chunks ? array_chunk($items, $chunks) : array($items);
-		$this->progressIterator($slices, function ($items) use ($table) {
-			DB::table($table)->insert($items);
+		$results = [];
+		$slices  = $chunks ? array_chunk($items, $chunks) : array($items);
+		$this->progressIterator($slices, function ($items) use ($table, $results) {
+			$results[] = DB::table($table)->insert($items);
 		});
+
+		return count(array_filter($results)) == count($slices);
 	}
 
 	/**

@@ -11,28 +11,28 @@ interface IllustrableInterface
 	/**
 	 * Get the model's images
 	 *
-	 * @return \Illuminate\Support\Collection
+	 * @return \Illuminate\Database\Eloquent\Relations\MorphMany
 	 */
 	public function images();
 
 	/**
 	 * Get one of the model's files
 	 *
-	 * @return \Illuminate\Support\Collection
+	 * @return \Illuminate\Database\Eloquent\Relations\MorphOne
 	 */
 	public function file();
 
 	/**
 	 * Get the model's files
 	 *
-	 * @return \Illuminate\Support\Collection
+	 * @return \Illuminate\Database\Eloquent\Relations\MorphMany
 	 */
 	public function files();
 
 	/**
 	 * Get the model's thumbnail
 	 *
-	 * @return mixed|null
+	 * @return \Illuminate\Database\Eloquent\Relations\MorphOne
 	 */
 	public function thumb();
 
