@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 0.3.0 - 2014-10-10
+
+### Added
+- Added core "Arrounded" class with various reflection methods
+- Added AbstractTransformer and DefaultTransformer
+- Added `IllustrableInterface` for models implementing `Illustrable`
+
+### Changed
+- Abstract controllers were moved to `Abstracts\Controllers` (and all prefixed with Abstract)
+- `Models\Upload` was moved to `Abstracts\Models\AbstractUploadModel`
+- `Abstracts\AbstractModel` was moved to `Abstracts\Models\AbstractModel`
+
+### Fixed
+- Fixed a bug in ReflectionModel::hasTrait
+
 ## 0.2.2 - 2014-09-26
 
 ### Added
