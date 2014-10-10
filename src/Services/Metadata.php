@@ -80,7 +80,7 @@ class Metadata
 
 		// Format URLs if provided
 		$image = array_get($attributes, 'image');
-		if (!file_exists($this->app['path.public'].$image) or strpos($image, 'placeholder') !== false) {
+		if (!file_exists($this->app['path.public'].$image) || strpos($image, 'placeholder') !== false) {
 			$image = $this->getPlaceholderIllustration();
 		}
 		$attributes['image'] = $this->app['url']->asset($image);

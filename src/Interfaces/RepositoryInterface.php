@@ -69,7 +69,7 @@ interface RepositoryInterface
 	 * @param AbstractModel|integer $item
 	 * @param array                 $attributes
 	 *
-	 * @return boolean
+	 * @return AbstractModel
 	 */
 	public function update($item, array $attributes = array());
 

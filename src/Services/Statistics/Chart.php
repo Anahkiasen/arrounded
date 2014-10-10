@@ -57,7 +57,7 @@ class Chart
 	 */
 	public static function make($type, $element)
 	{
-		$chart = new static;
+		$chart = new static();
 		$chart->setType($type);
 		$chart->setElement($element);
 

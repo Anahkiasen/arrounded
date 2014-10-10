@@ -141,7 +141,7 @@ class AbstractPresenter extends Presenter
 
 		// Return straigt name if no route
 		$route = 'admin.'.$model->getTable().'.edit';
-		if (!$model->id or !Route::getRoutes()->hasNamedRoute($route)) {
+		if (!$model->id || !Route::getRoutes()->hasNamedRoute($route)) {
 			return $name;
 		}
 

@@ -22,7 +22,7 @@ trait Mailable
 	public function emailOn($subject, $view, $data = array(), $condition = true)
 	{
 		$recipient = $this->email;
-		if (!$condition or !$recipient) {
+		if (!$condition || !$recipient) {
 			return;
 		}
 

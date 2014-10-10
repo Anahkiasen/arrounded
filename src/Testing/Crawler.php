@@ -49,6 +49,8 @@ class Crawler
 	/**
 	 * Get the routes to test
 	 *
+	 * @param array $additional
+	 *
 	 * @return array
 	 */
 	public function getRoutes(array $additional = array())
@@ -62,7 +64,7 @@ class Crawler
 				$uri    = method_exists($route, 'getPath') ? $route->getPath() : $route->uri();
 
 				// Skip some routes
-				if ($method != 'GET' or Str::contains($uri, $this->ignored)) {
+				if ($method != 'GET' || Str::contains($uri, $this->ignored)) {
 					continue;
 				}
 
@@ -208,7 +210,7 @@ class Crawler
 		$model = Str::singular($model);
 		$model = $this->namespace.$model;
 
-		if (class_exists($model) and is_subclass_of($model, 'Illuminate\Database\Eloquent\Model')) {
+		if (class_exists($model) && is_subclass_of($model, 'Illuminate\Database\Eloquent\Model')) {
 			return $model;
 		}
 

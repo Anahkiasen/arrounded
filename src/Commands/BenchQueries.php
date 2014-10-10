@@ -120,7 +120,7 @@ class BenchQueries extends Command
 		$client = new Client($this->laravel, array());
 
 		// Crawl routes
-		$routes = $crawler->getRoutes(array(), 0);
+		$routes = $crawler->getRoutes();
 		$this->info('Found '.sizeof($routes).' routes');
 		foreach ($routes as $route) {
 			$this->inspect($client, $route);

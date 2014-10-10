@@ -44,7 +44,7 @@ class AssetsReplacer extends Command
 		$views = app_path('views');
 
 		// List all views
-		$finder = new Finder($views);
+		$finder = new Finder();
 		$views  = $finder->files()->in($views)->getIterator();
 		$views  = array_keys(iterator_to_array($views));
 

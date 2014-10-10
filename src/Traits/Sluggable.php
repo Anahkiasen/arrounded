@@ -41,7 +41,7 @@ trait Sluggable
 	{
 		// If we already generated a slug in the past
 		// then keep that one
-		if ($this->slug and !is_int($this->slug)) {
+		if ($this->slug && !is_int($this->slug)) {
 			return $this->slug;
 		}
 

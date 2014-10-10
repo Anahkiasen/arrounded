@@ -4,9 +4,9 @@ namespace Arrounded\Controllers;
 use Arrounded\Abstracts\AbstractSmartController;
 use Arrounded\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Response;
 use Input;
 use Request;
-use Response;
 
 /**
  * A smart controller based on a Repository implementation
@@ -49,7 +49,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 * @param  array        $eager
 	 * @param  integer|null $paginate
 	 *
-	 * @return \View
+	 * @return \Illuminate\Http\Response
 	 */
 	protected function coreIndex($eager = array(), $paginate = null)
 	{
@@ -63,7 +63,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 *
 	 * @param  array $data Additional data
 	 *
-	 * @return \View
+	 * @return \Illuminate\Http\Response
 	 */
 	protected function coreCreate($data = array())
 	{
@@ -75,7 +75,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 *
 	 * @param  int $user
 	 *
-	 * @return \View
+	 * @return \Illuminate\Http\Response
 	 */
 	protected function coreShow($user)
 	{
@@ -88,7 +88,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 * @param  integer $item
 	 * @param  array   $data Additional data
 	 *
-	 * @return \View
+	 * @return \Illuminate\Http\Response
 	 */
 	protected function coreEdit($item, $data = array())
 	{
@@ -119,7 +119,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 
 		// Update relationships
 		foreach ($input as $key => $value) {
-			if (method_exists($item, $key) and $item->$key() instanceof BelongsToMany) {
+			if (method_exists($item, $key) && $item->$key() instanceof BelongsToMany) {
 				$item->$key()->sync($value);
 			}
 		}
@@ -133,14 +133,14 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 * @param  integer $item
 	 * @param  boolean $force
 	 *
-	 * @return Redirect
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	protected function coreDestroy($item, $force = false)
 	{
 		$this->repository->delete($item, $force);
 
 		if (Request::ajax()) {
-			return Response::json(array(), 204);
+			return \Response::json(array(), 204);
 		}
 
 		return $this->getRedirect('index');

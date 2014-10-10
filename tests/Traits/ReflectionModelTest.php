@@ -18,7 +18,7 @@ class ReflectionModelTest extends ArroundedTestCase
 	 */
 	public function setUp()
 	{
-		$this->model = new DummyModel;
+		$this->model = new DummyModel();
 	}
 
 	////////////////////////////////////////////////////////////////////

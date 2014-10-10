@@ -43,18 +43,19 @@ class UploadsRepository extends AbstractRepository
 	 * @param AbstractModel   $model
 	 * @param array           $attributes
 	 *
-	 * @return Upload
+	 * @return Upload|Upload[]
 	 */
 	public function bindTo($uploads, AbstractModel $model, $attributes = array())
 	{
 		// Recursive call
 		if (is_array($uploads)) {
 			$uploads = array_filter($uploads);
+			$results = [];
 			foreach ($uploads as $upload) {
-				$this->bindTo($upload, $model, $attributes);
+				$results[] = $this->bindTo($upload, $model, $attributes);
 			}
 
-			return $uploads;
+			return $results;
 		}
 
 		// If we passed a string or UploadedFile, etc.
@@ -124,7 +125,7 @@ class UploadsRepository extends AbstractRepository
 	{
 		$query = $this->items()->where(array(
 			'illustrable_type' => $this->getModelInstance()->getNamespace().'\Models\Temporary',
-			'illustrable_id'   => $hash
+			'illustrable_id'   => $hash,
 		));
 
 		if ($type) {

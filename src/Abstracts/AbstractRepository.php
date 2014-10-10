@@ -230,7 +230,6 @@ abstract class AbstractRepository implements RepositoryInterface
 	{
 		// Check if the model soft deletes or not
 		$softDeletes = $this->getModelInstance()->hasTrait(SoftDeletingTrait::class);
-		$finder      = $softDeletes ? 'findInTrash' : 'find';
 		$method      = $force && $softDeletes ? 'forceDelete' : 'delete';
 
 		$item = $this->find($item);
@@ -306,7 +305,7 @@ abstract class AbstractRepository implements RepositoryInterface
 
 		// Find by slug
 		if (!is_array($item)) {
-			if (!preg_match('/^[0-9]+$/', (string) $item) and $this->getModelInstance()->hasTrait('Sluggable')) {
+			if (!preg_match('/^[0-9]+$/', (string) $item) && $this->getModelInstance()->hasTrait('Sluggable')) {
 				return $query->whereSlug($item)->firstOrFail();
 			}
 		}

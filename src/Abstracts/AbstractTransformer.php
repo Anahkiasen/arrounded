@@ -31,7 +31,7 @@ class AbstractTransformer extends TransformerAbstract
 			return $this->availableIncludes;
 		}
 
-		$relations = new $model;
+		$relations = new $model();
 		$relations = $relations->getAvailableRelations();
 
 		return $this->availableIncludes = $relations;

@@ -116,6 +116,6 @@ class RemigrateCommand extends Command
 		$provider = 'Schickling\Backup\BackupServiceProvider';
 		$provided = $this->laravel->getLoadedProviders();
 
-		return class_exists($provider) and array_get($provided, $provider);
+		return class_exists($provider) && array_get($provided, $provider);
 	}
 }

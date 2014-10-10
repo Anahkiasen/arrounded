@@ -177,6 +177,7 @@ abstract class AbstractMailer
 				try {
 					$message = $message->to($recipient->email);
 				} catch (Swift_RfcComplianceException $exception) {
+					// Email is invalid, skip it
 				}
 
 				// Set additional parameters
@@ -239,7 +240,7 @@ abstract class AbstractMailer
 
 		// If no users were found, create instances on the run
 		if ($users->isEmpty()) {
-			$users = new Collection;
+			$users = new Collection();
 			foreach ($recipients as $recipient) {
 				$users[] = new $model([$column => $recipient]);
 			}

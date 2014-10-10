@@ -35,8 +35,8 @@ class AbstractRepositoryTest extends ArroundedTestCase
 
 	public function testCanReturnAlreadyFoundInstances()
 	{
-		$repository = new DummyRepository(new DummyModel);
-		$model      = new DummyModel;
+		$repository = new DummyRepository(new DummyModel());
+		$model      = new DummyModel();
 
 		$this->assertEquals($model, $repository->find($model));
 	}
@@ -44,7 +44,7 @@ class AbstractRepositoryTest extends ArroundedTestCase
 	public function testCanFindItemViaAttributes()
 	{
 		$eloquent   = Mockery::mock('Eloquent', function ($mock) {
-			$mock->shouldReceive('findOrFail')->once()->with(1)->andReturn(new DummyModel);
+			$mock->shouldReceive('findOrFail')->once()->with(1)->andReturn(new DummyModel());
 		});
 		$repository = new DummyRepository($eloquent);
 		$model      = $repository->findOrNew(array('id' => 1, 'name' => 'foo'));

@@ -26,7 +26,7 @@ abstract class Upload extends AbstractModel implements StaplerableInterface
 		'file',
 		'type',
 		'illustrable_id',
-		'illustrable_type'
+		'illustrable_type',
 	];
 
 	/**

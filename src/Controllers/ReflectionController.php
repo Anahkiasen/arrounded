@@ -66,6 +66,6 @@ class ReflectionController extends ReflectionClass
 	{
 		$model = $this->model();
 
-		return new $model;
+		return new $model();
 	}
 }
