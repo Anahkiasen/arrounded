@@ -214,7 +214,7 @@ class Chart
 	 */
 	protected function formatDatasets($datasets)
 	{
-		$data     = [];
+		$data = [];
 
 		switch ($this->type) {
 

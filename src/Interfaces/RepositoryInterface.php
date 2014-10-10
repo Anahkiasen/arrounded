@@ -20,6 +20,8 @@ interface RepositoryInterface
 	 * Change the core items
 	 *
 	 * @param AbstractModel $items
+	 *
+	 * @return \Arrounded\Abstracts\AbstractRepository
 	 */
 	public function setItems($items);
 
@@ -39,7 +41,7 @@ interface RepositoryInterface
 	 *
 	 * @param  integer $item
 	 *
-	 * @return AbstractModel
+	 * @return \Arrounded\Abstracts\AbstractModel
 	 */
 	public function find($item);
 
@@ -48,7 +50,7 @@ interface RepositoryInterface
 	 *
 	 * @param array $attributes
 	 *
-	 * @return AbstractModel
+	 * @return \Arrounded\Abstracts\AbstractModel
 	 */
 	public function findOrNew($attributes = array());
 
@@ -57,7 +59,7 @@ interface RepositoryInterface
 	 *
 	 * @param  array $attributes
 	 *
-	 * @return AbstractModel
+	 * @return \Arrounded\Abstracts\AbstractModel
 	 */
 	public function create(array $attributes = array());
 

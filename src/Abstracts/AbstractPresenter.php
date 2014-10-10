@@ -2,7 +2,6 @@
 namespace Arrounded\Abstracts;
 
 use HTML;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Robbo\Presenter\Presenter;
 use Route;
@@ -125,7 +124,7 @@ class AbstractPresenter extends Presenter
 	/**
 	 * Show a model's main identifier
 	 *
-	 * @param string|Model|null $model
+	 * @param AbstractPresenter $model
 	 *
 	 * @return string
 	 */
@@ -202,7 +201,7 @@ class AbstractPresenter extends Presenter
 
 		// Wrap in badges
 		foreach ($tags as &$tag) {
-			$tag = '<span class="badge">' .$tag. '</span>';
+			$tag = '<span class="badge">'.$tag.'</span>';
 		}
 
 		return implode(' ', $tags);

@@ -49,10 +49,11 @@ class AssetsReplacer extends Command
 		$views  = array_keys(iterator_to_array($views));
 
 		// Replace in views
+		$matcher  = '/{{ ?Assets\.(styles|scripts)\(["\'](.+)["\']\)(\|raw)? ?}}/';
 		foreach ($views as $view) {
 			$this->comment('Replacing calls in '.basename($view));
 			$contents = file_get_contents($view);
-			$contents = preg_replace_callback('/{{ ?Assets\.(styles|scripts)\(["\'](.+)["\']\)(\|raw)? ?}}/', [$this, 'replaceAssetsCalls'], $contents);
+			$contents = preg_replace_callback($matcher, [$this, 'replaceAssetsCalls'], $contents);
 			file_put_contents($view, $contents);
 		}
 	}

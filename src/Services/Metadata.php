@@ -2,7 +2,6 @@
 namespace Arrounded\Services;
 
 use Illuminate\Container\Container;
-use Illuminate\Support\Facades\URL;
 
 /**
  * Generates and formats metadata

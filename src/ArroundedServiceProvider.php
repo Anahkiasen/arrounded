@@ -2,8 +2,6 @@
 namespace Arrounded;
 
 use Arrounded\Assets\AssetsHandler;
-use Arrounded\Macros\HtmlBuilder;
-use Illuminate\Support\Facades\HTML;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -43,7 +41,7 @@ class ArroundedServiceProvider extends ServiceProvider
 	/**
 	 * Get the services provided by the provider.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function provides()
 	{

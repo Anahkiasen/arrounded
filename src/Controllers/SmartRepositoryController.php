@@ -103,7 +103,7 @@ abstract class SmartRepositoryController extends AbstractSmartController
 	 *
 	 * @param  integer|null $item
 	 *
-	 * @return Redirect
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	protected function coreUpdate($item = null)
 	{

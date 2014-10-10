@@ -59,7 +59,7 @@ abstract class AbstractComposer
 	 *
 	 * @param string $page
 	 *
-	 * @return boolean
+	 * @return integer
 	 */
 	protected function isOnPage($page, $loose = true)
 	{

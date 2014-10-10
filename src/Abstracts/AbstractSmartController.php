@@ -249,7 +249,6 @@ abstract class AbstractSmartController extends Controller
 	 * Get a route
 	 *
 	 * @param  string $route
-	 * @param  array  $parameters
 	 *
 	 * @return string
 	 */

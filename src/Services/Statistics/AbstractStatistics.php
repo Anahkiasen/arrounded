@@ -62,9 +62,9 @@ abstract class AbstractStatistics extends Collection
 	/**
 	 * Execute a closure on a set of results
 	 *
-	 * @param string   $dataset
-	 * @param callable $callback
-	 * @param array    $keys
+	 * @param string  $dataset
+	 * @param Closure $callback
+	 * @param array   $keys
 	 *
 	 * @return array
 	 */

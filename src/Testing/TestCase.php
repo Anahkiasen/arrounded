@@ -46,7 +46,6 @@ class TestCase extends IlluminateTestCase
 	/**
 	 * Assert a variable in the view is an instance of something
 	 *
-	 * @param string $instance
 	 * @param string $variables
 	 *
 	 * @return mixed

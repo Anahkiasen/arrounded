@@ -47,8 +47,8 @@ class AssetsHandler
 	/**
 	 * Get a collection from the declared ones
 	 *
-	 * @param string|array $collection
-	 * @param string       $type
+	 * @param string $collection
+	 * @param string $type
 	 *
 	 * @return array
 	 */

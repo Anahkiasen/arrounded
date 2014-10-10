@@ -87,7 +87,7 @@ class FormerBuilder
 	public function manyToMany($name, $label = null)
 	{
 		$options = $this->getEntries($name, 'id');
-		$label = $label ?: class_basename($name);
+		$label   = $label ?: class_basename($name);
 
 		// Format entries
 		foreach ($options as $key => $value) {

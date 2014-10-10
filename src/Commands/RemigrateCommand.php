@@ -86,9 +86,9 @@ class RemigrateCommand extends Command
 	}
 
 	/**
-	 * @param $migrations
+	 * @param string $migrations
 	 *
-	 * @return array|string
+	 * @return string
 	 */
 	protected function hashFolder($migrations)
 	{

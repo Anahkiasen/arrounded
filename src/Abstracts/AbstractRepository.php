@@ -25,8 +25,6 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * Get the core model instance
 	 *
-	 * @param array $attributes
-	 *
 	 * @return Model
 	 */
 	public function getModelInstance()
@@ -206,8 +204,8 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * Update an item
 	 *
-	 * @param AbstractModel|integer $item
-	 * @param array                 $attributes
+	 * @param integer $item
+	 * @param array   $attributes
 	 *
 	 * @return AbstractModel
 	 */
@@ -223,8 +221,8 @@ abstract class AbstractRepository implements RepositoryInterface
 	/**
 	 * Delete an item
 	 *
-	 * @param AbstractModel|integer $item
-	 * @param boolean               $force Force delete or not
+	 * @param integer $item
+	 * @param boolean $force Force delete or not
 	 *
 	 * @return boolean
 	 */

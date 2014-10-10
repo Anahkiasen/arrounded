@@ -32,7 +32,8 @@ trait Sluggable
 	/**
 	 * Generate a slug from various components
 	 *
-	 * @param array <integer,string>|string $components
+	 * @param        array <integer,string>|string $components
+	 * @param string $components
 	 *
 	 * @return string
 	 */

@@ -111,7 +111,7 @@ class RoutesTest extends TestCase
 	 *
 	 * @param string $route
 	 *
-	 * @return boolean
+	 * @return integer
 	 */
 	protected function redirectsBack($route)
 	{

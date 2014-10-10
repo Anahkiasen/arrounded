@@ -1,14 +1,10 @@
 <?php
 namespace Arrounded\Traits\Reflection;
 
-use Arrounded\Traits\AbstractPresenter;
-use Arrounded\Traits\AbstractTransformer;
 use Auth;
-use HTML;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionMethod;
-use URL;
 
 /**
  * A model with methods that connect to routes and controllers
@@ -106,7 +102,7 @@ trait ReflectionModel
 	/**
 	 * Get the presenter instance
 	 *
-	 * @return AbstractPresenter
+	 * @return string
 	 */
 	public function getPresenter()
 	{
@@ -116,7 +112,7 @@ trait ReflectionModel
 	/**
 	 * Get the transformer instance.
 	 *
-	 * @return AbstractTransformer
+	 * @return string
 	 */
 	public function getTransformer()
 	{

@@ -2,7 +2,6 @@
 namespace Arrounded\Abstracts;
 
 use Arrounded\Collection;
-use Arrounded\Traits\Serializable;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class AbstractModel extends Model

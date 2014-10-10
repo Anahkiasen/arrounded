@@ -22,15 +22,15 @@ class JsonAttributesTest extends ArroundedTestCase
 		$model = new DummyJsonModel();
 
 		$this->assertEquals(array(
-				'facebook' => true,
-				'twitter'  => array('foo' => false, 'bar' => true),
-			), $model->notifications);
+			'facebook' => true,
+			'twitter'  => array('foo' => false, 'bar' => true),
+		), $model->notifications);
 
 		$model->notifications = array('twitter' => array('foo' => true));
 		$this->assertEquals(array(
-				'facebook' => true,
-				'twitter'  => array('foo' => true, 'bar' => true),
-			), $model->notifications);
+			'facebook' => true,
+			'twitter'  => array('foo' => true, 'bar' => true),
+		), $model->notifications);
 	}
 
 	public function testDefaultsDontReplaceExistingAttributes()

@@ -38,7 +38,7 @@ abstract class AbstractApiController extends Controller
 	/**
 	 * Create a new resource
 	 *
-	 * @return Response
+	 * @return \Arrounded\Abstracts\AbstractModel
 	 */
 	public function store()
 	{
@@ -50,7 +50,7 @@ abstract class AbstractApiController extends Controller
 	 *
 	 * @param integer $item
 	 *
-	 * @return Response
+	 * @return \Arrounded\Abstracts\AbstractModel
 	 */
 	public function update($item = null)
 	{
@@ -65,7 +65,7 @@ abstract class AbstractApiController extends Controller
 	 *
 	 * @param  int $item
 	 *
-	 * @return Response
+	 * @return \Arrounded\Abstracts\AbstractModel
 	 */
 	public function show($item)
 	{
