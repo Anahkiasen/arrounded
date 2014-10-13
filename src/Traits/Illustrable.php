@@ -72,10 +72,11 @@ trait Illustrable
 	 * Renders the thumbnail of the model
 	 *
 	 * @param string|null $size
+	 * @param array       $attributes
 	 *
 	 * @return string
 	 */
-	public function thumbnail($size = null)
+	public function thumbnail($size = null, $attributes = array())
 	{
 		if (!$this->thumb) {
 			$upload = $this->getUploadClass();
@@ -84,7 +85,7 @@ trait Illustrable
 			return HTML::image($upload);
 		}
 
-		return $this->thumb->render($size);
+		return $this->thumb->render($size, $attributes);
 	}
 
 	/**
