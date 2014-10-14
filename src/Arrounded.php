@@ -78,7 +78,12 @@ class Arrounded
 	 */
 	public function buildModelService($model, $type, $defaults = null)
 	{
-		return $this->app->make($this->getModelService($model, $type, $defaults));
+		$service = $this->getModelService($model, $type, $defaults);
+		if (!$service) {
+			return;
+		}
+
+		return $this->app->make($service);
 	}
 
 	/**
