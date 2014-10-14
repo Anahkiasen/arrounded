@@ -92,7 +92,7 @@ abstract class AbstractServiceProvider extends ServiceProvider
 	protected function bootModelObserver(array $observers)
 	{
 		foreach ($observers as $observer) {
-			$instance = $this->app['arrounded']->getModelService($observer, 'Observer');
+			$instance = $this->app['arrounded']->buildModelService($observer, 'Observer');
 			$observer = $this->app['arrounded']->qualifyModel($observer);
 			$observer::observe($instance);
 		}

@@ -106,7 +106,9 @@ trait ReflectionModel
 	 */
 	public function getPresenter()
 	{
-		return $this->getRelatedClass('Presenter', $this->getNamespace().'\Presenters\DefaultPresenter');
+		$service = $this->getRelatedClass('Presenter', $this->getNamespace().'\Presenters\DefaultPresenter');
+
+		return new $service($this);
 	}
 
 	/**
@@ -116,10 +118,12 @@ trait ReflectionModel
 	 */
 	public function getTransformer()
 	{
-		return $this->getRelatedClass('Transformer', array(
+		$service = $this->getRelatedClass('Transformer', array(
 			$this->getNamespace().'\Transformers\DefaultTransformer',
 			'Arrounded\Services\Transformers\DefaultTransformer',
 		));
+
+		return new $service;
 	}
 
 	/**

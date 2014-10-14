@@ -47,7 +47,7 @@ class Arrounded
 	 * @param string            $type
 	 * @param string|array|null $defaults
 	 *
-	 * @return object
+	 * @return string
 	 */
 	public function getModelService($model, $type, $defaults = null)
 	{
@@ -64,7 +64,21 @@ class Arrounded
 			return;
 		}
 
-		return $this->app->make($service);
+		return $service;
+	}
+
+	/**
+	 * Build a model service
+	 *
+	 * @param string            $model
+	 * @param string            $type
+	 * @param string|array|null $defaults
+	 *
+	 * @return object
+	 */
+	public function buildModelService($model, $type, $defaults = null)
+	{
+		return $this->app->make($this->getModelService($model, $type, $defaults));
 	}
 
 	/**
@@ -77,7 +91,7 @@ class Arrounded
 		$model = str_replace('Repository', null, $model);
 		$model = Str::plural($model);
 
-		return $this->getModelService($model, 'Repository');
+		return $this->buildModelService($model, 'Repository');
 	}
 
 	/**
