@@ -4,6 +4,7 @@ namespace Arrounded\Abstracts\Controllers;
 use Arrounded\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Redirect;
 use Input;
 use Request;
 
@@ -123,7 +124,12 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
 			}
 		}
 
-		return $this->getRedirect('index')->with('success', true);
+		// Redirect
+		if (method_exists($this, 'index')) {
+			return $this->getRedirect('index')->with('success', true);
+		}
+
+		return Redirect::back();
 	}
 
 	/**
