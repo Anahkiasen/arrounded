@@ -5,6 +5,8 @@ use Arrounded\Abstracts\Eloquent;
 use Arrounded\Abstracts\Validator;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 
 /**
@@ -64,7 +66,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int $item
+	 * @param integer $item
 	 *
 	 * @return \Illuminate\View\View
 	 */
@@ -76,7 +78,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int $item
+	 * @param integer $item
 	 *
 	 * @return \Illuminate\View\View
 	 */
@@ -88,7 +90,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  int $item
+	 * @param integer $item
 	 *
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
@@ -100,7 +102,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  int $item
+	 * @param integer $item
 	 *
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
@@ -116,8 +118,8 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Execute actions on a model's updating
 	 *
-	 * @param  array    $input
-	 * @param  Eloquent $model
+	 * @param array    $input
+	 * @param Eloquent $model
 	 *
 	 * @return void
 	 */
@@ -133,8 +135,8 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @param  array        $eager
-	 * @param  integer|null $paginate
+	 * @param array        $eager
+	 * @param integer|null $paginate
 	 *
 	 * @return \Illuminate\View\View
 	 */
@@ -143,7 +145,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Get the core create view
 	 *
-	 * @param  array $data Additional data
+	 * @param array $data Additional data
 	 *
 	 * @return \Illuminate\View\View
 	 */
@@ -152,7 +154,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int $user
+	 * @param integer $user
 	 *
 	 * @return \Illuminate\View\View
 	 */
@@ -161,8 +163,8 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Get the core edit view
 	 *
-	 * @param  integer $item
-	 * @param  array   $data Additional data
+	 * @param integer $item
+	 * @param array   $data Additional data
 	 *
 	 * @return \Illuminate\View\View
 	 */
@@ -171,7 +173,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Update an item
 	 *
-	 * @param  integer|null $item
+	 * @param integer|null $item
 	 *
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
@@ -180,7 +182,7 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Delete an item
 	 *
-	 * @param  integer $item
+	 * @param integer $item
 	 *
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
@@ -216,7 +218,7 @@ abstract class AbstractSmartController extends Controller
 	abstract protected function getShowData($item);
 
 	////////////////////////////////////////////////////////////////////
-	///////////////////////////// RELATED DATA /////////////////////////
+	///////////////////////////// REDIRECTIONS /////////////////////////
 	////////////////////////////////////////////////////////////////////
 
 	/**
@@ -247,9 +249,45 @@ abstract class AbstractSmartController extends Controller
 	}
 
 	/**
+	 * Redirect back or to a saved URL if any
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	protected function redirectBackWithSession()
+	{
+		if ($redirect = Session::get('redirect')) {
+			Session::forget('redirect');
+
+			return Redirect::to($redirect);
+		}
+
+		return Redirect::back();
+	}
+
+	/**
+	 * Redirect back, with a fallback if no previous page
+	 *
+	 * @param string $fallback
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	protected function redirectBackWithFallback($fallback = '/')
+	{
+		if (!Request::header('referer')) {
+			return Redirect::to($fallback);
+		}
+
+		return Redirect::back();
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// RELATED ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Get a route
 	 *
-	 * @param  string $route
+	 * @param string $route
 	 *
 	 * @return string
 	 */
@@ -259,9 +297,22 @@ abstract class AbstractSmartController extends Controller
 	}
 
 	/**
+	 * Get an URL
+	 *
+	 * @param string $route
+	 * @param array  $parameters
+	 *
+	 * @return string
+	 */
+	protected function getPath($route, $parameters = array())
+	{
+		return URL::route($this->getRoute($route), $parameters);
+	}
+
+	/**
 	 * Get a Redirect Response to a rute
 	 *
-	 * @param  string $route
+	 * @param string $route
 	 *
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
@@ -273,8 +324,8 @@ abstract class AbstractSmartController extends Controller
 	/**
 	 * Get a view
 	 *
-	 * @param  string $view
-	 * @param  array  $data
+	 * @param string $view
+	 * @param array  $data
 	 *
 	 * @return \Illuminate\View\View
 	 */
