@@ -65,7 +65,12 @@ trait Illustrable
 	 */
 	public function parentableThumb($parent)
 	{
-		return $this->thumb ?: $this->$parent->thumb;
+		if (!$this->thumb) {
+			// Use parent thumb if it exists.
+			return ($this->$parent && $this->$parent->thumb) ? $this->$parent->thumb : null;
+		}
+
+		return $this->thumb;
 	}
 
 	/**
