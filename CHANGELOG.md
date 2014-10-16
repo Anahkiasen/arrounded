@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 0.3.1 - 2014-10-16
+
+### Added
+- Allow attributes to be passed to `Illustrable::thumbnail`
+- Added some redirection helpers to `AbstractSmartController`
+- Added `AbstractSmartController:validateOwnership` as helper to create ownership filters
+
+### Fixed
+- Bugfixes in the creation of instances for related model classes
+
 ## 0.3.0 - 2014-10-10
 
 ### Added
