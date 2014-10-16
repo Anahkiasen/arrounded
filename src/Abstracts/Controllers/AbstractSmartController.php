@@ -295,7 +295,7 @@ abstract class AbstractSmartController extends Controller
 	 *
 	 * @return \Illuminate\Http\RedirectResponse|null
 	 */
-	protected function validateOwnership($route, $parameter, $fields = array())
+	protected function validateOwnership($route, $parameter, $fields = 'user_id')
 	{
 		$fields = (array) $fields;
 
