@@ -4,6 +4,8 @@ namespace Arrounded\Abstracts\Controllers;
 use Arrounded\Abstracts\Eloquent;
 use Arrounded\Abstracts\Validator;
 use Illuminate\Routing\Controller;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
@@ -281,6 +283,43 @@ abstract class AbstractSmartController extends Controller
 	}
 
 	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// FILTERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Validate the ownership of a route
+	 *
+	 * @param Route        $route
+	 * @param string       $parameter
+	 * @param string|array $fields
+	 *
+	 * @return \Illuminate\Http\RedirectResponse|null
+	 */
+	protected function validateOwnership($route, $parameter, $fields = array())
+	{
+		$fields = (array) $fields;
+
+		if (Auth::check()) {
+			$user = Auth::user();
+
+			// Gather fields
+			$model = $route->getParameter($parameter);
+			if (!$model) {
+				return;
+			}
+
+			foreach ($fields as $key => $field) {
+				$fields[$key] = $model->$field;
+			}
+
+			// Validate ownership
+			if ($model and !in_array($user->id, $fields)) {
+				return Redirect::home();
+			}
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// RELATED ///////////////////////////////
 	//////////////////////////////////////////////////////////////////////
 
@@ -306,7 +345,7 @@ abstract class AbstractSmartController extends Controller
 	 */
 	protected function getPath($route, $parameters = array())
 	{
-		return URL::route($this->getRoute($route), $parameters);
+		return URL::action(get_class($this).'@'.$route, $parameters);
 	}
 
 	/**
