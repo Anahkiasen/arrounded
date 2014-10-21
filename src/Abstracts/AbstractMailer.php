@@ -2,12 +2,11 @@
 namespace Arrounded\Abstracts;
 
 use Arrounded\Abstracts\Models\AbstractModel;
-use Auth;
-use Config;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Swift_RfcComplianceException;
 
 /**
@@ -187,12 +186,13 @@ abstract class AbstractMailer
 		$parameters = $this->getParameters();
 
 		foreach ($this->recipients as $recipient) {
-			$data = $this->gatherData($recipient);
+			$data      = $this->gatherData($recipient);
+			$recipient = $recipient->email;
 			$this->mailer->$method($view, $data, function (Message $message) use ($recipient, $parameters) {
 
 				// Catch errors
 				try {
-					$message = $message->to($recipient->email);
+					$message = $message->to($recipient);
 				} catch (Swift_RfcComplianceException $exception) {
 					// Email is invalid, skip it
 				}
