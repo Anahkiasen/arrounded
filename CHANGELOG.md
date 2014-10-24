@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.3.2 - 2014-10-24
+
+### Changed
+- Only pass the email to the mail closure in AbstractMailer to reduce payloads
+
 ## 0.3.1 - 2014-10-16
 
 ### Added
