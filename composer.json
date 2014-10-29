@@ -25,7 +25,7 @@
   "suggest": {
 	"codesleeve/laravel-stapler": "Uploads and thumbnails managment",
 	"dingo/api": "API creation",
-	"anahkiasen/form": "Form builder"
+	"anahkiasen/former": "Form builder"
   },
   "autoload": {
 	"psr-4": {
