@@ -25,6 +25,7 @@
   "suggest": {
 	"codesleeve/laravel-stapler": "Uploads and thumbnails managment",
 	"dingo/api": "API creation",
+	"cviebrock/eloquent-sluggable": "Slugs handling",
 	"anahkiasen/form": "Form builder"
   },
   "autoload": {
