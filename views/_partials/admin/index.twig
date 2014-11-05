@@ -5,9 +5,7 @@
 	<p class="alert alert-success">The entry was successfully created/updated</p>
 {% endif %}
 
-{% if items.count() > 20 %}
-	{% include 'arrounded::_partials.admin.pagination' %}
-{% endif %}
+{% include 'arrounded::_partials.admin.pagination' %}
 
 <table class="table table-striped table-hover admin__table">
 	<thead>
