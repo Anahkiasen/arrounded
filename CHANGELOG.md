@@ -1,5 +1,15 @@
 # CHANGELOG
 
+### 0.4.0 - 2014-11-05
+
+### Changed
+- Made Crawler class use Arrounded service to qualify models
+- Moved slugs handling to `cviebrock/eloquent-sluggable`
+- `UsesContainer` now lists all container entries as properties
+
+### Fixed
+- Do not paginate results when already paginated in back-end
+
 ## 0.3.2 - 2014-10-24
 
 ### Changed
