@@ -1,8 +1,10 @@
 <?php
 namespace Arrounded\Testing;
 
+use Arrounded\Arrounded;
 use Arrounded\Traits\UsesContainer;
 use Closure;
+use Illuminate\Container\Container;
 use Illuminate\Foundation\Testing\Client;
 use Illuminate\Support\Str;
 use SplFileInfo;
@@ -30,21 +32,37 @@ class Crawler
 	protected $lifetime = 60;
 
 	/**
-	 * The model namespace
+	 * The number of entries to take for models
 	 *
-	 * @type string
+	 * @type integer|null
 	 */
-	protected $namespace;
+	protected $take = null;
 
 	/**
-	 * The model's namespace
+	 * A cache of entries
 	 *
-	 * @param string $namespace
+	 * @type array
 	 */
-	public function setNamespace($namespace)
+	protected $entries = [];
+
+	/**
+	 * @type boolean
+	 */
+	protected $ignoreIncomplete = false;
+
+	/**
+	 * @param Container $app
+	 * @param Arrounded $arrounded
+	 */
+	public function __construct(Container $app, Arrounded $arrounded)
 	{
-		$this->namespace = $namespace;
+		$this->app       = $app;
+		$this->arrounded = $arrounded;
 	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// CRAWLING //////////////////////////////
+	//////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Get the routes to test
@@ -77,10 +95,15 @@ class Crawler
 
 				// Replace models with their IDs
 				if ($model = $this->extractModelFromUrl($uri)) {
-					foreach ($model::take(1)->get() as $model) {
+					$entries = $this->fetchEntries($model);
+					foreach ($entries as $model) {
 						$model    = $this->replacePatternByKey($uri, $model->id);
 						$routes[] = $this->app['url']->to($model);
 					}
+					continue;
+				}
+
+				if (strpos($uri, '{') !== false && $this->ignoreIncomplete) {
 					continue;
 				}
 
@@ -91,12 +114,7 @@ class Crawler
 		};
 
 		// Cache the fetching of routes or not
-		if ($this->lifetime) {
-			$mtime  = new SplFileInfo($this->app['path'].'/routes.php');
-			$routes = $this->app['cache']->remember($mtime->getMTime(), $this->lifetime, $getRoutes);
-		} else {
-			$routes = $getRoutes();
-		}
+		$routes = $this->cacheAndProcessRoutes($getRoutes);
 
 		return array_merge($routes, $additional);
 	}
@@ -124,6 +142,30 @@ class Crawler
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// OPTIONS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @param boolean $ignoreIncomplete
+	 */
+	public function setIgnoreIncomplete($ignoreIncomplete)
+	{
+		$this->ignoreIncomplete = $ignoreIncomplete;
+	}
+
+	/**
+	 * @param array $entries
+	 */
+	public function setEntries($entries)
+	{
+		$this->entries = $entries;
+	}
+
+	/**
+	 * @param int|null $entries
+	 */
+	public function setTake($entries)
+	{
+		$this->take = $entries;
+	}
 
 	/**
 	 * Sets the Lifetime of the cache.
@@ -185,6 +227,32 @@ class Crawler
 	////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Fetch the entries for a model
+	 *
+	 * @param string $model
+	 *
+	 * @return array|Collection
+	 */
+	protected function fetchEntries($model)
+	{
+		if (!array_key_exists($model, $this->entries)) {
+			$query = $model::query();
+
+			if ($this->take) {
+				$query = $query->take($this->take);
+			}
+
+			try {
+				$this->entries[$model] = $query->get();
+			} catch (\Exception $exception) {
+				$this->entries[$model] = [];
+			}
+		}
+
+		return $this->entries[$model];
+	}
+
+	/**
 	 * Replace a model pattern by a key in an URL
 	 *
 	 * @param  string  $uri
@@ -209,13 +277,33 @@ class Crawler
 		// Extract model
 		preg_match('/\{([^}]+)\}/', $url, $pattern);
 		$model = Str::studly(array_get($pattern, 1));
+		$model = str_replace('?', null, $model);
+		if (!$model) {
+			return;
+		}
+
 		$model = Str::singular($model);
-		$model = $this->namespace.$model;
+		$model = $this->arrounded->qualifyModel($model);
 
 		if (class_exists($model) && is_subclass_of($model, 'Illuminate\Database\Eloquent\Model')) {
 			return $model;
 		}
+	}
 
-		return false;
+	/**
+	 * @param Closure $getRoutes
+	 *
+	 * @return array
+	 */
+	protected function cacheAndProcessRoutes(Closure $getRoutes)
+	{
+		if ($this->lifetime) {
+			$mtime  = new SplFileInfo($this->app['path'].'/routes.php');
+			$routes = $this->app['cache']->remember($mtime->getMTime(), $this->lifetime, $getRoutes);
+		} else {
+			$routes = $getRoutes();
+		}
+
+		return $routes;
 	}
 }
