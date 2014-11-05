@@ -2,6 +2,8 @@
 namespace Arrounded\Services;
 
 use Illuminate\Container\Container;
+use Illuminate\Support\Facades\URL;
+use League\Csv\Reader;
 
 /**
  * Generates and formats metadata
@@ -50,6 +52,28 @@ class Metadata
 	public function setDefaults($defaults)
 	{
 		$this->defaults = $defaults;
+	}
+
+	/**
+	 * Set the metadata from a file
+	 *
+	 * @param string $file
+	 */
+	public function setDefaultsFromFile($file)
+	{
+		$file = new Reader($file);
+
+		// Fetch columns
+		$rows = $file->fetchOne();
+		$file->setOffset(1);
+
+		// Fetch entries and set defaults
+		$entries = $file->fetchAssoc($rows);
+		foreach ($entries as $entry) {
+			if (strpos(URL::current(), $entry['url']) !== false) {
+				$this->defaults = $entry;
+			}
+		}
 	}
 
 	/**

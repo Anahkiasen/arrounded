@@ -26,7 +26,8 @@
 	"codesleeve/laravel-stapler": "Uploads and thumbnails managment",
 	"dingo/api": "API creation",
 	"cviebrock/eloquent-sluggable": "Slugs handling",
-	"anahkiasen/form": "Form builder"
+	"anahkiasen/form": "Form builder",
+	"league/csv": "Allows setting metadata from CSV files"
   },
   "autoload": {
 	"psr-4": {
