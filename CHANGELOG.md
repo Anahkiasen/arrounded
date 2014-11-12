@@ -2,6 +2,9 @@
 
 ### 0.4.0 - 2014-11-05
 
+### Added
+- Added `Metadata::setDefaultsFromFile`
+
 ### Changed
 - Made Crawler class use Arrounded service to qualify models
 - Moved slugs handling to `cviebrock/eloquent-sluggable`
