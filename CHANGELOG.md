@@ -1,5 +1,13 @@
 # CHANGELOG
 
+### 0.4.1 - 2014-11-18
+
+### Changed
+- Allow Crawler to process routes with multiple patterns
+
+### Fixed
+- Fixed Crawler listing same routes twice
+
 ### 0.4.0 - 2014-11-05
 
 ### Added
