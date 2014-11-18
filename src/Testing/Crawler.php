@@ -1,6 +1,7 @@
 <?php
 namespace Arrounded\Testing;
 
+use Arrounded\Abstracts\Models\AbstractModel;
 use Arrounded\Arrounded;
 use Arrounded\Traits\UsesContainer;
 use Closure;
@@ -16,6 +17,13 @@ use SplFileInfo;
 class Crawler
 {
 	use UsesContainer;
+
+	/**
+	 * The found routes
+	 *
+	 * @type array
+	 */
+	protected $routes = [];
 
 	/**
 	 * The routes to ignore
@@ -46,6 +54,13 @@ class Crawler
 	protected $entries = [];
 
 	/**
+	 * The already registered routes
+	 *
+	 * @type array
+	 */
+	protected $registered = [];
+
+	/**
 	 * @type boolean
 	 */
 	protected $ignoreIncomplete = false;
@@ -74,9 +89,8 @@ class Crawler
 	public function getRoutes(array $additional = array())
 	{
 		$getRoutes = function () {
-			$routes = array();
-
-			foreach ($this->app['router']->getRoutes() as $route) {
+			$existing = $this->app['router']->getRoutes();
+			foreach ($existing as $route) {
 				$method = method_exists($route, 'getMethods') ? $route->getMethods() : $route->methods();
 				$method = array_get($method, 0);
 				$uri    = method_exists($route, 'getPath') ? $route->getPath() : $route->uri();
@@ -84,6 +98,14 @@ class Crawler
 				// Skip some routes
 				if ($method != 'GET' || Str::contains($uri, $this->ignored)) {
 					continue;
+				}
+
+				// Skip already registered
+				$action = $route->getActionName();
+				if ($action !== 'Closure' && in_array($action, $this->registered)) {
+					continue;
+				} else {
+					$this->registered[] = $action;
 				}
 
 				// Try regexes too
@@ -94,29 +116,24 @@ class Crawler
 				}
 
 				// Replace models with their IDs
-				if ($model = $this->extractModelFromUrl($uri)) {
-					$entries = $this->fetchEntries($model);
-					foreach ($entries as $model) {
-						$model    = $this->replacePatternByKey($uri, $model->id);
-						$routes[] = $this->app['url']->to($model);
-					}
+				if ($patterns = $this->extractPatternsFromUrl($uri)) {
+					$this->processModelRoute($patterns, $uri, $action);
 					continue;
 				}
 
+				// If the route still has unreplaced patterns, ignore it
 				if (strpos($uri, '{') !== false && $this->ignoreIncomplete) {
 					continue;
 				}
 
-				$routes[] = $this->app['url']->to($uri);
+				$this->routes[] = $this->app['url']->to($uri);
 			}
-
-			return $routes;
 		};
 
 		// Cache the fetching of routes or not
-		$routes = $this->cacheAndProcessRoutes($getRoutes);
+		$this->cacheAndProcessRoutes($getRoutes);
 
-		return array_merge($routes, $additional);
+		return array_merge($this->routes, $additional);
 	}
 
 	/**
@@ -222,6 +239,128 @@ class Crawler
 		}
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// PATTERNS //////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Extract the various patterns in an URL
+	 *
+	 * @param string $uri
+	 *
+	 * @return array
+	 */
+	protected function extractPatternsFromUrl($uri)
+	{
+		preg_match_all('/\{([^}]+)\}/', $uri, $matches);
+		$matches = array_get($matches, 1);
+
+		// Keep patterns that match a model
+		$patterns = [];
+		foreach ($matches as $match) {
+			if ($model = $this->patternHasModel($match)) {
+				$patterns[$match] = $model;
+			}
+		}
+
+		return $patterns;
+	}
+
+	/**
+	 * Extract a model pattern in an URL
+	 *
+	 * @param  string $pattern
+	 *
+	 * @return string|false
+	 */
+	protected function patternHasModel($pattern)
+	{
+		// Extract model
+		$model = Str::studly($pattern, 1);
+		$model = str_replace('?', null, $model);
+		if (!$model) {
+			return;
+		}
+
+		$model = Str::singular($model);
+		$model = $this->arrounded->qualifyModel($model);
+
+		if (class_exists($model) && is_subclass_of($model, 'Illuminate\Database\Eloquent\Model')) {
+			return $model;
+		}
+	}
+
+	/**
+	 * Process a route involving models
+	 *
+	 * @param array  $patterns
+	 * @param string $uri
+	 * @param string $action
+	 */
+	protected function processModelRoute(array $patterns, $uri, $action)
+	{
+		// Compute the main model and fetch its entries
+		list($mainPattern, $main) = $this->computeMainModelFromPatterns($patterns, $action);
+		$entries = $this->fetchEntries($main);
+
+		foreach ($entries as $model) {
+			$replacedUri = $this->replacePatternWithModel($uri, $model);
+
+			// Replace extraneous patterns
+			if (count($patterns) > 1) {
+				foreach ($patterns as $pattern => $related) {
+					if ($pattern !== $mainPattern) {
+						$replacedUri = $this->replacePatternWithModel($replacedUri, $model->$pattern);
+					}
+				}
+			}
+
+			$this->routes[] = $this->app['url']->to($replacedUri);
+		}
+	}
+
+	/**
+	 * If the route has multiple patterns, compute the mail one to use
+	 *
+	 * @param string $patterns
+	 * @param string $action
+	 *
+	 * @return string
+	 */
+	protected function computeMainModelFromPatterns($patterns, $action)
+	{
+		// If only one pattern, it's the main one
+		if (count($patterns) == 1) {
+			return [array_keys($patterns)[0], head($patterns)];
+		}
+
+		// Else look at the action and infer from that
+		foreach ($patterns as $pattern => $model) {
+			$basename = class_basename($model);
+			if (Str::contains($action, $basename)) {
+				return [$pattern, $model];
+			}
+		}
+	}
+
+	/**
+	 * Replace a model pattern by a key in an URL
+	 *
+	 * @param  string        $uri
+	 * @param  AbstractModel $model
+	 *
+	 * @return string
+	 */
+	protected function replacePatternWithModel($uri, AbstractModel $model)
+	{
+		// Compute pattern from model
+		$pattern = $model->getClassBasename();
+		$pattern = strtolower($pattern);
+		$pattern = $pattern.'|'.Str::plural($pattern);
+
+		return preg_replace('/\{('.$pattern.')\}/', $model->getIdentifier(), $uri);
+	}
+
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// HELPERS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
@@ -250,44 +389,6 @@ class Crawler
 		}
 
 		return $this->entries[$model];
-	}
-
-	/**
-	 * Replace a model pattern by a key in an URL
-	 *
-	 * @param  string  $uri
-	 * @param  integer $key
-	 *
-	 * @return string
-	 */
-	protected function replacePatternByKey($uri, $key)
-	{
-		return preg_replace('/\{([^}]+)\}/', $key, $uri);
-	}
-
-	/**
-	 * Extract a model pattern in an URL
-	 *
-	 * @param  string $url
-	 *
-	 * @return string|false
-	 */
-	protected function extractModelFromUrl($url)
-	{
-		// Extract model
-		preg_match('/\{([^}]+)\}/', $url, $pattern);
-		$model = Str::studly(array_get($pattern, 1));
-		$model = str_replace('?', null, $model);
-		if (!$model) {
-			return;
-		}
-
-		$model = Str::singular($model);
-		$model = $this->arrounded->qualifyModel($model);
-
-		if (class_exists($model) && is_subclass_of($model, 'Illuminate\Database\Eloquent\Model')) {
-			return $model;
-		}
 	}
 
 	/**
