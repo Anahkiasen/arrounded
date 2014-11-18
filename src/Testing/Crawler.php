@@ -47,6 +47,13 @@ class Crawler
 	protected $entries = [];
 
 	/**
+	 * The already registered routes
+	 *
+	 * @type array
+	 */
+	protected $registered = [];
+
+	/**
 	 * @type boolean
 	 */
 	protected $ignoreIncomplete = false;
@@ -85,6 +92,14 @@ class Crawler
 				// Skip some routes
 				if ($method != 'GET' || Str::contains($uri, $this->ignored)) {
 					continue;
+				}
+
+				// Skip already registered
+				$action = $route->getActionName();
+				if ($action !== 'Closure' && in_array($action, $this->registered)) {
+					continue;
+				} else {
+					$this->registered[] = $action;
 				}
 
 				// Try regexes too
