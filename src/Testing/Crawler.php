@@ -1,6 +1,7 @@
 <?php
 namespace Arrounded\Testing;
 
+use Arrounded\Abstracts\Models\AbstractModel;
 use Arrounded\Arrounded;
 use Arrounded\Traits\UsesContainer;
 use Closure;
@@ -97,7 +98,7 @@ class Crawler
 				if ($model = $this->extractModelFromUrl($uri)) {
 					$entries = $this->fetchEntries($model);
 					foreach ($entries as $model) {
-						$model    = $this->replacePatternByKey($uri, $model->id);
+						$model    = $this->replacePatternByKey($uri, $model);
 						$routes[] = $this->app['url']->to($model);
 					}
 					continue;
@@ -255,14 +256,14 @@ class Crawler
 	/**
 	 * Replace a model pattern by a key in an URL
 	 *
-	 * @param  string  $uri
-	 * @param  integer $key
+	 * @param  string        $uri
+	 * @param  AbstractModel $model
 	 *
 	 * @return string
 	 */
-	protected function replacePatternByKey($uri, $key)
+	protected function replacePatternByKey($uri, AbstractModel $model)
 	{
-		return preg_replace('/\{([^}]+)\}/', $key, $uri);
+		return preg_replace('/\{([^}]+)\}/', $model->getIdentifier(), $uri);
 	}
 
 	/**
