@@ -9,7 +9,7 @@
 
 {# Search form opener #}
 {% if items.links() %}
-	{{ Former.open().route("#{resource}.search")|raw }}
+	{{ Former.open().route("#{resource}.search").method('GET')|raw }}
 {% endif %}
 
 <table class="table table-striped table-hover admin__table">
