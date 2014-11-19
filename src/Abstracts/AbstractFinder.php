@@ -164,14 +164,15 @@ abstract class AbstractFinder
 
 			foreach ($attributes as $name => $value) {
 				if (in_array($name, $this->searchableFields)) {
-					return $this->scopeSearchOnField($query, $name, $value);
+					$this->scopeSearchOnField($query, $name, $value);
+				} else {
+					$query->orWhereHas($name, function (Builder $query) use ($value) {
+						return $this->scopeSearchOnField($query, 'name', $value);
+					});
 				}
-
-				return $query->orWhereHas($name, function (Builder $query) use ($value) {
-					return $this->scopeSearchOnField($query, 'name', $value);
-				});
 			}
 
+			return $query;
 		});
 	}
 
