@@ -7,7 +7,7 @@
 {% endif %}
 
 {# Search form #}
-{% if items.links() %}
+{% if Route.has("#{resource}.search") and items.links() and searchable is not empty %}
 	<h4 class="text-center" ng-init="showSearch = {{ Input.has('id') ? 'true' : 'false' }}" ng-click="showSearch = !showSearch">
 		<a href="#">Search</a>
 	</h4>
