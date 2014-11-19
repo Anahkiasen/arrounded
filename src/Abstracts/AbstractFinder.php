@@ -155,23 +155,56 @@ abstract class AbstractFinder
 		// Filter input
 		$attributes = [];
 		foreach ($search as $name => $value) {
-			if ($value && in_array($name, $this->searchableFields)) {
+			if ($value && $this->isSearchable($name)) {
 				$attributes[$name] = $value;
 			}
 		}
 
 		return $this->query->where(function (Builder $query) use ($attributes) {
+
 			foreach ($attributes as $name => $value) {
-				$query->orWhere($name, 'LIKE', $this->formatValue($value))->orWhere($name, $value);
+				if (in_array($name, $this->searchableFields)) {
+					return $this->scopeSearchOnField($query, $name, $value);
+				}
+
+				return $query->orWhereHas($name, function (Builder $query) use ($value) {
+					return $this->scopeSearchOnField($query, 'name', $value, false);
+				});
 			}
 
-			return $query;
 		});
 	}
 
 	////////////////////////////////////////////////////////////////////
 	/////////////////////////////// RESULTS ////////////////////////////
 	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the query
+	 *
+	 * @param boolean $string
+	 *
+	 * @return Query|string
+	 */
+	public function getQuery($string = false)
+	{
+		$query = $this->query;
+
+		if ($string) {
+			// Unnest query objects
+			while (method_exists($query, 'getQuery')) {
+				$query = $query->getQuery();
+			}
+
+			// Replace bindings
+			$sql = str_replace('?', '%s', $query->toSql());
+			$sql = vsprintf($sql, $query->getBindings());
+
+			return $sql;
+		}
+
+		return $query;
+	}
 
 	/**
 	 * Get the results of the current search
@@ -229,6 +262,22 @@ abstract class AbstractFinder
 		return $this->scopeToEntries($query, $resource.'_id', $entries, $or);
 	}
 
+	/**
+	 * Apply search conditions to a queyr
+	 *
+	 * @param Builder $query
+	 * @param string  $field
+	 * @param string  $value
+	 *
+	 * @return Builder
+	 */
+	protected function scopeSearchOnField(Builder &$query, $field, $value, $or = true)
+	{
+		$or = $or ? 'orWhere' : 'where';
+
+		return $query->$or($field, 'LIKE', $this->formatValue($value))->orWhere($field, $value);
+	}
+
 	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// HELPERS ///////////////////////////////
 	//////////////////////////////////////////////////////////////////////
@@ -243,5 +292,19 @@ abstract class AbstractFinder
 	protected function formatValue($value)
 	{
 		return '%'.$value.'%';
+	}
+
+	/**
+	 * Check if a field is searchable
+	 *
+	 * @param string $name
+	 *
+	 * @return boolean
+	 */
+	protected function isSearchable($name)
+	{
+		$model = $this->repository->getModelInstance();
+
+		return in_array($name, $this->searchableFields) || in_array($name, $model->getAvailableRelations());
 	}
 }
