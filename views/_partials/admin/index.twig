@@ -7,6 +7,11 @@
 
 {% include 'arrounded::_partials.admin.pagination' %}
 
+{# Search form opener #}
+{% if items.links() %}
+	{{ Former.open().route("#{resource}.search")|raw }}
+{% endif %}
+
 <table class="table table-striped table-hover admin__table">
 	<thead>
 	<tr>
@@ -25,6 +30,18 @@
 	</tr>
 	</thead>
 	<tbody>
+
+	{# Search fields #}
+	{% if items.links() %}
+		<tr>
+			{% for field, name in fields %}
+				<td>{{ Former.text(field).raw()|raw }}</td>
+			{% endfor %}
+			<td colspan="50">{{ Former.submit('Search')|raw }}</td>
+		</tr>
+	{% endif %}
+
+	{# Entries #}
 	{% for item in items %}
 		<tr data-id="{{ item.id }}">
 			<td>{{ item.id }}</td>
@@ -47,6 +64,7 @@
 			</td>
 		</tr>
 	{% endfor %}
+
 	</tbody>
 	{% if not hide_footer %}
 		<tfoot>
@@ -58,3 +76,7 @@
 		</tfoot>
 	{% endif %}
 </table>
+
+{% if items.links() %}
+	{{ Former.close()|raw }}
+{% endif %}
