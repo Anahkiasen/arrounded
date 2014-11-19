@@ -168,7 +168,7 @@ abstract class AbstractFinder
 				}
 
 				return $query->orWhereHas($name, function (Builder $query) use ($value) {
-					return $this->scopeSearchOnField($query, 'name', $value, false);
+					return $this->scopeSearchOnField($query, 'name', $value);
 				});
 			}
 
@@ -273,9 +273,7 @@ abstract class AbstractFinder
 	 */
 	protected function scopeSearchOnField(Builder &$query, $field, $value, $or = true)
 	{
-		$or = $or ? 'orWhere' : 'where';
-
-		return $query->$or($field, 'LIKE', $this->formatValue($value))->orWhere($field, $value);
+		return $query->where($field, 'LIKE', $this->formatValue($value))->orWhere($field, $value);
 	}
 
 	//////////////////////////////////////////////////////////////////////
