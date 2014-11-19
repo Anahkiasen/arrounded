@@ -34,6 +34,7 @@
 	{# Search fields #}
 	{% if items.links() %}
 		<tr>
+			<td>{{ Former.text('id').raw()|raw }}</td>
 			{% for field, name in fields %}
 				<td>{{ Former.text(field).raw()|raw }}</td>
 			{% endfor %}
