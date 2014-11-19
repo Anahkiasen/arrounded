@@ -2,6 +2,7 @@
 namespace Arrounded\Abstracts;
 
 use Arrounded\Abstracts\Models\AbstractModel;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Input;
 
 /**
@@ -60,6 +61,20 @@ abstract class AbstractFinder
 		}
 	}
 
+	//////////////////////////////////////////////////////////////////////
+	/////////////////////////////// PARENT ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Include deleted records in the search
+	 */
+	public function includeDeleted()
+	{
+		if ($this->parent->softDeletes()) {
+			$this->query = $this->parent->query()->withTrashed();
+		}
+	}
+
 	/**
 	 * Change the core query
 	 *
@@ -103,7 +118,7 @@ abstract class AbstractFinder
 	////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Look for people matching certain terms
+	 * Look for entries matching a term
 	 *
 	 * @param string $search
 	 *
@@ -116,13 +131,38 @@ abstract class AbstractFinder
 			return $this->query;
 		}
 
-		$search = '%'.$search.'%';
-		$handle = $this->parent ? $this->parent->getTable().'.' : '';
-		$handle = '';
-
-		return $this->query->where(function ($query) use ($search, $handle) {
+		return $this->query->where(function (Builder $query) use ($search) {
 			foreach ($this->searchableFields as $field) {
-				$query->orWhere($handle.$field, 'LIKE', $search);
+				$query->orWhere($field, 'LIKE', $this->formatValue($search));
+			}
+
+			return $query;
+		});
+	}
+
+	/**
+	 * Look for entries matching multiple attributes
+	 *
+	 * @param array $search
+	 */
+	public function multisearch($search = array())
+	{
+		$search = $search ?: Input::all();
+		if (!$search) {
+			return $this->query;
+		}
+
+		// Filter input
+		$attributes = [];
+		foreach ($search as $name => $value) {
+			if ($value && in_array($name, $this->searchableFields)) {
+				$attributes[$name] = $value;
+			}
+		}
+
+		return $this->query->where(function (Builder $query) use ($attributes) {
+			foreach ($attributes as $name => $value) {
+				$query->orWhere($name, 'LIKE', $this->formatValue($value))->orWhere($name, $value);
 			}
 
 			return $query;
@@ -187,5 +227,21 @@ abstract class AbstractFinder
 	protected function scopeToResource($query, $resource, array $entries, $or = false)
 	{
 		return $this->scopeToEntries($query, $resource.'_id', $entries, $or);
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Format a value for a search
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	protected function formatValue($value)
+	{
+		return '%'.$value.'%';
 	}
 }
