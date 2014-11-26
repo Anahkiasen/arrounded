@@ -192,7 +192,6 @@ abstract class AbstractMailer
 	public function send()
 	{
 		$view       = '_emails.'.$this->template;
-		$method     = $this->queued ? 'queue' : 'send';
 		$parameters = $this->getParameters();
 
 		foreach ($this->recipients as $recipient) {
@@ -315,8 +314,10 @@ abstract class AbstractMailer
 	}
 
 	/**
- * @param string $locale
- */
+	 * Set the application's language
+	 *
+	 * @param string $locale
+	 */
 	protected function setLocale($locale)
 	{
 		$app = app();
