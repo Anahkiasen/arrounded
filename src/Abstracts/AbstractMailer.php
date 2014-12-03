@@ -200,16 +200,37 @@ abstract class AbstractMailer
 
 			// Send to queue or immediately
 			if ($this->queued) {
-				$this->queue->push(function (Job $job) use ($view, $data, $recipient, $parameters) {
-					$this->sendMessage($view, $data, $recipient, $parameters);
-					$job->delete();
-				});
+				$data = array_merge($data, array(
+					'view'       => $view,
+					'recipient'  => $recipient,
+					'parameters' => $parameters,
+				));
+
+				$this->queue->push(get_class($this).'@queueMessage', $data);
 			} else {
 				$this->sendMessage($view, $data, $recipient, $parameters);
 			}
 		}
 
 		return count($this->recipients);
+	}
+
+	/**
+	 * Send a message through a queue
+	 *
+	 * @param Job   $job
+	 * @param array $data
+	 */
+	public function queueMessage(Job $job, array $data)
+	{
+		// Unpack arguments
+		$view       = $data['view'];
+		$recipient  = $data['recipient'];
+		$parameters = $data['parameters'];
+
+		$this->sendMessage($view, $data, $recipient, $parameters);
+
+		$job->delete();
 	}
 
 	/**
