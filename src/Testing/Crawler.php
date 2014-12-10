@@ -276,7 +276,8 @@ class Crawler
 	protected function patternHasModel($pattern)
 	{
 		// Extract model
-		$model = Str::studly($pattern, 1);
+		$model = str_replace('_slug', null, $pattern);
+		$model = Str::studly($model);
 		$model = str_replace('?', null, $model);
 		if (!$model) {
 			return;
@@ -309,7 +310,9 @@ class Crawler
 			// Replace extraneous patterns
 			if (count($patterns) > 1) {
 				foreach ($patterns as $pattern => $related) {
-					if ($pattern !== $mainPattern) {
+					$pattern = str_replace('_slug', null, $pattern);
+
+					if ($pattern !== $mainPattern && $model->$pattern) {
 						$replacedUri = $this->replacePatternWithModel($replacedUri, $model->$pattern);
 					}
 				}
@@ -356,7 +359,7 @@ class Crawler
 		// Compute pattern from model
 		$pattern = $model->getClassBasename();
 		$pattern = strtolower($pattern);
-		$pattern = $pattern.'|'.Str::plural($pattern);
+		$pattern = $pattern.'|'.Str::plural($pattern).'|'.$pattern.'_slug';
 
 		return preg_replace('/\{('.$pattern.')\}/', $model->getIdentifier(), $uri);
 	}
