@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 0.4.2 - 2014-12-10
+
+### Fixed
+- Fixed some issues in the crawler
+
 ### 0.4.1 - 2014-11-18
 
 ### Changed

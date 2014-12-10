@@ -5,6 +5,8 @@ use Arrounded\Abstracts\Models\AbstractModel;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\Message;
+use Illuminate\Queue\Jobs\Job;
+use Illuminate\Queue\QueueManager;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Swift_RfcComplianceException;
@@ -15,18 +17,25 @@ use Swift_RfcComplianceException;
 abstract class AbstractMailer
 {
 	/**
-	 * Whether mails should be queued or sent
-	 *
-	 * @type bool
-	 */
-	protected $queue = true;
-
-	/**
 	 * The mailer instance
 	 *
 	 * @type Mailer
 	 */
 	protected $mailer;
+
+	/**
+	 * The queue manager instance
+	 *
+	 * @type QueueManager
+	 */
+	protected $queue;
+
+	/**
+	 * Whether mails should be queued or sent
+	 *
+	 * @type bool
+	 */
+	protected $queued = true;
 
 	/**
 	 * The user sending invitations
@@ -68,9 +77,10 @@ abstract class AbstractMailer
 	 *
 	 * @param Mailer $mailer
 	 */
-	public function __construct(Mailer $mailer)
+	public function __construct(Mailer $mailer, QueueManager $queue)
 	{
 		$this->mailer = $mailer;
+		$this->queue  = $queue;
 	}
 
 	////////////////////////////////////////////////////////////////////
@@ -134,7 +144,7 @@ abstract class AbstractMailer
 	 */
 	public function setQueue($queue)
 	{
-		$this->queue = $queue;
+		$this->queued = $queue;
 	}
 
 	/**
@@ -182,31 +192,77 @@ abstract class AbstractMailer
 	public function send()
 	{
 		$view       = '_emails.'.$this->template;
-		$method     = $this->queue ? 'queue' : 'send';
 		$parameters = $this->getParameters();
 
 		foreach ($this->recipients as $recipient) {
 			$data      = $this->gatherData($recipient);
 			$recipient = $recipient->email;
-			$this->mailer->$method($view, $data, function (Message $message) use ($recipient, $parameters) {
 
-				// Catch errors
-				try {
-					$message = $message->to($recipient);
-				} catch (Swift_RfcComplianceException $exception) {
-					// Email is invalid, skip it
-				}
+			// Send to queue or immediately
+			if ($this->queued) {
+				$data = array_merge($data, array(
+					'view'       => $view,
+					'recipient'  => $recipient,
+					'parameters' => $parameters,
+				));
 
-				// Set additional parameters
-				foreach ($parameters as $key => $value) {
-					$message->$key($value);
-				}
-
-				return $message;
-			});
+				$this->queue->push(get_class($this).'@queueMessage', $data);
+			} else {
+				$this->sendMessage($view, $data, $recipient, $parameters);
+			}
 		}
 
 		return count($this->recipients);
+	}
+
+	/**
+	 * Send a message through a queue
+	 *
+	 * @param Job   $job
+	 * @param array $data
+	 */
+	public function queueMessage(Job $job, array $data)
+	{
+		// Unpack arguments
+		$view       = $data['view'];
+		$recipient  = $data['recipient'];
+		$parameters = $data['parameters'];
+
+		$this->sendMessage($view, $data, $recipient, $parameters);
+
+		$job->delete();
+	}
+
+	/**
+	 * Send a message to someone
+	 *
+	 * @param string $view       The view to render
+	 * @param array  $data       The data to pass to the view
+	 * @param string $recipient  The recipient's email
+	 * @param array  $parameters Additional settings on the Message
+	 */
+	protected function sendMessage($view, $data, $recipient, $parameters)
+	{
+		// Set locale if possible
+		if ($locale = array_get($data, 'locale')) {
+			$this->setLocale($locale);
+		}
+
+		$this->mailer->send($view, $data, function (Message $message) use ($recipient, $parameters) {
+			// Catch errors
+			try {
+				$message = $message->to($recipient);
+			} catch (Swift_RfcComplianceException $exception) {
+				// Email is invalid, skip it
+			}
+
+			// Set additional parameters
+			foreach ($parameters as $key => $value) {
+				$message->$key($value);
+			}
+
+			return $message;
+		});
 	}
 
 	/**
@@ -220,6 +276,11 @@ abstract class AbstractMailer
 	{
 		$data         = new Collection($this->databag);
 		$data['user'] = $recipient;
+
+		// Pass locale to view just in case
+		if ($locale = $recipient->locale) {
+			$data['locale'] = $locale;
+		}
 
 		return $data->toArray();
 	}
@@ -271,5 +332,20 @@ abstract class AbstractMailer
 		}
 
 		return $users;
+	}
+
+	/**
+	 * Set the application's language
+	 *
+	 * @param string $locale
+	 */
+	protected function setLocale($locale)
+	{
+		$app = app();
+		if ($app->bound('polyglot.translator')) {
+			$app['polyglot.translator']->setInternalLocale($locale);
+		} else {
+			$app->setLocale($locale);
+		}
 	}
 }

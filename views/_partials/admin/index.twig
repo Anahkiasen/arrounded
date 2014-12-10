@@ -1,8 +1,25 @@
 {% set model = model|default(title|lower) %}
 {% set resource = "admin.#{model}" %}
+{% set searchable = searchable|default(['id'] + fields|keys) %}
 
 {% if Session.has('success') and not hide_footer %}
 	<p class="alert alert-success">The entry was successfully created/updated</p>
+{% endif %}
+
+{# Search form #}
+{% if Route.has("#{resource}.search") and items.links() and searchable is not empty %}
+	<h4 class="text-center" ng-init="showSearch = {{ Input.has('id') ? 'true' : 'false' }}" ng-click="showSearch = !showSearch">
+		<a href="#">Search</a>
+	</h4>
+	<div ng-show="showSearch">
+		{{ Former.open().route("#{resource}.search").method('GET')|raw }}
+		{% for field in searchable %}
+			{{ Former.text(field)|raw }}
+		{% endfor %}
+		{{ Former.actions().large_primary_submit('Search')|raw }}
+		{{ Former.close()|raw }}
+	</div>
+	<hr />
 {% endif %}
 
 {% include 'arrounded::_partials.admin.pagination' %}
@@ -25,6 +42,8 @@
 	</tr>
 	</thead>
 	<tbody>
+
+	{# Entries #}
 	{% for item in items %}
 		<tr data-id="{{ item.id }}">
 			<td>{{ item.id }}</td>
@@ -47,6 +66,7 @@
 			</td>
 		</tr>
 	{% endfor %}
+
 	</tbody>
 	{% if not hide_footer %}
 		<tfoot>

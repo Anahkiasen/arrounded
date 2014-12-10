@@ -29,6 +29,13 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
 	protected $eagerLoaded = array();
 
 	/**
+	 * Number of entries per page
+	 *
+	 * @type integer
+	 */
+	protected $perPage = null;
+
+	/**
 	 * Build a new AbstractSmartRepositoryController
 	 *
 	 * @param RepositoryInterface $repository
@@ -55,7 +62,7 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
 	protected function coreIndex($eager = array(), $paginate = null)
 	{
 		return $this->getView('index', array(
-			'items' => $this->repository->all($paginate),
+			'items' => $this->repository->all($paginate ?: $this->perPage),
 		));
 	}
 
