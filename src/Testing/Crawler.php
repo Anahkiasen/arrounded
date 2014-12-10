@@ -90,6 +90,7 @@ class Crawler
 	{
 		$getRoutes = function () {
 			$existing = $this->app['router']->getRoutes();
+
 			foreach ($existing as $route) {
 				$method = method_exists($route, 'getMethods') ? $route->getMethods() : $route->methods();
 				$method = array_get($method, 0);
@@ -122,7 +123,7 @@ class Crawler
 				}
 
 				// If the route still has unreplaced patterns, ignore it
-				if (strpos($uri, '{') !== false && $this->ignoreIncomplete) {
+				if ($this->hasIncompletePatterns($uri)) {
 					continue;
 				}
 
@@ -244,6 +245,16 @@ class Crawler
 	//////////////////////////////////////////////////////////////////////
 
 	/**
+	 * @param string $uri
+	 *
+	 * @return boolean
+	 */
+	protected function hasIncompletePatterns($uri)
+	{
+		return strpos($uri, '{') !== false && $this->ignoreIncomplete;
+	}
+
+	/**
 	 * Extract the various patterns in an URL
 	 *
 	 * @param string $uri
@@ -318,7 +329,9 @@ class Crawler
 				}
 			}
 
-			$this->routes[] = $this->app['url']->to($replacedUri);
+			if (!$this->hasIncompletePatterns($replacedUri)) {
+				$this->routes[] = $this->app['url']->to($replacedUri);
+			}
 		}
 	}
 
