@@ -6,6 +6,7 @@ use Arrounded\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 abstract class AbstractRepository implements RepositoryInterface
 {
