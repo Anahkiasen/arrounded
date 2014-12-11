@@ -290,9 +290,15 @@ abstract class AbstractRepository implements RepositoryInterface
 	 */
 	protected function findFromQuery($query, $item)
 	{
+		$columns = null;
+
 		// If we have an instance already, return it
 		if ($item instanceof Model) {
 			return $item;
+		}
+
+		if ($this->items instanceof BelongsToMany) {
+			$columns = [$this->items->getRelated()->getTable() . '.*'];
 		}
 
 		// Find by slug
@@ -302,7 +308,7 @@ abstract class AbstractRepository implements RepositoryInterface
 			}
 		}
 
-		return $query->findOrFail($item);
+		return $query->findOrFail($item, $columns);
 	}
 
 	/**
