@@ -1,9 +1,20 @@
 # CHANGELOG
 
-### 0.4.2 - 2014-12-10
+### 0.5.1 - 2014-12-11
+
+### Fixed
+- Fixed behavior of relationships-scoped repositories
+
+### 0.5.0 - 2014-12-10
+
+### Added
+- Added `AbstractFinder` class
+- Added search form to admin views
+- Added pagination to core controllers
 
 ### Fixed
 - Fixed some issues in the crawler
+- Make AbstractMailer set the locale on emails when sending them
 
 ### 0.4.1 - 2014-11-18
 
