@@ -298,7 +298,7 @@ abstract class AbstractRepository implements RepositoryInterface
 		}
 
 		if ($this->items instanceof BelongsToMany) {
-			$columns = [$this->items->getRelationName() . '.*'];
+			$columns = [$this->items->getRelated()->getTable() . '.*'];
 		}
 
 		// Find by slug
