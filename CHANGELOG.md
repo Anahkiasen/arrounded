@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 0.5.2 - 2014-12-11
+
+### Fixed
+- Missing use
+
 ### 0.5.1 - 2014-12-11
 
 ### Fixed
