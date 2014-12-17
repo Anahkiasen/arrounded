@@ -5,6 +5,7 @@ use Auth;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionMethod;
+use Arrounded\Facades\Arrounded;
 
 /**
  * A model with methods that connect to routes and controllers
@@ -68,7 +69,7 @@ trait ReflectionModel
 	 */
 	public function getNamespace()
 	{
-		return app('arrounded')->getNamespace();
+		return Arrounded::getNamespace();
 	}
 
 	/**
@@ -136,7 +137,7 @@ trait ReflectionModel
 	 */
 	public function getRelatedClass($type, $default)
 	{
-		return app('arrounded')->getModelService($this->getClassBasename(), $type, $default);
+		return Arrounded::getModelService($this->getClassBasename(), $type, $default);
 	}
 
 	//////////////////////////////////////////////////////////////////////
