@@ -16,6 +16,11 @@ class Arrounded
 	 */
 	protected $namespace;
 
+	/**
+	 * @type string
+	 */
+	protected $modelsNamespace;
+
 	//////////////////////////////////////////////////////////////////////
 	///////////////////////// GETTERS AND SETTERS ////////////////////////
 	//////////////////////////////////////////////////////////////////////
@@ -25,7 +30,8 @@ class Arrounded
 	 */
 	public function setNamespace($namespace)
 	{
-		$this->namespace = $namespace;
+		$this->namespace       = $namespace;
+		$this->modelsNamespace = $namespace.'\Models';
 	}
 
 	/**
@@ -34,6 +40,22 @@ class Arrounded
 	public function getNamespace()
 	{
 		return $this->namespace;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getModelsNamespace()
+	{
+		return $this->modelsNamespace;
+	}
+
+	/**
+	 * @param string $modelsNamespace
+	 */
+	public function setModelsNamespace($modelsNamespace)
+	{
+		$this->modelsNamespace = $modelsNamespace;
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -51,7 +73,7 @@ class Arrounded
 	 */
 	public function getModelService($model, $type, $defaults = null)
 	{
-		$service = sprintf('%s\%s\%s%s', $this->namespace, Str::plural($type), $model, $type);
+		$service = sprintf('%s\%s\%s%s', $this->modelsNamespace, Str::plural($type), $model, $type);
 
 		$defaults = (array) $defaults;
 		$defaults = array_filter($defaults, 'class_exists');
@@ -112,7 +134,7 @@ class Arrounded
 		$name = ucfirst($name);
 
 		// Look into default path
-		$default = sprintf('%s\Models\%s', $this->namespace, $name);
+		$default = sprintf('%s\%s', $this->modelsNamespace, $name);
 		if (class_exists($default)) {
 			return $default;
 		}

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 0.5.3 - 2014-12-17
+
+### Added
+- Added `modelsNamespace` property to Arrounded in case models are not in the default place
+
 ### 0.5.2 - 2014-12-11
 
 ### Fixed
