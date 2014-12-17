@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 0.5.4 - 2014-12-17
+
+### Added
+- Added `Arrounded` facade
+
 ### 0.5.3 - 2014-12-17
 
 ### Added
