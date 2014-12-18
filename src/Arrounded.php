@@ -21,6 +21,13 @@ class Arrounded
 	 */
 	protected $modelsNamespace;
 
+	/**
+	 * A cache of found instances
+	 *
+	 * @type array
+	 */
+	protected $cached = [];
+
 	//////////////////////////////////////////////////////////////////////
 	///////////////////////// GETTERS AND SETTERS ////////////////////////
 	//////////////////////////////////////////////////////////////////////
@@ -73,15 +80,26 @@ class Arrounded
 	 */
 	public function getModelService($model, $type, $defaults = null)
 	{
-		$service = sprintf('%s\%s\%s%s', $this->modelsNamespace, Str::plural($type), $model, $type);
+		// Check for cached instance
+		$hash = $model.$type;
+		if (array_key_exists($hash, $this->cached)) {
+			return $this->cached[$hash];
+		}
 
-		$defaults = (array) $defaults;
-		$defaults = array_filter($defaults, 'class_exists');
+		// Look into possible namespaces
+		$namespace = Str::plural($type);
+		$service   = $this->getFirstExistingClass(array(
+			sprintf('%s\%s\%s%s', $this->modelsNamespace, $namespace, $model, $type),
+			sprintf('%s\%s\%s%s', $this->namespace, $namespace, $model, $type),
+		));
+
+		// Switch to default if not found
 		if (!class_exists($service) && $defaults) {
-			$service = head($defaults);
+			$service = $this->getFirstExistingClass($defaults);
 		}
 
 		// Cancel if the class doesn't exist
+		$this->cached[$hash] = $service;
 		if (!class_exists($service)) {
 			return;
 		}
@@ -142,5 +160,24 @@ class Arrounded
 		$repository = $this->getRepository($name);
 
 		return $repository ? $repository->getModel() : null;
+	}
+
+	//////////////////////////////////////////////////////////////////////
+	////////////////////////////// HELPERS ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Get the first existing class in an array
+	 *
+	 * @param string[] $classes
+	 *
+	 * @return string
+	 */
+	protected function getFirstExistingClass(array $classes)
+	{
+		$classes = (array) $classes;
+		$classes = array_filter($classes, 'class_exists');
+
+		return head($classes);
 	}
 }
