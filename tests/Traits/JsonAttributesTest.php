@@ -40,4 +40,16 @@ class JsonAttributesTest extends ArroundedTestCase
 
 		$this->assertFalse($model->notifications['foo']);
 	}
+
+	public function testCanRemovePreviousValues()
+	{
+		$model = new DummyJsonModel();
+		$model->setServicesAttribute(['twitter', 'facebook', 'pinterest', 'tumblr', 'linkedin']);
+
+		$this->assertEquals(['twitter', 'facebook', 'pinterest', 'tumblr', 'linkedin'], $model->services);
+
+		$model->setServicesAttribute(['twitter', 'facebook', 'pinterest', 'tumblr']);
+		$this->assertEquals(['twitter', 'facebook', 'pinterest', 'tumblr'], $model->services);
+	}
+
 }

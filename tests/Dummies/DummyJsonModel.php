@@ -29,4 +29,14 @@ class DummyJsonModel extends DummyModel
 	{
 		$this->setJsonAttribute('schedule', $schedule);
 	}
+
+	public function getServicesAttribute()
+	{
+		return $this->getJsonAttribute('services');
+	}
+
+	public function setServicesAttribute($services)
+	{
+		$this->setJsonAttribute('services', $services);
+	}
 }
