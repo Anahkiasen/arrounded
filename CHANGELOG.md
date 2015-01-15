@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 0.5.5 - 2015-01-15
+
+### Added
+- Added some folders helpers
+
 ### 0.5.4 - 2014-12-17
 
 ### Added
