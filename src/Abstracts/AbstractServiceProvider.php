@@ -57,7 +57,7 @@ abstract class AbstractServiceProvider extends ServiceProvider
 		$method = $this->app['request']->is('admin/*') ? 'findInTrash' : 'find';
 
 		// List all repositories
-		$repositories = app_path($this->namespace.'/Repositories');
+		$repositories = $this->app['arrounded']->getModelsFolder('Repositories');
 		$finder       = new Finder();
 		$files        = $finder->in($repositories)->files();
 

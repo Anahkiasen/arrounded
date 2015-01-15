@@ -162,9 +162,48 @@ class Arrounded
 		return $repository ? $repository->getModel() : null;
 	}
 
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// FOLDERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param string|null $folder
+     *
+     * @return string
+     */
+    public function getFolder($folder = null)
+    {
+        return $this->getNamespaceFolder($this->namespace, $folder);
+    }
+
+    /**
+     * @param string|null $folder
+     *
+     * @return string
+     */
+    public function getModelsFolder($folder = null)
+    {
+        return $this->getNamespaceFolder($this->modelsNamespace, $folder);
+    }
+
 	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// HELPERS ///////////////////////////////
 	//////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the folder matching a namespace
+     *
+     * @param string|null $folder
+     *
+     * @return string
+     */
+    protected function getNamespaceFolder($namespace, $folder = null)
+    {
+        $folder = $folder ? $namespace.'\\'.$folder : $namespace;
+        $folder = str_replace('\\', DIRECTORY_SEPARATOR, $folder);
+
+        return app_path($folder);
+    }
 
 	/**
 	 * Get the first existing class in an array
