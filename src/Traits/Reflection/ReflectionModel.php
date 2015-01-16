@@ -1,183 +1,183 @@
 <?php
 namespace Arrounded\Traits\Reflection;
 
+use Arrounded\Facades\Arrounded;
 use Auth;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionMethod;
-use Arrounded\Facades\Arrounded;
 
 /**
  * A model with methods that connect to routes and controllers
  */
 trait ReflectionModel
 {
-	use RoutableModel;
+    use RoutableModel;
 
-	////////////////////////////////////////////////////////////////////
-	//////////////////////////////// STATE /////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    //////////////////////////////// STATE /////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Whether the model belongs to the currently authentified user
-	 *
-	 * @return boolean
-	 */
-	public function belongsToCurrent()
-	{
-		return Auth::check() && Auth::user()->id == $this->user_id;
-	}
+    /**
+     * Whether the model belongs to the currently authentified user
+     *
+     * @return boolean
+     */
+    public function belongsToCurrent()
+    {
+        return Auth::check() && Auth::user()->id == $this->user_id;
+    }
 
-	////////////////////////////////////////////////////////////////////
-	////////////////////////////// REFLECTION //////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////// REFLECTION //////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Get the object's identifier
-	 *
-	 * @return string|integer
-	 */
-	public function getIdentifier()
-	{
-		return $this->slug ?: $this->id;
-	}
+    /**
+     * Get the object's identifier
+     *
+     * @return string|integer
+     */
+    public function getIdentifier()
+    {
+        return $this->slug ?: $this->id;
+    }
 
-	/**
-	 * Get the model's class
-	 *
-	 * @return string
-	 */
-	public function getClass()
-	{
-		return get_class($this);
-	}
+    /**
+     * Get the model's class
+     *
+     * @return string
+     */
+    public function getClass()
+    {
+        return get_class($this);
+    }
 
-	/**
-	 * Get the model's base class
-	 *
-	 * @return string
-	 */
-	public function getClassBasename()
-	{
-		return class_basename($this->getClass());
-	}
+    /**
+     * Get the model's base class
+     *
+     * @return string
+     */
+    public function getClassBasename()
+    {
+        return class_basename($this->getClass());
+    }
 
-	/**
-	 * Get the application's namespace
-	 *
-	 * @return string
-	 */
-	public function getNamespace()
-	{
-		return Arrounded::getNamespace();
-	}
+    /**
+     * Get the application's namespace
+     *
+     * @return string
+     */
+    public function getNamespace()
+    {
+        return Arrounded::getNamespace();
+    }
 
-	/**
-	 * Get the model's available relations
-	 *
-	 * @return array
-	 */
-	public function getAvailableRelations()
-	{
-		$reflection = new ReflectionClass($this);
+    /**
+     * Get the model's available relations
+     *
+     * @return array
+     */
+    public function getAvailableRelations()
+    {
+        $reflection = new ReflectionClass($this);
 
-		// Gather uninherited public methods
-		$relations = [];
-		$methods   = $reflection->getMethods(ReflectionMethod::IS_PUBLIC);
-		foreach ($methods as $method) {
-			if (
-				$method->getDeclaringClass()->getName() === $reflection->getName() &&
-				!Str::startsWith($method->getName(), ['get', 'scope'])
-			) {
-				$relations[] = $method->getName();
-			}
-		}
+        // Gather uninherited public methods
+        $relations = [];
+        $methods   = $reflection->getMethods(ReflectionMethod::IS_PUBLIC);
+        foreach ($methods as $method) {
+            if (
+                $method->getDeclaringClass()->getName() === $reflection->getName() &&
+                !Str::startsWith($method->getName(), ['get', 'scope'])
+            ) {
+                $relations[] = $method->getName();
+            }
+        }
 
-		return $relations;
-	}
+        return $relations;
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	/////////////////////////// RELATED CLASSES //////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    /////////////////////////// RELATED CLASSES //////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Get the presenter instance
-	 *
-	 * @return string
-	 */
-	public function getPresenter()
-	{
-		$service = $this->getRelatedClass('Presenter', $this->getNamespace().'\Presenters\DefaultPresenter');
+    /**
+     * Get the presenter instance
+     *
+     * @return string
+     */
+    public function getPresenter()
+    {
+        $service = $this->getRelatedClass('Presenter', $this->getNamespace().'\Presenters\DefaultPresenter');
 
-		return new $service($this);
-	}
+        return new $service($this);
+    }
 
-	/**
-	 * Get the transformer instance.
-	 *
-	 * @return string
-	 */
-	public function getTransformer()
-	{
-		$service = $this->getRelatedClass('Transformer', array(
-			$this->getNamespace().'\Transformers\DefaultTransformer',
-			'Arrounded\Services\Transformers\DefaultTransformer',
-		));
+    /**
+     * Get the transformer instance.
+     *
+     * @return string
+     */
+    public function getTransformer()
+    {
+        $service = $this->getRelatedClass('Transformer', array(
+            $this->getNamespace().'\Transformers\DefaultTransformer',
+            'Arrounded\Services\Transformers\DefaultTransformer',
+        ));
 
-		return new $service;
-	}
+        return new $service;
+    }
 
-	/**
-	 * Get a related class
-	 *
-	 * @param string          $type
-	 * @param string|string[] $default
-	 *
-	 * @return string
-	 */
-	public function getRelatedClass($type, $default)
-	{
-		return Arrounded::getModelService($this->getClassBasename(), $type, $default);
-	}
+    /**
+     * Get a related class
+     *
+     * @param string          $type
+     * @param string|string[] $default
+     *
+     * @return string
+     */
+    public function getRelatedClass($type, $default)
+    {
+        return Arrounded::getModelService($this->getClassBasename(), $type, $default);
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	/////////////////////////////// TRAITS ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    /////////////////////////////// TRAITS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Whether the model soft deletes or not
-	 *
-	 * @return boolean
-	 */
-	public function softDeletes()
-	{
-		return $this->hasTrait('Illuminate\Database\Eloquent\SoftDeletingTrait');
-	}
+    /**
+     * Whether the model soft deletes or not
+     *
+     * @return boolean
+     */
+    public function softDeletes()
+    {
+        return $this->hasTrait('Illuminate\Database\Eloquent\SoftDeletingTrait');
+    }
 
-	/**
-	 * Check if the model uses a trait
-	 *
-	 * @param  string $trait
-	 *
-	 * @return boolean
-	 */
-	public function hasTrait($trait)
-	{
-		// Try both given name and fully qualified name
-		$places = array(
-			'Arrounded\Traits\%s',
-			'Arrounded\Traits\Reflection\%s',
-			'%s',
-		);
+    /**
+     * Check if the model uses a trait
+     *
+     * @param  string $trait
+     *
+     * @return boolean
+     */
+    public function hasTrait($trait)
+    {
+        // Try both given name and fully qualified name
+        $places = array(
+            'Arrounded\Traits\%s',
+            'Arrounded\Traits\Reflection\%s',
+            '%s',
+        );
 
-		$traits = class_uses_recursive($this->getClass());
-		foreach ($places as $place) {
-			$place = sprintf($place, $trait);
-			if (in_array($place, $traits)) {
-				return true;
-			}
-		}
+        $traits = class_uses_recursive($this->getClass());
+        foreach ($places as $place) {
+            $place = sprintf($place, $trait);
+            if (in_array($place, $traits)) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

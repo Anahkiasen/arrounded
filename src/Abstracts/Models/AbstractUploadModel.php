@@ -15,210 +15,210 @@ use Illuminate\Support\Str;
  */
 abstract class AbstractUploadModel extends AbstractModel implements StaplerableInterface
 {
-	use EloquentTrait;
+    use EloquentTrait;
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @type array
-	 */
-	protected $fillable = [
-		'file',
-		'type',
-		'illustrable_id',
-		'illustrable_type',
-	];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @type array
+     */
+    protected $fillable = [
+        'file',
+        'type',
+        'illustrable_id',
+        'illustrable_type',
+    ];
 
-	/**
-	 * @type array
-	 */
-	protected $appends = ['thumbs'];
+    /**
+     * @type array
+     */
+    protected $appends = ['thumbs'];
 
-	/**
-	 * @param array $attributes
-	 */
-	public function __construct(array $attributes = array())
-	{
-		$this->hasAttachedFile('file');
+    /**
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = array())
+    {
+        $this->hasAttachedFile('file');
 
-		parent::__construct($attributes);
-	}
+        parent::__construct($attributes);
+    }
 
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-	 */
-	public function illustrable()
-	{
-		return $this->morphTo();
-	}
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function illustrable()
+    {
+        return $this->morphTo();
+    }
 
-	/**
-	 * @return boolean
-	 */
-	public function hasIllustrable()
-	{
-		return strpos($this->illustrable_type, 'Temporary') === false && $this->illustrable;
-	}
+    /**
+     * @return boolean
+     */
+    public function hasIllustrable()
+    {
+        return strpos($this->illustrable_type, 'Temporary') === false && $this->illustrable;
+    }
 
-	/**
-	 * Call a method on the Attachment object
-	 *
-	 * @param string $method
-	 * @param array  $parameters
-	 *
-	 * @return mixed
-	 */
-	public function __call($method, $parameters)
-	{
-		if (method_exists($this->file, $method)) {
-			return call_user_func_array([$this->file, $method], $parameters);
-		}
+    /**
+     * Call a method on the Attachment object
+     *
+     * @param string $method
+     * @param array  $parameters
+     *
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        if (method_exists($this->file, $method)) {
+            return call_user_func_array([$this->file, $method], $parameters);
+        }
 
-		return parent::__call($method, $parameters);
-	}
+        return parent::__call($method, $parameters);
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	/////////////////////////////// SCOPES ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    /////////////////////////////// SCOPES ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Scope to only the illustrables of an instance
-	 *
-	 * @param Builder       $query
-	 * @param AbstractModel $model
-	 *
-	 * @return Builder
-	 */
-	public function scopeIllustrable($query, AbstractModel $model)
-	{
-		return $query->where(array(
-			'illustrable_type' => $model->getClass(),
-			'illustrable_id'   => $model->id,
-		));
-	}
+    /**
+     * Scope to only the illustrables of an instance
+     *
+     * @param Builder       $query
+     * @param AbstractModel $model
+     *
+     * @return Builder
+     */
+    public function scopeIllustrable($query, AbstractModel $model)
+    {
+        return $query->where(array(
+            'illustrable_type' => $model->getClass(),
+            'illustrable_id'   => $model->id,
+        ));
+    }
 
-	/**
-	 * Scope to only images
-	 *
-	 * @param Builder $query
-	 *
-	 * @return Builder
-	 */
-	public function scopeWhereImages($query)
-	{
-		return $query->where('file_content_type', 'LIKE', 'image/%');
-	}
+    /**
+     * Scope to only images
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeWhereImages($query)
+    {
+        return $query->where('file_content_type', 'LIKE', 'image/%');
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	/////////////////////////////// THUMBS ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    /////////////////////////////// THUMBS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Check if the bound file is an image
-	 *
-	 * @return bool
-	 */
-	public function isImage()
-	{
-		return Str::startsWith($this->file_content_type, 'image/');
-	}
+    /**
+     * Check if the bound file is an image
+     *
+     * @return bool
+     */
+    public function isImage()
+    {
+        return Str::startsWith($this->file_content_type, 'image/');
+    }
 
-	/**
-	 * Get an array of the image's thumbs
-	 *
-	 * @return array
-	 */
-	public function getThumbsAttribute()
-	{
-		if (!$this->isImage()) {
-			return [];
-		}
+    /**
+     * Get an array of the image's thumbs
+     *
+     * @return array
+     */
+    public function getThumbsAttribute()
+    {
+        if (!$this->isImage()) {
+            return [];
+        }
 
-		$config = $this->getImageConfig();
-		$this->file->setConfig($config);
+        $config = $this->getImageConfig();
+        $this->file->setConfig($config);
 
-		// Fetch path to thumbnails
-		$thumbs = [];
-		foreach ($this->file->styles as $style) {
-			$thumbs[$style->name] = $this->file->url($style->name);
-		}
+        // Fetch path to thumbnails
+        $thumbs = [];
+        foreach ($this->file->styles as $style) {
+            $thumbs[$style->name] = $this->file->url($style->name);
+        }
 
-		return $thumbs;
-	}
+        return $thumbs;
+    }
 
-	/**
-	 * Reprocess the styles. This will create all the styles for the current image.
-	 */
-	public function reprocessStyles()
-	{
-		// styles only apply to images
-		if (!$this->isImage()) {
-			return;
-		}
+    /**
+     * Reprocess the styles. This will create all the styles for the current image.
+     */
+    public function reprocessStyles()
+    {
+        // styles only apply to images
+        if (!$this->isImage()) {
+            return;
+        }
 
-		$config = $this->getImageConfig();
-		$this->file->setConfig($config);
+        $config = $this->getImageConfig();
+        $this->file->setConfig($config);
 
-		// Reprocess thumbnails
-		$this->file->reprocess();
-	}
+        // Reprocess thumbnails
+        $this->file->reprocess();
+    }
 
-	/**
-	 * @return AttachmentConfig
-	 */
-	protected function getImageConfig()
-	{
-		// Get base configuration
-		$config = Config::get('laravel-stapler::stapler');
-		$config += Config::get('laravel-stapler::filesystem');
+    /**
+     * @return AttachmentConfig
+     */
+    protected function getImageConfig()
+    {
+        // Get base configuration
+        $config = Config::get('laravel-stapler::stapler');
+        $config += Config::get('laravel-stapler::filesystem');
 
-		// Set styles
-		$config['styles']             = $this->getThumbnailsConfiguration();
-		$config['styles']['original'] = '';
+        // Set styles
+        $config['styles']             = $this->getThumbnailsConfiguration();
+        $config['styles']['original'] = '';
 
-		return new AttachmentConfig('file', $config);
-	}
+        return new AttachmentConfig('file', $config);
+    }
 
-	/**
-	 * Renders the image at a certain size
-	 *
-	 * @param string|null $size
-	 * @param array       $attributes
-	 *
-	 * @return string
-	 */
-	public function render($size = null, $attributes = array())
-	{
-		$url  = $this->file->url($size);
-		$path = $this->file->path();
-		if (!file_exists($path)) {
-			$type = $this->hasIllustrable() ? $this->illustrable->getClassBasename() : null;
-			$url  = static::getPlaceholder($type);
-		}
+    /**
+     * Renders the image at a certain size
+     *
+     * @param string|null $size
+     * @param array       $attributes
+     *
+     * @return string
+     */
+    public function render($size = null, $attributes = array())
+    {
+        $url  = $this->file->url($size);
+        $path = $this->file->path();
+        if (!file_exists($path)) {
+            $type = $this->hasIllustrable() ? $this->illustrable->getClassBasename() : null;
+            $url  = static::getPlaceholder($type);
+        }
 
-		return HTML::image($url, null, $attributes);
-	}
+        return HTML::image($url, null, $attributes);
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// HELPERS ///////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// HELPERS ///////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Get the placeholder image
-	 *
-	 * @param string|null $type
-	 *
-	 * @return string|null
-	 */
-	public static function getPlaceholder($type = null)
-	{
-		return;
-	}
+    /**
+     * Get the placeholder image
+     *
+     * @param string|null $type
+     *
+     * @return string|null
+     */
+    public static function getPlaceholder($type = null)
+    {
+        return;
+    }
 
-	/**
-	 * Get the available thumbnail sizes
-	 *
-	 * @return array
-	 */
-	abstract protected function getThumbnailsConfiguration();
+    /**
+     * Get the available thumbnail sizes
+     *
+     * @return array
+     */
+    abstract protected function getThumbnailsConfiguration();
 }

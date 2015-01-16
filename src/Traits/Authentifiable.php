@@ -10,16 +10,16 @@ use Illuminate\Auth\UserTrait;
  */
 trait Authentifiable
 {
-	use UserTrait;
-	use RemindableTrait;
+    use UserTrait;
+    use RemindableTrait;
 
-	/**
-	 * Hash password before save
-	 *
-	 * @param string $password
-	 */
-	public function setPasswordAttribute($password)
-	{
-		$this->attributes['password'] = Hash::make($password);
-	}
+    /**
+     * Hash password before save
+     *
+     * @param string $password
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
 }

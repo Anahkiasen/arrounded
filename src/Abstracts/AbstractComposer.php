@@ -9,77 +9,77 @@ use Illuminate\Support\Str;
  */
 abstract class AbstractComposer
 {
-	use UsesContainer;
+    use UsesContainer;
 
-	/**
-	 * Make a menu from a list of links
-	 *
-	 * @param  array $menu
-	 *
-	 * @return array
-	 */
-	protected function makeMenu($menu)
-	{
-		$links = array();
-		foreach ($menu as $key => $item) {
-			// Rebuild from associative array
-			if (is_string($item)) {
-				$item = array($key, $item);
-			}
+    /**
+     * Make a menu from a list of links
+     *
+     * @param  array $menu
+     *
+     * @return array
+     */
+    protected function makeMenu($menu)
+    {
+        $links = array();
+        foreach ($menu as $key => $item) {
+            // Rebuild from associative array
+            if (is_string($item)) {
+                $item = array($key, $item);
+            }
 
-			list ($endpoint, $label) = $item;
-			$attributes = array_get($item, 4, array());
+            list ($endpoint, $label) = $item;
+            $attributes = array_get($item, 4, array());
 
-			// Compute actual URL
-			$parameters = array_get($item, 2, array());
-			$link       = Str::contains($endpoint, '@')
-				? $this->app['url']->action($endpoint, $parameters)
-				: $this->app['url']->to($endpoint, $parameters);
+            // Compute actual URL
+            $parameters = array_get($item, 2, array());
+            $link       = Str::contains($endpoint, '@')
+                ? $this->app['url']->action($endpoint, $parameters)
+                : $this->app['url']->to($endpoint, $parameters);
 
-			// Compute active state
-			if ($link !== '#') {
-				$active = array_get($item, 3) ?: str_replace($this->app['request']->root().'/', null, $link);
-				$active = $this->isOnPage($active);
-			} else {
-				$active = false;
-			}
+            // Compute active state
+            if ($link !== '#') {
+                $active = array_get($item, 3) ?: str_replace($this->app['request']->root().'/', null, $link);
+                $active = $this->isOnPage($active);
+            } else {
+                $active = false;
+            }
 
-			$links[] = array_merge(array(
-				'endpoint' => $link,
-				'label'    => $this->translate($label),
-				'active'   => $active ? 'active' : false,
-			), $attributes);
-		}
+            $links[] = array_merge(array(
+                'endpoint' => $link,
+                'label'    => $this->translate($label),
+                'active'   => $active ? 'active' : false,
+            ), $attributes);
+        }
 
-		return $links;
-	}
+        return $links;
+    }
 
-	/**
-	 * Check if a string matches the given url
-	 *
-	 * @param string $page
-	 *
-	 * @return integer
-	 */
-	protected function isOnPage($page, $loose = true)
-	{
-		$page = $loose ? $page : '^'.$page.'$';
-		$page = str_replace('#', '\#', $page);
+    /**
+     * Check if a string matches the given url
+     *
+     * @param string $page
+     *
+     * @return integer
+     */
+    protected function isOnPage($page, $loose = true)
+    {
+        $page = $loose ? $page : '^'.$page.'$';
+        $page = str_replace('#', '\#', $page);
 
-		return preg_match('#'.$page.'#', $this->app['request']->path());
-	}
+        return preg_match('#'.$page.'#', $this->app['request']->path());
+    }
 
-	/**
-	 * Act on a string to translate it
-	 *
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	protected function translate($string)
-	{
-		$translated = $this->app['translator']->get($string);
+    /**
+     * Act on a string to translate it
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    protected function translate($string)
+    {
+        $translated = $this->app['translator']->get($string);
 
-		return is_string($translated) ? $translated : $string;
-	}
+        return is_string($translated) ? $translated : $string;
+    }
 }

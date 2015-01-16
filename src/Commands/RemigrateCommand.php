@@ -6,116 +6,116 @@ use Schema;
 
 class RemigrateCommand extends Command
 {
-	/**
-	 * The console command name.
-	 *
-	 * @type string
-	 */
-	protected $name = 'arrounded:remigrate';
+    /**
+     * The console command name.
+     *
+     * @type string
+     */
+    protected $name = 'arrounded:remigrate';
 
-	/**
-	 * The console command description.
-	 *
-	 * @type string
-	 */
-	protected $description = 'Remigrates the database.';
+    /**
+     * The console command description.
+     *
+     * @type string
+     */
+    protected $description = 'Remigrates the database.';
 
-	/**
-	 * Execute the console command.
-	 *
-	 * @return mixed
-	 */
-	public function fire()
-	{
-		if (!$this->hasBackups()) {
-			return $this->remigrate();
-		}
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function fire()
+    {
+        if (!$this->hasBackups()) {
+            return $this->remigrate();
+        }
 
-		$hash = $this->computeHash();
-		$dump = storage_path('dumps/'.$hash);
+        $hash = $this->computeHash();
+        $dump = storage_path('dumps/'.$hash);
 
-		// If we already have a dump, use it
-		if (file_exists($dump)) {
-			return $this->call('db:restore', ['dump' => $hash]);
-		}
+        // If we already have a dump, use it
+        if (file_exists($dump)) {
+            return $this->call('db:restore', ['dump' => $hash]);
+        }
 
-		// Else remigrate database and back it up
-		$this->remigrate();
-		if ($this->hasBackups()) {
-			$this->call('db:backup', ['filename' => $dump]);
-		}
-	}
+        // Else remigrate database and back it up
+        $this->remigrate();
+        if ($this->hasBackups()) {
+            $this->call('db:backup', ['filename' => $dump]);
+        }
+    }
 
-	/**
-	 * Migrate some third party packages
-	 */
-	protected function migrateThirdParty()
-	{
-		// ...
-	}
+    /**
+     * Migrate some third party packages
+     */
+    protected function migrateThirdParty()
+    {
+        // ...
+    }
 
-	/**
-	 * Remigrate the database and back it up
-	 */
-	protected function remigrate()
-	{
-		// Create migrations table if necessary
-		if (!Schema::hasTable('migrations')) {
-			$this->call('migrate:install');
-		}
+    /**
+     * Remigrate the database and back it up
+     */
+    protected function remigrate()
+    {
+        // Create migrations table if necessary
+        if (!Schema::hasTable('migrations')) {
+            $this->call('migrate:install');
+        }
 
-		// Migrate database
-		$this->call('migrate:reset');
-		$this->call('migrate');
-		$this->migrateThirdParty();
+        // Migrate database
+        $this->call('migrate:reset');
+        $this->call('migrate');
+        $this->migrateThirdParty();
 
-		// Call seeders
-		$this->seedDatabase();
-	}
+        // Call seeders
+        $this->seedDatabase();
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function computeHash()
-	{
-		$migrations = $this->hashFolder('database/migrations');
-		$seeds      = $this->hashFolder('database/seeds');
-		$hash       = $migrations.$seeds.'.sql';
+    /**
+     * @return string
+     */
+    protected function computeHash()
+    {
+        $migrations = $this->hashFolder('database/migrations');
+        $seeds      = $this->hashFolder('database/seeds');
+        $hash       = $migrations.$seeds.'.sql';
 
-		return $hash;
-	}
+        return $hash;
+    }
 
-	/**
-	 * @param string $migrations
-	 *
-	 * @return string
-	 */
-	protected function hashFolder($migrations)
-	{
-		$migrations = app_path($migrations.'/*');
-		$migrations = $this->laravel['files']->glob($migrations);
-		$migrations = array_map('file_get_contents', $migrations);
-		$migrations = md5(implode(null, $migrations));
+    /**
+     * @param string $migrations
+     *
+     * @return string
+     */
+    protected function hashFolder($migrations)
+    {
+        $migrations = app_path($migrations.'/*');
+        $migrations = $this->laravel['files']->glob($migrations);
+        $migrations = array_map('file_get_contents', $migrations);
+        $migrations = md5(implode(null, $migrations));
 
-		return $migrations;
-	}
+        return $migrations;
+    }
 
-	/**
-	 * Call the various seeders
-	 */
-	protected function seedDatabase()
-	{
-		$this->call('db:seed', ['-vvv' => null]);
-	}
+    /**
+     * Call the various seeders
+     */
+    protected function seedDatabase()
+    {
+        $this->call('db:seed', ['-vvv' => null]);
+    }
 
-	/**
-	 * @return boolean
-	 */
-	protected function hasBackups()
-	{
-		$provider = 'Schickling\Backup\BackupServiceProvider';
-		$provided = $this->laravel->getLoadedProviders();
+    /**
+     * @return boolean
+     */
+    protected function hasBackups()
+    {
+        $provider = 'Schickling\Backup\BackupServiceProvider';
+        $provided = $this->laravel->getLoadedProviders();
 
-		return class_exists($provider) && array_get($provided, $provider);
-	}
+        return class_exists($provider) && array_get($provided, $provider);
+    }
 }

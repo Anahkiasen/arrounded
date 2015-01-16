@@ -9,64 +9,64 @@ use Illuminate\Support\ServiceProvider;
  */
 class ArroundedServiceProvider extends ServiceProvider
 {
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->package('arrounded', 'arrounded', __DIR__.'/..');
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->package('arrounded', 'arrounded', __DIR__.'/..');
 
-		$this->app->singleton('arrounded.meta', 'Arrounded\Services\Metadata');
-		$this->app->singleton('Arrounded\Arrounded', function($app) {
-			return new Arrounded($app);
-		});
+        $this->app->singleton('arrounded.meta', 'Arrounded\Services\Metadata');
+        $this->app->singleton('Arrounded\Arrounded', function ($app) {
+            return new Arrounded($app);
+        });
 
-		$this->app->alias('Arrounded\Arrounded', 'arrounded');
+        $this->app->alias('Arrounded\Arrounded', 'arrounded');
 
-		$this->registerAssets();
-	}
+        $this->registerAssets();
+    }
 
-	/**
-	 * Bootstrap the application events.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		// This is needed to make sure the original HTML class
-		// doesn't replace Arrounded's
-		$this->app['html'];
+    /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        // This is needed to make sure the original HTML class
+        // doesn't replace Arrounded's
+        $this->app['html'];
 
-		$this->app->singleton('html', 'Arrounded\Macros\HtmlBuilder');
-	}
+        $this->app->singleton('html', 'Arrounded\Macros\HtmlBuilder');
+    }
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return string[]
-	 */
-	public function provides()
-	{
-		return array('html', 'arrounded.meta');
-	}
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return string[]
+     */
+    public function provides()
+    {
+        return array('html', 'arrounded.meta');
+    }
 
-	//////////////////////////////////////////////////////////////////////
-	////////////////////////////// BINDINGS //////////////////////////////
-	//////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////////////// BINDINGS //////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Register the assets handler
-	 */
-	protected function registerAssets()
-	{
-		$this->app->singleton('Arrounded\Assets\AssetsHandler', function ($app) {
-			return new AssetsHandler($app['config']['assets']);
-		});
+    /**
+     * Register the assets handler
+     */
+    protected function registerAssets()
+    {
+        $this->app->singleton('Arrounded\Assets\AssetsHandler', function ($app) {
+            return new AssetsHandler($app['config']['assets']);
+        });
 
-		$this->app->bind('arrounded.assets.replacer', 'Arrounded\Assets\AssetsReplacer');
+        $this->app->bind('arrounded.assets.replacer', 'Arrounded\Assets\AssetsReplacer');
 
-		$this->commands(['arrounded.assets.replacer']);
-	}
+        $this->commands(['arrounded.assets.replacer']);
+    }
 }

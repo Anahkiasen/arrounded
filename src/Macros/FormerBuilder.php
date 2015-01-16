@@ -12,115 +12,115 @@ use Illuminate\Support\Str;
  */
 class FormerBuilder
 {
-	use UsesContainer;
+    use UsesContainer;
 
-	/**
-	 * Register multiple macros at once
-	 *
-	 * @param array $macros
-	 *
-	 * @return void
-	 */
-	public function registerMacros(array $macros = array())
-	{
-		// Merge default macros
-		$class  = get_class($this);
-		$macros = array_merge(['gender', 'boolean', 'belongsTo', 'manyToMany'], $macros);
+    /**
+     * Register multiple macros at once
+     *
+     * @param array $macros
+     *
+     * @return void
+     */
+    public function registerMacros(array $macros = array())
+    {
+        // Merge default macros
+        $class  = get_class($this);
+        $macros = array_merge(['gender', 'boolean', 'belongsTo', 'manyToMany'], $macros);
 
-		// Register macros
-		foreach ($macros as $name) {
-			$this->former->macro($name, $class.'@'.$name);
-		}
-	}
+        // Register macros
+        foreach ($macros as $name) {
+            $this->former->macro($name, $class.'@'.$name);
+        }
+    }
 
-	////////////////////////////////////////////////////////////////////
-	//////////////////////////////// MACROS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    //////////////////////////////// MACROS ////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Generates a gender picker
-	 *
-	 * @return Select
-	 */
-	public function gender()
-	{
-		return $this->former->select('gender')->options(['Male', 'Female'])->placeholder('Gender');
-	}
+    /**
+     * Generates a gender picker
+     *
+     * @return Select
+     */
+    public function gender()
+    {
+        return $this->former->select('gender')->options(['Male', 'Female'])->placeholder('Gender');
+    }
 
-	/**
-	 * Generates a boolean-type select
-	 *
-	 * @param string      $name
-	 * @param string|null $label
-	 *
-	 * @return Select
-	 */
-	public function boolean($name, $label = null)
-	{
-		return $this->former->select($name, $label)->options(['No', 'Yes']);
-	}
+    /**
+     * Generates a boolean-type select
+     *
+     * @param string      $name
+     * @param string|null $label
+     *
+     * @return Select
+     */
+    public function boolean($name, $label = null)
+    {
+        return $this->former->select($name, $label)->options(['No', 'Yes']);
+    }
 
-	/**
-	 * A select for a model belonging to another
-	 *
-	 * @param string      $model
-	 * @param string|null $foreign
-	 * @param string|null $label
-	 *
-	 * @return Select
-	 */
-	public function belongsTo($model, $foreign = null, $label = null)
-	{
-		$users   = $this->getEntries($model);
-		$foreign = $foreign ?: strtolower($model).'_id';
-		$label   = $label ?: class_basename($model);
+    /**
+     * A select for a model belonging to another
+     *
+     * @param string      $model
+     * @param string|null $foreign
+     * @param string|null $label
+     *
+     * @return Select
+     */
+    public function belongsTo($model, $foreign = null, $label = null)
+    {
+        $users   = $this->getEntries($model);
+        $foreign = $foreign ?: strtolower($model).'_id';
+        $label   = $label ?: class_basename($model);
 
-		return $this->former->select($foreign, $label)->options($users);
-	}
+        return $this->former->select($foreign, $label)->options($users);
+    }
 
-	/**
-	 * Generates a field group to pick one or more related models
-	 *
-	 * @param string      $name
-	 * @param string|null $label
-	 *
-	 * @return Group
-	 */
-	public function manyToMany($name, $label = null)
-	{
-		$options = $this->getEntries($name, 'id');
-		$label   = $label ?: class_basename($name);
+    /**
+     * Generates a field group to pick one or more related models
+     *
+     * @param string      $name
+     * @param string|null $label
+     *
+     * @return Group
+     */
+    public function manyToMany($name, $label = null)
+    {
+        $options = $this->getEntries($name, 'id');
+        $label   = $label ?: class_basename($name);
 
-		// Format entries
-		foreach ($options as $key => $value) {
-			$options[$key] = sprintf('[%d] %s', $key, $value);
-		}
+        // Format entries
+        foreach ($options as $key => $value) {
+            $options[$key] = sprintf('[%d] %s', $key, $value);
+        }
 
-		// Fetch entries from model
-		$entries = array();
-		if ($relation = $this->former->getValue($label)) {
-			$entries = $relation->lists('id');
-		}
+        // Fetch entries from model
+        $entries = array();
+        if ($relation = $this->former->getValue($label)) {
+            $entries = $relation->lists('id');
+        }
 
-		return $this->former->multiselect($label)->options($options, $entries);
-	}
+        return $this->former->multiselect($label)->options($options, $entries);
+    }
 
-	////////////////////////////////////////////////////////////////////
-	/////////////////////////////// HELPERS ////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    /////////////////////////////// HELPERS ////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Get all models as a dictionary, alphabetically ordered
-	 *
-	 * @param string $model
-	 *
-	 * @return array
-	 */
-	protected function getEntries($model, $orderBy = 'id')
-	{
-		$model = ucfirst($model);
-		$model = Str::singular($model);
+    /**
+     * Get all models as a dictionary, alphabetically ordered
+     *
+     * @param string $model
+     *
+     * @return array
+     */
+    protected function getEntries($model, $orderBy = 'id')
+    {
+        $model = ucfirst($model);
+        $model = Str::singular($model);
 
-		return $model::orderBy($orderBy, 'ASC')->get()->lists('name', 'id');
-	}
+        return $model::orderBy($orderBy, 'ASC')->get()->lists('name', 'id');
+    }
 }

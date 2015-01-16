@@ -37,32 +37,32 @@ use Illuminate\Container\Container;
  */
 trait UsesContainer
 {
-	/**
-	 * The IoC Container
-	 *
-	 * @type Container
-	 */
-	protected $app;
+    /**
+     * The IoC Container
+     *
+     * @type Container
+     */
+    protected $app;
 
-	/**
-	 * Default construct for a container-based class
-	 *
-	 * @param Container $app
-	 */
-	public function __construct(Container $app)
-	{
-		$this->app = $app;
-	}
+    /**
+     * Default construct for a container-based class
+     *
+     * @param Container $app
+     */
+    public function __construct(Container $app)
+    {
+        $this->app = $app;
+    }
 
-	/**
-	 * Get an entry from the Container
-	 *
-	 * @param string $key
-	 *
-	 * @return object
-	 */
-	public function __get($key)
-	{
-		return $this->app[$key];
-	}
+    /**
+     * Get an entry from the Container
+     *
+     * @param string $key
+     *
+     * @return object
+     */
+    public function __get($key)
+    {
+        return $this->app[$key];
+    }
 }

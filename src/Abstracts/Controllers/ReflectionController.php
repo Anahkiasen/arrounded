@@ -10,63 +10,63 @@ use ReflectionClass;
  */
 class ReflectionController extends ReflectionClass
 {
-	////////////////////////////////////////////////////////////////////
-	///////////////////////////////// META /////////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ///////////////////////////////// META /////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Get the model related to the controller
-	 *
-	 * @return string
-	 */
-	public function model()
-	{
-		$model = $this->getShortName();
-		$model = str_replace('Controller', null, $model);
-		$model = Str::singular($model);
+    /**
+     * Get the model related to the controller
+     *
+     * @return string
+     */
+    public function model()
+    {
+        $model = $this->getShortName();
+        $model = str_replace('Controller', null, $model);
+        $model = Str::singular($model);
 
-		return $model;
-	}
+        return $model;
+    }
 
-	/**
-	 * Get the resource associated with the controller
-	 *
-	 * @return string
-	 */
-	public function resource()
-	{
-		$resource = str_replace('Controller', null, $this->getName());
-		$resource = str_replace('\\', '.', $resource);
+    /**
+     * Get the resource associated with the controller
+     *
+     * @return string
+     */
+    public function resource()
+    {
+        $resource = str_replace('Controller', null, $this->getName());
+        $resource = str_replace('\\', '.', $resource);
 
-		return strtolower($resource);
-	}
+        return strtolower($resource);
+    }
 
-	/**
-	 * Get the core resource if it's nested
-	 *
-	 * @return string
-	 */
-	public function coreResource()
-	{
-		$resource = $this->resource();
-		$resource = explode('.', $resource);
+    /**
+     * Get the core resource if it's nested
+     *
+     * @return string
+     */
+    public function coreResource()
+    {
+        $resource = $this->resource();
+        $resource = explode('.', $resource);
 
-		return end($resource);
-	}
+        return end($resource);
+    }
 
-	////////////////////////////////////////////////////////////////////
-	////////////////////////////// INSTANCES ///////////////////////////
-	////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ////////////////////////////// INSTANCES ///////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Get an instance of the model
-	 *
-	 * @return Model
-	 */
-	public function newModel()
-	{
-		$model = $this->model();
+    /**
+     * Get an instance of the model
+     *
+     * @return Model
+     */
+    public function newModel()
+    {
+        $model = $this->model();
 
-		return new $model();
-	}
+        return new $model();
+    }
 }
