@@ -72,11 +72,12 @@ abstract class AbstractMailer
 	 */
 	protected $databag = array();
 
-	/**
-	 * Build a new FriendsInviter
-	 *
-	 * @param Mailer $mailer
-	 */
+    /**
+     * Build a new FriendsInviter
+     *
+     * @param Mailer       $mailer
+     * @param QueueManager $queue
+     */
 	public function __construct(Mailer $mailer, QueueManager $queue)
 	{
 		$this->mailer = $mailer;

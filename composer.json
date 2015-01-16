@@ -2,39 +2,41 @@
   "name": "anahkiasen/arrounded",
   "description": "A set of self-aware Laravel abstracts that know their way around",
   "authors": [
-	{
-	  "name": "Maxime Fabre",
-	  "email": "ehtnam6@gmail.com"
-	}
+    {
+      "name": "Maxime Fabre",
+      "email": "ehtnam6@gmail.com"
+    }
   ],
+  "autoload": {
+    "psr-4": {
+      "Arrounded\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Arrounded\\": "tests"
+    }
+  },
   "require": {
-	"php": ">=5.5.0",
-	"illuminate/support": "~4.2.0",
-	"mockery/mockery": "~0.9.2"
+    "php": ">=5.5.0"
   },
   "require-dev": {
-	"illuminate/container": "~4.2.0",
-	"illuminate/auth": "~4.2.0",
-	"illuminate/database": "~4.2.0",
-	"illuminate/pagination": "~4.2.0",
-	"illuminate/mail": "~4.2.0",
-	"illuminate/view": "~4.2.0",
-	"patchwork/utf8": "dev-master",
-	"phpunit/phpunit": "~4.3"
+    "illuminate/auth": "~4.2",
+    "illuminate/container": "~4.2",
+    "illuminate/database": "~4.2",
+    "illuminate/mail": "~4.2",
+    "illuminate/pagination": "~4.2",
+    "illuminate/support": "~4.2",
+    "illuminate/view": "~4.2",
+    "mockery/mockery": "0.9.*",
+    "patchwork/utf8": "~1.2",
+    "phpunit/phpunit": "~4.4"
   },
   "suggest": {
-	"codesleeve/laravel-stapler": "Uploads and thumbnails managment",
-	"dingo/api": "API creation",
-	"anahkiasen/former": "Form builder",
-	"cviebrock/eloquent-sluggable": "Slugs handling",
-	"league/csv": "Allows setting metadata from CSV files"
-  },
-  "autoload": {
-	"psr-4": {
-	  "Arrounded\\": [
-		"src",
-		"tests"
-	  ]
-	}
+    "codesleeve/laravel-stapler": "Uploads and thumbnails managment",
+    "dingo/api": "API creation",
+    "anahkiasen/former": "Form builder",
+    "cviebrock/eloquent-sluggable": "Slugs handling",
+    "league/csv": "Allows setting metadata from CSV files"
   }
 }

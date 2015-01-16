@@ -140,7 +140,7 @@ class AbstractRepositoryTest extends ArroundedTestCase
 	public function testCanFindEntryBySlug()
 	{
 		$eloquent = Mockery::mock('Eloquent', function ($mock) {
-			$mock->shouldReceive('hasTrait')->once()->with('Sluggable')->andReturn(true);
+			$mock->shouldReceive('hasTrait')->once()->with('Cviebrock\EloquentSluggable\SluggableTrait')->andReturn(true);
 			$mock->shouldReceive('whereSlug->firstOrFail')->andReturn('Model1');
 		});
 
@@ -151,7 +151,7 @@ class AbstractRepositoryTest extends ArroundedTestCase
 	public function testStringsWithNumbersAreRecognized()
 	{
 		$eloquent = Mockery::mock('Eloquent', function ($mock) {
-			$mock->shouldReceive('hasTrait')->once()->with('Sluggable')->andReturn(true);
+			$mock->shouldReceive('hasTrait')->once()->with('Cviebrock\EloquentSluggable\SluggableTrait')->andReturn(true);
 			$mock->shouldReceive('whereSlug->firstOrFail')->andReturn('Model1');
 		});
 
