@@ -17,7 +17,7 @@ class ApiDisplayer extends RoutesCommand
     /**
      * Filter the route by URI and / or name.
      *
-     * @param  array $route
+     * @param array $route
      *
      * @return array|null
      */
@@ -29,7 +29,7 @@ class ApiDisplayer extends RoutesCommand
     /**
      * Get the route information for a given route.
      *
-     * @param  Route $route
+     * @param Route $route
      *
      * @return array|null
      */
@@ -41,9 +41,9 @@ class ApiDisplayer extends RoutesCommand
         }
 
         // Separate method and URI
-        list ($methods, $uri) = explode(' ', $route['uri']);
-        $route['methods'] = $methods;
-        $route['uri']     = $uri;
+        list($methods, $uri) = explode(' ', $route['uri']);
+        $route['methods']    = $methods;
+        $route['uri']        = $uri;
 
         return $route;
     }

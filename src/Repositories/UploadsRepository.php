@@ -82,7 +82,7 @@ class UploadsRepository extends AbstractRepository
      *
      * @param IllustrableInterface $model
      * @param integer              $hash
-     * @param  string|null         $type
+     * @param string|null          $type
      *
      * @return array
      */

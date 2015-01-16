@@ -6,7 +6,6 @@ use Symfony\Component\Finder\Finder;
 
 class AssetsReplacer extends Command
 {
-
     /**
      * The console command name.
      *
@@ -67,7 +66,7 @@ class AssetsReplacer extends Command
      */
     protected function replaceAssetsCalls($matches)
     {
-        list (, $type, $container) = $matches;
+        list(, $type, $container) = $matches;
 
         return $this->handler->$type($container);
     }

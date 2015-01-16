@@ -5,5 +5,5 @@ use Arrounded\Abstracts\AbstractMailer;
 
 class DummyMailer extends AbstractMailer
 {
-	// ...
+    // ...
 }

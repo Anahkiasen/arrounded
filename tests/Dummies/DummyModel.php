@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class DummyModel extends Model
 {
-	use ReflectionModel;
+    use ReflectionModel;
 
-	/**
-	 * The guarded attributes
-	 *
-	 * @type array
-	 */
-	protected $guarded = array();
+    /**
+     * The guarded attributes
+     *
+     * @type array
+     */
+    protected $guarded = array();
 }

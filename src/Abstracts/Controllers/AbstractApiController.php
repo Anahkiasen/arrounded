@@ -63,7 +63,7 @@ abstract class AbstractApiController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $item
+     * @param int $item
      *
      * @return \Arrounded\Abstracts\Models\AbstractModel
      */
@@ -75,7 +75,7 @@ abstract class AbstractApiController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $item
+     * @param int $item
      *
      * @return \Illuminate\Http\Response
      */

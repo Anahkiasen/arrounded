@@ -124,7 +124,7 @@ trait ReflectionModel
             'Arrounded\Services\Transformers\DefaultTransformer',
         ));
 
-        return new $service;
+        return new $service();
     }
 
     /**
@@ -157,7 +157,7 @@ trait ReflectionModel
     /**
      * Check if the model uses a trait
      *
-     * @param  string $trait
+     * @param string $trait
      *
      * @return boolean
      */

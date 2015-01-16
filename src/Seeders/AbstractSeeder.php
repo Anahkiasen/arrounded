@@ -33,7 +33,7 @@ abstract class AbstractSeeder extends Seeder
     /**
      * Run a seeder
      *
-     * @param  string $table
+     * @param string $table
      */
     public function seed($table)
     {

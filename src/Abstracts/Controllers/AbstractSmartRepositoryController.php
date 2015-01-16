@@ -54,8 +54,8 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
     /**
      * Display a listing of the resource.
      *
-     * @param  array        $eager
-     * @param  integer|null $paginate
+     * @param array        $eager
+     * @param integer|null $paginate
      *
      * @return \Illuminate\View\View
      */
@@ -69,7 +69,7 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
     /**
      * Get the core create view
      *
-     * @param  array $data Additional data
+     * @param array $data Additional data
      *
      * @return \Illuminate\View\View
      */
@@ -81,7 +81,7 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
     /**
      * Display the specified resource.
      *
-     * @param  int $user
+     * @param int $user
      *
      * @return \Illuminate\View\View
      */
@@ -93,8 +93,8 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
     /**
      * Get the core edit view
      *
-     * @param  integer $item
-     * @param  array   $data Additional data
+     * @param integer $item
+     * @param array   $data Additional data
      *
      * @return \Illuminate\View\View
      */
@@ -109,7 +109,7 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
     /**
      * Update an item
      *
-     * @param  integer|null $item
+     * @param integer|null $item
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -144,8 +144,8 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
     /**
      * Delete an item
      *
-     * @param  integer $item
-     * @param  boolean $force
+     * @param integer $item
+     * @param boolean $force
      *
      * @return \Illuminate\Http\RedirectResponse
      */

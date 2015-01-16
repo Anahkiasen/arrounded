@@ -9,9 +9,9 @@ trait JsonAttributes
     /**
      * Encode an attribute before saving it
      *
-     * @param  string $attribute
-     * @param  mixed  $value
-     * @param  array  $defaults
+     * @param string $attribute
+     * @param mixed  $value
+     * @param array  $defaults
      *
      * @return void
      */
@@ -29,8 +29,8 @@ trait JsonAttributes
     /**
      * Get a JSON attribute
      *
-     * @param  string $attribute
-     * @param  array  $defaults
+     * @param string $attribute
+     * @param array  $defaults
      *
      * @return array
      */
@@ -49,7 +49,7 @@ trait JsonAttributes
     /**
      * Get the default value of an attribute
      *
-     * @param  string $attribute
+     * @param string $attribute
      *
      * @return mixed
      */

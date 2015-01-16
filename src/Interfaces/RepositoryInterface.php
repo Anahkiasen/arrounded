@@ -43,7 +43,7 @@ interface RepositoryInterface
     /**
      * Find a particular item
      *
-     * @param  integer $item
+     * @param integer $item
      *
      * @return AbstractModel
      */
@@ -61,7 +61,7 @@ interface RepositoryInterface
     /**
      * Create an entry from an array of attributes
      *
-     * @param  array $attributes
+     * @param array $attributes
      *
      * @return AbstractModel
      */

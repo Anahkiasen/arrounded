@@ -8,13 +8,13 @@ use Arrounded\Abstracts\AbstractRepository;
  */
 class DummyRepository extends AbstractRepository
 {
-	/**
-	 * Build a new DummyRepository
-	 *
-	 * @param mixed $items
-	 */
-	public function __construct($items)
-	{
-		$this->items = $items;
-	}
+    /**
+     * Build a new DummyRepository
+     *
+     * @param mixed $items
+     */
+    public function __construct($items)
+    {
+        $this->items = $items;
+    }
 }

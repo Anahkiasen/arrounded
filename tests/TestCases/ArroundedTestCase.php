@@ -7,20 +7,20 @@ use PHPUnit_Framework_TestCase;
 
 abstract class ArroundedTestCase extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * The tests container
-	 *
-	 * @type Container
-	 */
-	protected $app;
+    /**
+     * The tests container
+     *
+     * @type Container
+     */
+    protected $app;
 
-	/**
-	 * Remove existing mocks
-	 *
-	 * @return void
-	 */
-	public function tearDown()
-	{
-		Mockery::close();
-	}
+    /**
+     * Remove existing mocks
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        Mockery::close();
+    }
 }

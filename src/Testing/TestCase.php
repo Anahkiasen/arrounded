@@ -188,7 +188,7 @@ class TestCase extends IlluminateTestCase
     /**
      * Spoof the Redirect::back method
      *
-     * @param  string $endpoint
+     * @param string $endpoint
      *
      * @return void
      */
@@ -218,8 +218,8 @@ class TestCase extends IlluminateTestCase
     /**
      * Mock a class and inject it into the container
      *
-     * @param  string  $class
-     * @param  Closure $expectations
+     * @param string  $class
+     * @param Closure $expectations
      */
     protected function mock($class, $expectations)
     {

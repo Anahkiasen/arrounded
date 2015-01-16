@@ -280,7 +280,7 @@ class Crawler
     /**
      * Extract a model pattern in an URL
      *
-     * @param  string $pattern
+     * @param string $pattern
      *
      * @return string|false
      */
@@ -313,7 +313,7 @@ class Crawler
     {
         // Compute the main model and fetch its entries
         list($mainPattern, $main) = $this->computeMainModelFromPatterns($patterns, $action);
-        $entries = $this->fetchEntries($main);
+        $entries                  = $this->fetchEntries($main);
 
         foreach ($entries as $model) {
             $replacedUri = $this->replacePatternWithModel($uri, $model);
@@ -362,8 +362,8 @@ class Crawler
     /**
      * Replace a model pattern by a key in an URL
      *
-     * @param  string        $uri
-     * @param  AbstractModel $model
+     * @param string        $uri
+     * @param AbstractModel $model
      *
      * @return string
      */

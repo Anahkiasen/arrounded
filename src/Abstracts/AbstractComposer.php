@@ -14,7 +14,7 @@ abstract class AbstractComposer
     /**
      * Make a menu from a list of links
      *
-     * @param  array $menu
+     * @param array $menu
      *
      * @return array
      */
@@ -27,8 +27,8 @@ abstract class AbstractComposer
                 $item = array($key, $item);
             }
 
-            list ($endpoint, $label) = $item;
-            $attributes = array_get($item, 4, array());
+            list($endpoint, $label) = $item;
+            $attributes             = array_get($item, 4, array());
 
             // Compute actual URL
             $parameters = array_get($item, 2, array());
