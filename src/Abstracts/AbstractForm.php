@@ -76,7 +76,7 @@ abstract class AbstractForm
      * @param callable|null $callback
      *
      * @throws ValidationException
-     * @return void
+     * @return mixed
      */
     public function validateFor(AbstractModel $model, array $attributes = array(), callable $callback = null)
     {
