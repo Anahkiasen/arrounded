@@ -21,13 +21,13 @@
     "php": ">=5.5.0"
   },
   "require-dev": {
-    "illuminate/auth": "~4.2",
-    "illuminate/container": "~4.2",
-    "illuminate/database": "~4.2",
-    "illuminate/mail": "~4.2",
-    "illuminate/pagination": "~4.2",
-    "illuminate/support": "~4.2",
-    "illuminate/view": "~4.2",
+    "illuminate/auth": "^4.2.6",
+    "illuminate/container": "^4.2.6",
+    "illuminate/database": "^4.2.6",
+    "illuminate/mail": "^4.2.6",
+    "illuminate/pagination": "^4.2.6",
+    "illuminate/support": "^4.2.6",
+    "illuminate/view": "^4.2.6",
     "mockery/mockery": "0.9.*",
     "patchwork/utf8": "~1.2",
     "phpunit/phpunit": "~4.4"
