@@ -183,7 +183,7 @@ class Arrounded
      */
     public function getModelsFolder($folder = null)
     {
-        return $this->getNamespaceFolder($this->modelsNamespace, $folder);
+        return $this->getNamespaceFolder([$this->namespace, $this->modelsNamespace], $folder);
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -193,16 +193,24 @@ class Arrounded
     /**
      * Get the folder matching a namespace
      *
-     * @param string|null $folder
+     * @param string|string[] $namespaces
+     * @param string|null     $folder
      *
      * @return string
      */
-    protected function getNamespaceFolder($namespace, $folder = null)
+    protected function getNamespaceFolder($namespaces, $folder = null)
     {
-        $folder = $folder ? $namespace.'\\'.$folder : $namespace;
-        $folder = str_replace('\\', DIRECTORY_SEPARATOR, $folder);
+        $namespaces = (array) $namespaces;
+        $folders    = [];
+        foreach ($namespaces as $key => $namespace) {
+            $folder    = $folder ? $namespace.'\\'.$folder : $namespace;
+            $folder    = str_replace('\\', DIRECTORY_SEPARATOR, $folder);
+            $folders[] = app_path($folder);
+        }
 
-        return app_path($folder);
+        $folders = array_filter($folders, 'is_dir');
+
+        return head($folders);
     }
 
     /**
