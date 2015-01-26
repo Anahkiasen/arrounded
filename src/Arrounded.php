@@ -212,7 +212,7 @@ class Arrounded
      *
      * @return string
      */
-    protected function getFirstExistingClass(array $classes)
+    protected function getFirstExistingClass($classes)
     {
         $classes = (array) $classes;
         $classes = array_filter($classes, 'class_exists');
