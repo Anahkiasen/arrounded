@@ -1,5 +1,13 @@
 # CHANGELOG
 
+### 0.5.6 - 2015-01-26
+
+### Changed
+- Made `Arrounded::getModelsFolder` also look in the root namespace (for `Acme\Repositories` per example instead of `Acme\Models\Repositories`)
+
+### Fixed
+- Fixed incorrect typehint in `Arrounded::getFirstExistingClass`
+
 ### 0.5.5 - 2015-01-15
 
 ### Added
