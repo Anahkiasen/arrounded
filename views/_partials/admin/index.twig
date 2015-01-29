@@ -68,7 +68,7 @@
 	{% endfor %}
 
 	</tbody>
-	{% if not hide_footer %}
+	{% if not hide_footer and Route.has("#{resource}.create") %}
 		<tfoot>
 		<tr>
 			<td colspan="50">
