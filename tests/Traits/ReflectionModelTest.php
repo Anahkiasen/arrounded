@@ -18,7 +18,12 @@ class ReflectionModelTest extends ArroundedTestCase
      */
     public function setUp()
     {
+	    parent::setUp();
+
         $this->model = new DummyModel();
+
+	    $this->arrounded->setNamespace('Arrounded');
+	    $this->arrounded->setNamespaces(['Controllers' => null]);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -32,17 +37,17 @@ class ReflectionModelTest extends ArroundedTestCase
 
     public function testCanGetController()
     {
-        $this->assertEquals('DummyModelsController', $this->model->getController());
+        $this->assertEquals('Arrounded\Controllers\DummyModelsController', $this->model->getController());
     }
 
     public function testCanGetAction()
     {
-        $this->assertEquals('DummyModelsController@foobar', $this->model->getAction('foobar'));
+        $this->assertEquals('Arrounded\Controllers\DummyModelsController@foobar', $this->model->getAction('foobar'));
     }
 
     public function testCanGetApiAction()
     {
-        $this->assertEquals('Api\DummyModelsController@foobar', $this->model->getAction('foobar', true));
+        $this->assertEquals('Arrounded\Controllers\Api\DummyModelsController@foobar', $this->model->getAction('foobar', true));
     }
 
     public function testCanCheckIfHasTrait()

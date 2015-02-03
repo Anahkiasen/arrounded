@@ -18,9 +18,11 @@ class Arrounded
 	protected $namespace;
 
 	/**
-	 * @type string
+	 * Where to find the various namespaces
+	 *
+	 * @type array
 	 */
-	protected $modelsNamespace;
+	protected $namespaces = [];
 
 	/**
 	 * A cache of found instances
@@ -36,26 +38,23 @@ class Arrounded
 	/**
 	 * @param string $namespace
 	 */
+	public function setRootNamespace($namespace)
+	{
+		$this->namespace = $namespace;
+	}
+
+	/**
+	 * @param string $namespace
+	 */
 	public function setNamespace($namespace)
 	{
-		$this->namespace       = $namespace;
-		$this->modelsNamespace = $namespace.'\Models';
-	}
+		// Add default structure
+		$this->setRootNamespace($namespace);
+		$this->setModelsNamespace('Entities');
 
-	/**
-	 * @return string
-	 */
-	public function getNamespace()
-	{
-		return $this->namespace;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getModelsNamespace()
-	{
-		return $this->modelsNamespace;
+		$this->addNamespace('Composers', 'Http');
+		$this->addNamespace('Controllers', 'Http');
+		$this->addNamespace('Forms', 'Http');
 	}
 
 	/**
@@ -63,7 +62,51 @@ class Arrounded
 	 */
 	public function setModelsNamespace($modelsNamespace)
 	{
-		$this->modelsNamespace = $modelsNamespace;
+		$this->addNamespace('Repositories', $modelsNamespace);
+		$this->addNamespace('Models', $modelsNamespace);
+		$this->addNamespace('Traits', $modelsNamespace);
+	}
+
+	/**
+	 * @param string $namespace
+	 * @param string $position
+	 */
+	public function addNamespace($namespace, $position)
+	{
+		$this->namespaces[$namespace] = $position;
+	}
+
+	/**
+	 * @param array $namespaces
+	 */
+	public function setNamespaces(array $namespaces)
+	{
+		$this->namespaces = $namespaces;
+	}
+
+	/**
+	 * @param string|null $namespace
+	 *
+	 * @return string
+	 */
+	public function getNamespace($namespace = null)
+	{
+		if (!$namespace) {
+			return $this->namespace;
+		}
+
+		$namespace = array_get($this->namespaces, $namespace);
+		$namespace = $this->namespace.'\\'.$namespace;
+
+		return $namespace;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getNamespaces()
+	{
+		return $this->namespaces;
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -89,16 +132,19 @@ class Arrounded
 		}
 
 		// Look into possible namespaces
-		$namespace   = Str::plural($type);
-		$pluralModel = Str::plural($model);
+		$singularType = Str::singular($type);
+		$pluralType   = Str::plural($type);
+		$pluralModel  = Str::plural($model);
 
 		$service = $this->getFirstExistingClass(array(
-			sprintf('%s\%s\%s%s', $this->modelsNamespace, $namespace, $pluralModel, $type),
-			sprintf('%s\%s\%s%s', $this->namespace, $namespace, $pluralModel, $type),
-			sprintf('%s\Http\%s\%s%s', $this->namespace, $namespace, $pluralModel, $type),
-			sprintf('%s\%s\%s%s', $this->modelsNamespace, $namespace, $model, $type),
-			sprintf('%s\%s\%s%s', $this->namespace, $namespace, $model, $type),
-			sprintf('%s\Http\%s\%s%s', $this->namespace, $namespace, $model, $type),
+			$this->qualifyClass($model, $type),
+			$this->qualifyClass($pluralModel, $type),
+			$this->qualifyClass($model.$pluralType, $type),
+			$this->qualifyClass($pluralModel.$pluralType, $type),
+			$this->qualifyClass($model.$singularType, $type),
+			$this->qualifyClass($pluralModel.$singularType, $type),
+			$this->qualifyClass($model.$singularType, $pluralType),
+			$this->qualifyClass($pluralModel.$singularType, $pluralType),
 		));
 
 		// Switch to default if not found
@@ -170,7 +216,7 @@ class Arrounded
 		$name = ucfirst($name);
 
 		// Look into default path
-		$default = sprintf('%s\%s', $this->modelsNamespace, $name);
+		$default = $this->qualifyClass($name, 'Models');
 		if (class_exists($default)) {
 			return $default;
 		}
@@ -201,12 +247,36 @@ class Arrounded
 	 */
 	public function getModelsFolder($folder = null)
 	{
-		return $this->getNamespaceFolder([$this->namespace, $this->modelsNamespace], $folder);
+		return $this->getNamespaceFolder([$this->namespace, $this->getNamespace('Models')], $folder);
 	}
 
 	//////////////////////////////////////////////////////////////////////
 	////////////////////////////// HELPERS ///////////////////////////////
 	//////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Qualify a class by its type
+	 *
+	 * @param string      $class
+	 * @param string|null $type
+	 *
+	 * @return string
+	 */
+	public function qualifyClass($class, $type = null)
+	{
+		$path = [$this->namespace];
+
+		// Compute type
+		$parent = array_get($this->namespaces, $type);
+		$path[] = is_string($parent) ? $parent : null;
+		$path[] = $type ?: null;
+
+		// Compose FQN
+		$path[] = $class;
+		$path   = array_filter($path);
+
+		return implode('\\', $path);
+	}
 
 	/**
 	 * Get the folder matching a namespace
@@ -216,7 +286,7 @@ class Arrounded
 	 *
 	 * @return string
 	 */
-	protected function getNamespaceFolder($namespaces, $folder = null)
+	public function getNamespaceFolder($namespaces, $folder = null)
 	{
 		$namespaces = (array) $namespaces;
 		$folders    = [];
@@ -238,7 +308,7 @@ class Arrounded
 	 *
 	 * @return string
 	 */
-	protected function getFirstExistingClass($classes)
+	public function getFirstExistingClass($classes)
 	{
 		$classes = (array) $classes;
 		$classes = array_filter($classes, 'class_exists');

@@ -39,7 +39,7 @@ abstract class AbstractServiceProvider extends ServiceProvider
     protected function registerViewComposers(array $composers)
     {
         foreach ($composers as $composer => $views) {
-            $composer = sprintf('%s\Composers\%s', $this->namespace, $composer);
+            $composer = $this->app['arrounded']->qualifyClass($composer, 'Composers');
             $this->app['view']->composer($views, $composer);
         }
     }
