@@ -2,6 +2,8 @@
 namespace Arrounded;
 
 use Arrounded\TestCases\ArroundedTestCase;
+use Mockery;
+use Mockery\Mock;
 
 class ArroundedTest extends ArroundedTestCase
 {
@@ -35,5 +37,23 @@ class ArroundedTest extends ArroundedTestCase
 
 		$repository = $this->arrounded->getModelService('Upload', 'Repositories');
 		$this->assertEquals('Arrounded\Repositories\UploadsRepository', $repository);
+	}
+
+	public function testCanGetFolder()
+	{
+		$this->app['files'] = Mockery::mock('Illuminate\Filesystem\Filesystem', ['isDirectory' => true])->makePartial();
+
+		$this->arrounded->setNamespace('Arrounded');
+		$this->app['path'] = __DIR__.'/../src';
+
+		$folder = $this->arrounded->getFolder('Foobar');
+		$this->assertEquals(__DIR__.'/../src/Arrounded/Foobar', $folder);
+
+		$folder = $this->arrounded->getFolder('Foobar\Baz');
+		$this->assertEquals(__DIR__.'/../src/Arrounded/Foobar/Baz', $folder);
+
+		$this->arrounded->setNamespaces(['Composers' => 'Http']);
+		$folder = $this->arrounded->getFolder('Composers');
+		$this->assertEquals(__DIR__.'/../src/Arrounded/Http/Composers', $folder);
 	}
 }

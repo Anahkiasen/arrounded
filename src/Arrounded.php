@@ -100,7 +100,7 @@ class Arrounded
 		$namespace = array_get($this->namespaces, $namespace);
 		$namespace = $this->namespace.'\\'.$namespace;
 
-		return $namespace;
+		return trim($namespace, '\\');
 	}
 
 	/**
@@ -239,17 +239,7 @@ class Arrounded
 	 */
 	public function getFolder($folder = null)
 	{
-		return $this->getNamespaceFolder($this->namespace, $folder);
-	}
-
-	/**
-	 * @param string|null $folder
-	 *
-	 * @return string
-	 */
-	public function getModelsFolder($folder = null)
-	{
-		return $this->getNamespaceFolder([$this->namespace, $this->getNamespace('Models')], $folder);
+		return $this->getNamespaceFolder($this->getNamespace($folder), $folder);
 	}
 
 	//////////////////////////////////////////////////////////////////////
@@ -298,7 +288,7 @@ class Arrounded
 			$folders[] = app_path($folder);
 		}
 
-		$folders = array_filter($folders, 'is_dir');
+		$folders = array_filter($folders, [$this->files, 'isDirectory']);
 
 		return head($folders);
 	}
