@@ -63,6 +63,7 @@ class Arrounded
 	public function setModelsNamespace($modelsNamespace)
 	{
 		$this->addNamespace('Models', $modelsNamespace);
+		$this->addNamespace('Observers', $modelsNamespace);
 		$this->addNamespace('Presenters', $modelsNamespace);
 		$this->addNamespace('Repositories', $modelsNamespace);
 		$this->addNamespace('Traits', $modelsNamespace);
