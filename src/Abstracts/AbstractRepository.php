@@ -197,8 +197,8 @@ abstract class AbstractRepository implements RepositoryInterface
     /**
      * Update an item
      *
-     * @param integer $item
-     * @param array   $attributes
+     * @param AbstractModel|integer $item
+     * @param array                 $attributes
      *
      * @return AbstractModel
      */
@@ -214,8 +214,8 @@ abstract class AbstractRepository implements RepositoryInterface
     /**
      * Delete an item
      *
-     * @param integer $item
-     * @param boolean $force Force delete or not
+     * @param AbstractModel|integer $item
+     * @param boolean               $force Force delete or not
      *
      * @return boolean
      */

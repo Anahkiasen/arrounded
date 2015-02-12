@@ -19,7 +19,7 @@ class ArroundedServiceProvider extends ServiceProvider
         $this->package('arrounded', 'arrounded', __DIR__.'/..');
 
         $this->app->singleton('arrounded.meta', 'Arrounded\Services\Metadata');
-	    
+
         $this->app->singleton('Arrounded\Arrounded', 'Arrounded\Arrounded');
         $this->app->alias('Arrounded\Arrounded', 'arrounded');
 

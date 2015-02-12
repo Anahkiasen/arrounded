@@ -4,7 +4,6 @@ namespace Arrounded\Traits\Reflection;
 use Arrounded\Facades\Arrounded;
 use Illuminate\Support\Facades\HTML;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Str;
 
 trait RoutableModel
 {
@@ -15,7 +14,7 @@ trait RoutableModel
      */
     public function getController()
     {
-	    return Arrounded::getController($this);
+        return Arrounded::getController($this);
     }
 
     /**
@@ -29,9 +28,9 @@ trait RoutableModel
     public function getAction($action, $api = false)
     {
         $prefix = $this->getController().'@';
-	    if ($api) {
-		    $prefix = str_replace('Controllers', 'Controllers\Api', $prefix);
-	    }
+        if ($api) {
+            $prefix = str_replace('Controllers', 'Controllers\Api', $prefix);
+        }
 
         return $prefix.$action;
     }

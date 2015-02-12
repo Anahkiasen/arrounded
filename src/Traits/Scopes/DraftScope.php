@@ -11,103 +11,103 @@ use Illuminate\Database\Eloquent\ScopeInterface;
  */
 class DraftScope implements ScopeInterface
 {
-	/**
-	 * All of the extensions to be added to the builder.
-	 *
-	 * @var array
-	 */
-	protected $extensions = ['WithDrafts', 'OnlyDrafts'];
+    /**
+     * All of the extensions to be added to the builder.
+     *
+     * @var array
+     */
+    protected $extensions = ['WithDrafts', 'OnlyDrafts'];
 
-	/**
-	 * Apply the scope to a given Eloquent query builder.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder $builder
-	 *
-	 * @return void
-	 */
-	public function apply(Builder $builder)
-	{
-		$builder->where($this->getDraftColumn($builder), '=', '0');
+    /**
+     * Apply the scope to a given Eloquent query builder.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     *
+     * @return void
+     */
+    public function apply(Builder $builder)
+    {
+        $builder->where($this->getDraftColumn($builder), '=', '0');
 
-		$this->extend($builder);
-	}
+        $this->extend($builder);
+    }
 
-	/**
-	 * Remove the scope from the given Eloquent query builder.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder $builder
-	 *
-	 * @return void
-	 */
-	public function remove(Builder $builder)
-	{
-		$query    = $builder->getQuery();
-		$bindings = $builder->getBindings();
+    /**
+     * Remove the scope from the given Eloquent query builder.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     *
+     * @return void
+     */
+    public function remove(Builder $builder)
+    {
+        $query    = $builder->getQuery();
+        $bindings = $builder->getBindings();
 
-		foreach ((array) $query->wheres as $key => $where) {
-			if ($where['column'] == $this->getDraftColumn($builder)) {
-				unset($query->wheres[$key]);
-				unset($bindings[$key]);
-				$query->wheres = array_values($query->wheres);
-			}
-		}
+        foreach ((array) $query->wheres as $key => $where) {
+            if ($where['column'] == $this->getDraftColumn($builder)) {
+                unset($query->wheres[$key]);
+                unset($bindings[$key]);
+                $query->wheres = array_values($query->wheres);
+            }
+        }
 
-		$query->setBindings($bindings);
-	}
+        $query->setBindings($bindings);
+    }
 
-	/**
-	 * Add the withDrafts extension to the builder.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder $builder
-	 *
-	 * @return void
-	 */
-	protected function addWithDrafts(Builder $builder)
-	{
-		$builder->macro('withDrafts', function (Builder $builder) {
-			$this->remove($builder);
+    /**
+     * Add the withDrafts extension to the builder.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     *
+     * @return void
+     */
+    protected function addWithDrafts(Builder $builder)
+    {
+        $builder->macro('withDrafts', function (Builder $builder) {
+            $this->remove($builder);
 
-			return $builder;
-		});
-	}
+            return $builder;
+        });
+    }
 
-	/**
-	 * Add the onlyDrafts extension to the builder.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder $builder
-	 *
-	 * @return void
-	 */
-	protected function addOnlyDrafts(Builder $builder)
-	{
-		$builder->macro('onlyDrafts', function (Builder $builder) {
-			$this->remove($builder);
+    /**
+     * Add the onlyDrafts extension to the builder.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     *
+     * @return void
+     */
+    protected function addOnlyDrafts(Builder $builder)
+    {
+        $builder->macro('onlyDrafts', function (Builder $builder) {
+            $this->remove($builder);
 
-			$builder->getQuery()->where($this->getDraftColumn($builder), '1');
+            $builder->getQuery()->where($this->getDraftColumn($builder), '1');
 
-			return $builder;
-		});
-	}
+            return $builder;
+        });
+    }
 
-	/**
-	 * Extend the query builder with the needed functions.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder $builder
-	 *
-	 * @return void
-	 */
-	public function extend(Builder $builder)
-	{
-		foreach ($this->extensions as $extension) {
-			$this->{"add{$extension}"}($builder);
-		}
-	}
+    /**
+     * Extend the query builder with the needed functions.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     *
+     * @return void
+     */
+    public function extend(Builder $builder)
+    {
+        foreach ($this->extensions as $extension) {
+            $this->{"add{$extension}"}($builder);
+        }
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function getDraftColumn(Builder $builder)
-	{
-		return $builder->getModel()->getQualifiedDraftColumn();
-	}
+    /**
+     * @return string
+     */
+    protected function getDraftColumn(Builder $builder)
+    {
+        return $builder->getModel()->getQualifiedDraftColumn();
+    }
 }
