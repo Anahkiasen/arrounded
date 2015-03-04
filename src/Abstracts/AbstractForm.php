@@ -62,11 +62,12 @@ abstract class AbstractForm
         $validation = $this->alterValidation($validation);
 
         if ($validation->fails()) {
+            $exception = ValidationException::class;
             if (class_exists('Dingo\Api\Exception\ResourceException') && (Request::wantsJson() || Request::isJson())) {
-                throw new ResourceException('Validation failed', $validation->getMessageBag());
+                $exception = ResourceException::class;
             }
 
-            throw new ValidationException('Validation failed', $validation->getMessageBag());
+            throw new $exception('Validation failed', $validation->getMessageBag());
         } elseif ($callback) {
             return $callback($attributes, $this->model);
         }
