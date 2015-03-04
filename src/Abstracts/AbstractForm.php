@@ -3,8 +3,10 @@ namespace Arrounded\Abstracts;
 
 use Arrounded\Abstracts\Models\AbstractModel;
 use Arrounded\Validation\ValidationException;
+use Dingo\Api\Exception\ResourceException;
 use Illuminate\Validation\Factory;
 use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Request;
 
 /**
  * A class representation of a form
@@ -60,6 +62,10 @@ abstract class AbstractForm
         $validation = $this->alterValidation($validation);
 
         if ($validation->fails()) {
+            if (class_exists('Dingo\Api\Exception\ResourceException') && (Request::wantsJson() || Request::isJson())) {
+                throw new ResourceException('Validation failed', $validation->getMessageBag());
+            }
+
             throw new ValidationException('Validation failed', $validation->getMessageBag());
         } elseif ($callback) {
             return $callback($attributes, $this->model);
