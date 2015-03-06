@@ -96,7 +96,7 @@ abstract class AbstractForm
     {
         $this->model = $model;
 
-        return $this->validate($attributes, $callback, $this->getMessages());
+        return $this->validate($attributes, $callback);
     }
 
     //////////////////////////////////////////////////////////////////////
