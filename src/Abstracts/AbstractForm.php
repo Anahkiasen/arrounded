@@ -28,6 +28,13 @@ abstract class AbstractForm
     protected $rules = [];
 
     /**
+     * Custom validation messages
+     *
+     * @type array
+     */
+    protected $messages = [];
+
+    /**
      * A model to fine-tune rules to
      *
      * @type AbstractModel
@@ -56,7 +63,7 @@ abstract class AbstractForm
     public function validate(array $attributes = array(), callable $callback = null)
     {
         // Get attributes and create Validator
-        $validation = $this->validator->make($attributes, $this->getRules($attributes));
+        $validation = $this->validator->make($attributes, $this->getRules($attributes), $this->getMessages());
 
         // Alter rules and stuff
         $validation = $this->alterValidation($validation);
@@ -89,7 +96,7 @@ abstract class AbstractForm
     {
         $this->model = $model;
 
-        return $this->validate($attributes, $callback);
+        return $this->validate($attributes, $callback, $this->getMessages());
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -133,5 +140,15 @@ abstract class AbstractForm
         }
 
         return $rules;
+    }
+
+    /**
+     * Sets custom validation rules
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->messages;
     }
 }
