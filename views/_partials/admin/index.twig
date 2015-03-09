@@ -1,4 +1,4 @@
-{% set model = model|default(title|lower) %}
+{% set model = model|default(Str.slug(title, '-')) %}
 {% set resource = "admin.#{model}" %}
 {% set searchable = searchable|default(['id'] + fields|keys) %}
 
