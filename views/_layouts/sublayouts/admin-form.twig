@@ -1,4 +1,6 @@
 {% extends '_layouts.admin' %}
+{% set resource = "admin." ~ Str.slug(item.getTable(), '-') %}
+
 {% set title = item.name ? item.name : (item.id ? "#{item.getTable()|title} ##{item.id}" : "New #{Str.singular(item.getTable())}") %}
 
 {% block content %}
@@ -12,7 +14,7 @@
 		<hr>
 		{{ Former.actions(
 			Former.lg_primary_submit('Save'),
-			Former.lg_default_link('Cancel', URL.route("admin.#{item.getTable()}.index"))
+			Former.lg_default_link('Cancel', URL.route("#{resource}.index"))
 		)|raw }}
 	{{ Former.close()|raw }}
 {% endblock %}
