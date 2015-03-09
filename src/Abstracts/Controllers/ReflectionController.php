@@ -36,9 +36,11 @@ class ReflectionController extends ReflectionClass
     public function resource()
     {
         $resource = str_replace('Controller', null, $this->getName());
+        $resource = Str::snake($resource, '-');
         $resource = str_replace('\\', '.', $resource);
+        $resource = str_replace('.-', '.', $resource);
 
-        return strtolower($resource);
+        return $resource;
     }
 
     /**
