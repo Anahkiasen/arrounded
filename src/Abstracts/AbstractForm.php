@@ -4,151 +4,157 @@ namespace Arrounded\Abstracts;
 use Arrounded\Abstracts\Models\AbstractModel;
 use Arrounded\Validation\ValidationException;
 use Dingo\Api\Exception\ResourceException;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\Factory;
 use Illuminate\Validation\Validator;
-use Illuminate\Support\Facades\Request;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * A class representation of a form
  */
 abstract class AbstractForm
 {
-    /**
-     * The validator factory
-     *
-     * @type Factory
-     */
-    protected $validator;
+	/**
+	 * The validator factory
+	 *
+	 * @type Factory
+	 */
+	protected $validator;
 
-    /**
-     * The validation rules
-     *
-     * @type array
-     */
-    protected $rules = [];
+	/**
+	 * The validation rules
+	 *
+	 * @type array
+	 */
+	protected $rules = [];
 
-    /**
-     * Custom validation messages
-     *
-     * @type array
-     */
-    protected $messages = [];
+	/**
+	 * Custom validation messages
+	 *
+	 * @type array
+	 */
+	protected $messages = [];
 
-    /**
-     * A model to fine-tune rules to
-     *
-     * @type AbstractModel
-     */
-    protected $model;
+	/**
+	 * A model to fine-tune rules to
+	 *
+	 * @type AbstractModel
+	 */
+	protected $model;
 
-    /**
-     * Build a new form
-     *
-     * @param Factory $validator
-     */
-    public function __construct(Factory $validator)
-    {
-        $this->validator = $validator;
-    }
+	/**
+	 * Build a new form
+	 *
+	 * @param Factory $validator
+	 */
+	public function __construct(Factory $validator)
+	{
+		$this->validator = $validator;
+	}
 
-    /**
-     * Validate an array of attributes
-     *
-     * @param array         $attributes
-     * @param callable|null $callback
-     *
-     * @throws ValidationException
-     * @return mixed
-     */
-    public function validate(array $attributes = array(), callable $callback = null)
-    {
-        // Get attributes and create Validator
-        $validation = $this->validator->make($attributes, $this->getRules($attributes), $this->getMessages());
+	/**
+	 * Validate an array of attributes
+	 *
+	 * @param ParameterBag|array $attributes
+	 * @param callable|null      $callback
+	 *
+	 * @throws ValidationException
+	 * @return mixed
+	 */
+	public function validate($attributes = array(), callable $callback = null)
+	{
+		// Unwrap parameter bags
+		if ($attributes instanceof ParameterBag) {
+			$attributes = $attributes->all();
+		}
 
-        // Alter rules and stuff
-        $validation = $this->alterValidation($validation);
+		// Get attributes and create Validator
+		$validation = $this->validator->make($attributes, $this->getRules($attributes), $this->getMessages());
 
-        if ($validation->fails()) {
-            $exception = ValidationException::class;
-            if (class_exists('Dingo\Api\Exception\ResourceException') && (Request::wantsJson() || Request::isJson())) {
-                $exception = ResourceException::class;
-            }
+		// Alter rules and stuff
+		$validation = $this->alterValidation($validation);
 
-            throw new $exception('Validation failed', $validation->getMessageBag());
-        } elseif ($callback) {
-            return $callback($attributes, $this->model);
-        }
+		if ($validation->fails()) {
+			$exception = ValidationException::class;
+			if (class_exists('Dingo\Api\Exception\ResourceException') && (Request::wantsJson() || Request::isJson())) {
+				$exception = ResourceException::class;
+			}
 
-        return true;
-    }
+			throw new $exception('Validation failed', $validation->getMessageBag());
+		} elseif ($callback) {
+			return $callback($attributes, $this->model);
+		}
 
-    /**
-     * Validate an array of attributes for a particular model
-     *
-     * @param AbstractModel $model
-     * @param array         $attributes
-     * @param callable|null $callback
-     *
-     * @throws ValidationException
-     * @return mixed
-     */
-    public function validateFor(AbstractModel $model, array $attributes = array(), callable $callback = null)
-    {
-        $this->model = $model;
+		return true;
+	}
 
-        return $this->validate($attributes, $callback);
-    }
+	/**
+	 * Validate an array of attributes for a particular model
+	 *
+	 * @param AbstractModel      $model
+	 * @param ParameterBag|array $attributes
+	 * @param callable|null      $callback
+	 *
+	 * @throws ValidationException
+	 * @return mixed
+	 */
+	public function validateFor(AbstractModel $model, $attributes = array(), callable $callback = null)
+	{
+		$this->model = $model;
 
-    //////////////////////////////////////////////////////////////////////
-    //////////////////////////////// RULES ///////////////////////////////
-    //////////////////////////////////////////////////////////////////////
+		return $this->validate($attributes, $callback);
+	}
 
-    /**
-     * Alter the rules on the Validator, etc
-     *
-     * @param Validator $validation
-     *
-     * @return Validator
-     */
-    protected function alterValidation(Validator $validation)
-    {
-        return $validation;
-    }
+	//////////////////////////////////////////////////////////////////////
+	//////////////////////////////// RULES ///////////////////////////////
+	//////////////////////////////////////////////////////////////////////
 
-    /**
-     * Get the rules in use
-     *
-     * @param array $attributes
-     *
-     * @return array
-     */
-    public function getRules(array $attributes = array())
-    {
-        $rules = $this->rules;
-        if (!$this->model) {
-            return $rules;
-        }
+	/**
+	 * Alter the rules on the Validator, etc
+	 *
+	 * @param Validator $validation
+	 *
+	 * @return Validator
+	 */
+	protected function alterValidation(Validator $validation)
+	{
+		return $validation;
+	}
 
-        // Replace placeholders in rules
-        foreach ($rules as $key => $rule) {
-            preg_match_all('/\{([a-z_]+)\}/', $rule, $matches);
-            foreach ($matches[1] as $attribute) {
-                $rule = str_replace('{'.$attribute.'}', $this->model->$attribute, $rule);
-            }
+	/**
+	 * Get the rules in use
+	 *
+	 * @param array $attributes
+	 *
+	 * @return array
+	 */
+	public function getRules(array $attributes = array())
+	{
+		$rules = $this->rules;
+		if (!$this->model) {
+			return $rules;
+		}
 
-            $rules[$key] = $rule;
-        }
+		// Replace placeholders in rules
+		foreach ($rules as $key => $rule) {
+			preg_match_all('/\{([a-z_]+)\}/', $rule, $matches);
+			foreach ($matches[1] as $attribute) {
+				$rule = str_replace('{'.$attribute.'}', $this->model->$attribute, $rule);
+			}
 
-        return $rules;
-    }
+			$rules[$key] = $rule;
+		}
 
-    /**
-     * Sets custom validation rules
-     *
-     * @return array
-     */
-    public function getMessages()
-    {
-        return $this->messages;
-    }
+		return $rules;
+	}
+
+	/**
+	 * Sets custom validation rules
+	 *
+	 * @return array
+	 */
+	public function getMessages()
+	{
+		return $this->messages;
+	}
 }
