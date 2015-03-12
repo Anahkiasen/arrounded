@@ -4,12 +4,12 @@ namespace Arrounded\Dummies;
 use Arrounded\Abstracts\AbstractRepository;
 
 /**
- * A dummy repository implementation
+ * A dummy repository implementation.
  */
 class DummyRepository extends AbstractRepository
 {
     /**
-     * Build a new DummyRepository
+     * Build a new DummyRepository.
      *
      * @param mixed $items
      */

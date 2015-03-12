@@ -8,10 +8,10 @@ class JsonAttributesTest extends ArroundedTestCase
 {
     public function testCanGetAndSetJsonAttributes()
     {
-        $schedule = array('foo' => 'bar', 'baz' => 'qux');
-        $model    = new DummyJsonModel(array(
+        $schedule = ['foo' => 'bar', 'baz' => 'qux'];
+        $model    = new DummyJsonModel([
             'schedule' => $schedule,
-        ));
+        ]);
 
         $this->assertEquals($schedule, $model->schedule);
         $this->assertEquals('{"foo":"bar","baz":"qux"}', $model->getAttributes()['schedule']);
@@ -21,22 +21,22 @@ class JsonAttributesTest extends ArroundedTestCase
     {
         $model = new DummyJsonModel();
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'facebook' => true,
-            'twitter'  => array('foo' => false, 'bar' => true),
-        ), $model->notifications);
+            'twitter'  => ['foo' => false, 'bar' => true],
+        ], $model->notifications);
 
-        $model->notifications = array('twitter' => array('foo' => true));
-        $this->assertEquals(array(
+        $model->notifications = ['twitter' => ['foo' => true]];
+        $this->assertEquals([
             'facebook' => true,
-            'twitter'  => array('foo' => true, 'bar' => true),
-        ), $model->notifications);
+            'twitter'  => ['foo' => true, 'bar' => true],
+        ], $model->notifications);
     }
 
     public function testDefaultsDontReplaceExistingAttributes()
     {
         $model = new DummyJsonModel(['notifications' => ['foo' => false]]);
-        $model->setNotificationsAttribute(['bar' => true, 'qux' => false], ['foo' => true, 'qux' => true]);
+        $model->setNotificationsAttribute(['bar'               => true, 'qux' => false], ['foo' => true, 'qux' => true]);
 
         $this->assertFalse($model->notifications['foo']);
     }

@@ -14,10 +14,10 @@ class AbstractRepositoryTest extends ArroundedTestCase
 
     public function testCanSetAndGetCoreItems()
     {
-        $items = new DummyModel(array('name' => 'foo'));
+        $items = new DummyModel(['name' => 'foo']);
 
         $repository = new DummyRepository($items);
-        $repository->setItems(new DummyModel(array('name' => 'bar')));
+        $repository->setItems(new DummyModel(['name' => 'bar']));
 
         $this->assertEquals('bar', $repository->items()->name);
     }
@@ -47,7 +47,7 @@ class AbstractRepositoryTest extends ArroundedTestCase
             $mock->shouldReceive('findOrFail')->once()->with(1, null)->andReturn(new DummyModel());
         });
         $repository = new DummyRepository($eloquent);
-        $model      = $repository->findOrNew(array('id' => 1, 'name' => 'foo'));
+        $model      = $repository->findOrNew(['id' => 1, 'name' => 'foo']);
 
         $this->assertEquals('foo', $model->name);
     }
@@ -55,10 +55,10 @@ class AbstractRepositoryTest extends ArroundedTestCase
     public function testCanInstnatiateViaAttributes()
     {
         $eloquent   = Mockery::mock('Eloquent', function ($mock) {
-            $mock->shouldReceive('newInstance')->once()->with(array('name' => 'foo'))->andReturn(new DummyModel(array('name' => 'foo')));
+            $mock->shouldReceive('newInstance')->once()->with(['name' => 'foo'])->andReturn(new DummyModel(['name' => 'foo']));
         });
         $repository = new DummyRepository($eloquent);
-        $model      = $repository->findOrNew(array('name' => 'foo'));
+        $model      = $repository->findOrNew(['name' => 'foo']);
 
         $this->assertEquals('foo', $model->name);
     }
@@ -66,11 +66,11 @@ class AbstractRepositoryTest extends ArroundedTestCase
     public function testCanCreateItem()
     {
         $eloquent   = Mockery::mock('Eloquent', function ($mock) {
-            $mock->shouldReceive('create')->once()->with(array('name' => 'foo'))->andReturn(new DummyModel(array('id' => 1)));
-            $mock->shouldReceive('findOrFail')->once()->with(1, null)->andReturn(new DummyModel(array('name' => 'foo')));
+            $mock->shouldReceive('create')->once()->with(['name' => 'foo'])->andReturn(new DummyModel(['id' => 1]));
+            $mock->shouldReceive('findOrFail')->once()->with(1, null)->andReturn(new DummyModel(['name' => 'foo']));
         });
         $repository = new DummyRepository($eloquent);
-        $model      = $repository->create(array('name' => 'foo'));
+        $model      = $repository->create(['name' => 'foo']);
 
         $this->assertEquals('foo', $model->name);
     }
@@ -79,7 +79,7 @@ class AbstractRepositoryTest extends ArroundedTestCase
     {
         $model = Mockery::mock('Model', function ($mock) {
             $mock->shouldReceive('save')->once()->andReturn(true);
-            $mock->shouldReceive('fill')->once()->with(array('name' => 'foo'))->andReturn($mock);
+            $mock->shouldReceive('fill')->once()->with(['name' => 'foo'])->andReturn($mock);
         });
 
         $eloquent = Mockery::mock('Eloquent', function ($mock) use ($model) {
@@ -87,7 +87,7 @@ class AbstractRepositoryTest extends ArroundedTestCase
         });
 
         $repository = new DummyRepository($eloquent);
-        $item       = $repository->update(1, array('name' => 'foo'));
+        $item       = $repository->update(1, ['name' => 'foo']);
     }
 
     public function testCanDeleteItem()

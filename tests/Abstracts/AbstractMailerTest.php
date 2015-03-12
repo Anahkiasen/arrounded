@@ -13,7 +13,7 @@ class AbstractMailerTest extends ArroundedTestCase
     protected $mailer;
 
     /**
-     * Setup the tests
+     * Setup the tests.
      */
     public function setUp()
     {

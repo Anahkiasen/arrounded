@@ -7,23 +7,23 @@ use Arrounded\TestCases\ArroundedTestCase;
 class ReflectionModelTest extends ArroundedTestCase
 {
     /**
-     * A dummy instance
+     * A dummy instance.
      *
      * @type DummyModel
      */
     protected $model;
 
     /**
-     * Set up the tests
+     * Set up the tests.
      */
     public function setUp()
     {
-	    parent::setUp();
+        parent::setUp();
 
         $this->model = new DummyModel();
 
-	    $this->arrounded->setNamespace('Arrounded');
-	    $this->arrounded->setNamespaces(['Controllers' => null]);
+        $this->arrounded->setNamespace('Arrounded');
+        $this->arrounded->setNamespaces(['Controllers' => null]);
     }
 
     ////////////////////////////////////////////////////////////////////

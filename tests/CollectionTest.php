@@ -6,21 +6,21 @@ use Arrounded\TestCases\ArroundedTestCase;
 class CollectionTest extends ArroundedTestCase
 {
     /**
-     * A dummy Collection
+     * A dummy Collection.
      *
      * @type Collection
      */
     protected $collection;
 
     /**
-     * Set up the tests
+     * Set up the tests.
      */
     public function setUp()
     {
-        $this->collection = new Collection(array(
+        $this->collection = new Collection([
             ['name' => 'foo', 'status' => true, 'note' => 0],
             ['name' => 'bar', 'status' => false, 'note' => 10],
-        ));
+        ]);
     }
 
     ////////////////////////////////////////////////////////////////////

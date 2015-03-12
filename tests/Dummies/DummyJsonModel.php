@@ -9,10 +9,10 @@ class DummyJsonModel extends DummyModel
 
     public function getNotificationsAttribute()
     {
-        return $this->getJsonAttribute('notifications', array(
+        return $this->getJsonAttribute('notifications', [
             'facebook' => true,
-            'twitter'  => array('foo' => false, 'bar' => true),
-        ));
+            'twitter'  => ['foo' => false, 'bar' => true],
+        ]);
     }
 
     public function setNotificationsAttribute($notifications)
