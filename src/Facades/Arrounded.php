@@ -4,7 +4,7 @@ namespace Arrounded\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Class Arrounded
+ * Class Arrounded.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */

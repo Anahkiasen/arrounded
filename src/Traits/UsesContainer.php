@@ -4,7 +4,7 @@ namespace Arrounded\Traits;
 use Illuminate\Container\Container;
 
 /**
- * A class using the container underneath
+ * A class using the container underneath.
  *
  * @property \Arrounded\Arrounded                                                      arrounded
  * @property \Illuminate\Auth\AuthManager|\Illuminate\Auth\Guard                       auth
@@ -39,14 +39,14 @@ use Illuminate\Container\Container;
 trait UsesContainer
 {
     /**
-     * The IoC Container
+     * The IoC Container.
      *
      * @type Container
      */
     protected $app;
 
     /**
-     * Default construct for a container-based class
+     * Default construct for a container-based class.
      *
      * @param Container $app
      */
@@ -56,7 +56,7 @@ trait UsesContainer
     }
 
     /**
-     * Get an entry from the Container
+     * Get an entry from the Container.
      *
      * @param string $key
      *

@@ -26,43 +26,41 @@ class BenchQueries extends Command
     protected $description = 'Bench queries per page and list the biggest offenders';
 
     /**
-     * The pages to ignore
+     * The pages to ignore.
      *
      * @type array
      */
     protected $ignored = [];
 
     /**
-     * Log of the queries
+     * Log of the queries.
      *
      * @type array
      */
     protected $queries = [];
 
     /**
-     * The user to authenticate as
+     * The user to authenticate as.
      *
-     * @type integer
+     * @type int
      */
     protected $user = 1;
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
     public function fire()
     {
         $tableBuilder = $this->getHelperSet()->get('table');
 
         // Build summary
-        $table = array();
+        $table = [];
         $this->getQueries();
         foreach ($this->queries as $route => $log) {
-            $table[$route] = array(
+            $table[$route] = [
                 $route,
                 count($log['queries']),
-            );
+            ];
         }
 
         // Sort by number of queries
@@ -93,9 +91,9 @@ class BenchQueries extends Command
      */
     protected function getOptions()
     {
-        return array(
-            array('route', 'r', InputOption::VALUE_REQUIRED, 'A route to display queries for'),
-        );
+        return [
+            ['route', 'r', InputOption::VALUE_REQUIRED, 'A route to display queries for'],
+        ];
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -103,7 +101,7 @@ class BenchQueries extends Command
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get all queries by route
+     * Get all queries by route.
      */
     protected function getQueries()
     {
@@ -116,7 +114,7 @@ class BenchQueries extends Command
 
         // Create Client
         $this->laravel['auth']->loginUsingId($this->user);
-        $client = new Client($this->laravel, array());
+        $client = new Client($this->laravel, []);
 
         // Crawl routes
         $routes = $crawler->getRoutes();
@@ -127,7 +125,7 @@ class BenchQueries extends Command
     }
 
     /**
-     * Inspect a route
+     * Inspect a route.
      *
      * @param Client $client
      * @param string $route
@@ -158,13 +156,13 @@ class BenchQueries extends Command
     }
 
     /**
-     * Get the routes to ignore
+     * Get the routes to ignore.
      *
      * @return array
      */
     protected function getIgnoredRoutes()
     {
-        return array_merge(array(), $this->ignored);
+        return array_merge([], $this->ignored);
     }
 
     /**

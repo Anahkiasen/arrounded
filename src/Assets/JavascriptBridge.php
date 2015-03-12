@@ -6,14 +6,14 @@ use Illuminate\Support\Contracts\JsonableInterface;
 class JavascriptBridge
 {
     /**
-     * And array of data to pass to Javascript
+     * And array of data to pass to Javascript.
      *
      * @type array
      */
-    protected static $data = array();
+    protected static $data = [];
 
     /**
-     * Add data to pass
+     * Add data to pass.
      *
      * @param array $data
      */
@@ -29,7 +29,7 @@ class JavascriptBridge
     }
 
     /**
-     * Get the data
+     * Get the data.
      *
      * @return array
      */
@@ -39,7 +39,7 @@ class JavascriptBridge
     }
 
     /**
-     * Render to JS
+     * Render to JS.
      *
      * @return string
      */

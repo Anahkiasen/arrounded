@@ -5,21 +5,19 @@ use Arrounded\Collection;
 use Mail;
 
 /**
- * A trait for a mailable person
+ * A trait for a mailable person.
  */
 trait Mailable
 {
     /**
-     * Send an email to a model
+     * Send an email to a model.
      *
-     * @param string  $subject
-     * @param string  $view
-     * @param array   $data
-     * @param boolean $condition
-     *
-     * @return void
+     * @param string $subject
+     * @param string $view
+     * @param array  $data
+     * @param bool   $condition
      */
-    public function emailOn($subject, $view, $data = array(), $condition = true)
+    public function emailOn($subject, $view, $data = [], $condition = true)
     {
         $recipient = $this->email;
         if (!$condition || !$recipient) {

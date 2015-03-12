@@ -4,13 +4,13 @@ namespace Arrounded\Macros;
 class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
 {
     /**
-     * Generates metadata
+     * Generates metadata.
      *
      * @param array $attributes
      *
      * @return string
      */
-    public function metadata(array $attributes = array())
+    public function metadata(array $attributes = [])
     {
         return app('arrounded.meta')->render($attributes);
     }

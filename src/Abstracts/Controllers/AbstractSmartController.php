@@ -13,19 +13,19 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 
 /**
- * A base controller with smart capabilities
+ * A base controller with smart capabilities.
  */
 abstract class AbstractSmartController extends Controller
 {
     /**
-     * The ReflectionController instance
+     * The ReflectionController instance.
      *
      * @type ReflectionController
      */
     protected $reflection;
 
     /**
-     * Build a new SmartController
+     * Build a new SmartController.
      */
     public function __construct()
     {
@@ -69,7 +69,7 @@ abstract class AbstractSmartController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param integer $item
+     * @param int $item
      *
      * @return \Illuminate\View\View
      */
@@ -81,7 +81,7 @@ abstract class AbstractSmartController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param integer $item
+     * @param int $item
      *
      * @return \Illuminate\View\View
      */
@@ -93,7 +93,7 @@ abstract class AbstractSmartController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param integer $item
+     * @param int $item
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -105,7 +105,7 @@ abstract class AbstractSmartController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param integer $item
+     * @param int $item
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -119,12 +119,10 @@ abstract class AbstractSmartController extends Controller
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Execute actions on a model's updating
+     * Execute actions on a model's updating.
      *
      * @param array    $input
      * @param Eloquent $model
-     *
-     * @return void
      */
     protected function onUpdate(array $input, $model)
     {
@@ -138,54 +136,54 @@ abstract class AbstractSmartController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param array        $eager
-     * @param integer|null $paginate
+     * @param array    $eager
+     * @param int|null $paginate
      *
      * @return \Illuminate\View\View
      */
-    abstract protected function coreIndex($eager = array(), $paginate = null);
+    abstract protected function coreIndex($eager = [], $paginate = null);
 
     /**
-     * Get the core create view
+     * Get the core create view.
      *
      * @param array $data Additional data
      *
      * @return \Illuminate\View\View
      */
-    abstract protected function coreCreate($data = array());
+    abstract protected function coreCreate($data = []);
 
     /**
      * Display the specified resource.
      *
-     * @param integer $user
+     * @param int $user
      *
      * @return \Illuminate\View\View
      */
     abstract protected function coreShow($user);
 
     /**
-     * Get the core edit view
+     * Get the core edit view.
      *
-     * @param integer $item
-     * @param array   $data Additional data
+     * @param int   $item
+     * @param array $data Additional data
      *
      * @return \Illuminate\View\View
      */
-    abstract protected function coreEdit($item, $data = array());
+    abstract protected function coreEdit($item, $data = []);
 
     /**
-     * Update an item
+     * Update an item.
      *
-     * @param integer|null $item
+     * @param int|null $item
      *
      * @return \Illuminate\Http\RedirectResponse
      */
     abstract protected function coreUpdate($item = null);
 
     /**
-     * Delete an item
+     * Delete an item.
      *
-     * @param integer $item
+     * @param int $item
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -196,25 +194,25 @@ abstract class AbstractSmartController extends Controller
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get data for the current form
+     * Get data for the current form.
      *
      * @param array $data
      *
      * @return array
      */
-    protected function getFormData(array $data = array())
+    protected function getFormData(array $data = [])
     {
         $route = array_get($data, 'item') ? 'update' : 'store';
 
-        return array_merge(array(
+        return array_merge([
             'route' => $this->getRoute($route),
-        ), $data);
+        ], $data);
     }
 
     /**
-     * Get the data to display
+     * Get the data to display.
      *
-     * @param integer $item
+     * @param int $item
      *
      * @return array
      */
@@ -225,14 +223,14 @@ abstract class AbstractSmartController extends Controller
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Redirect to an action in the current controller
+     * Redirect to an action in the current controller.
      *
      * @param string $action
      * @param array  $parameters
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function redirectHere($action, $parameters = array())
+    protected function redirectHere($action, $parameters = [])
     {
         $controller = get_class($this);
 
@@ -240,7 +238,7 @@ abstract class AbstractSmartController extends Controller
     }
 
     /**
-     * Create a redirect for a failed validation
+     * Create a redirect for a failed validation.
      *
      * @param Validator $validation
      *
@@ -252,7 +250,7 @@ abstract class AbstractSmartController extends Controller
     }
 
     /**
-     * Redirect back or to a saved URL if any
+     * Redirect back or to a saved URL if any.
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -268,7 +266,7 @@ abstract class AbstractSmartController extends Controller
     }
 
     /**
-     * Redirect back, with a fallback if no previous page
+     * Redirect back, with a fallback if no previous page.
      *
      * @param string $fallback
      *
@@ -288,7 +286,7 @@ abstract class AbstractSmartController extends Controller
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Validate the ownership of a route
+     * Validate the ownership of a route.
      *
      * @param Route        $route
      * @param string       $parameter
@@ -325,7 +323,7 @@ abstract class AbstractSmartController extends Controller
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get a route
+     * Get a route.
      *
      * @param string $route
      *
@@ -337,20 +335,20 @@ abstract class AbstractSmartController extends Controller
     }
 
     /**
-     * Get an URL
+     * Get an URL.
      *
      * @param string $route
      * @param array  $parameters
      *
      * @return string
      */
-    protected function getPath($route, $parameters = array())
+    protected function getPath($route, $parameters = [])
     {
         return URL::action(get_class($this).'@'.$route, $parameters);
     }
 
     /**
-     * Get a Redirect Response to a rute
+     * Get a Redirect Response to a rute.
      *
      * @param string $route
      *
@@ -362,14 +360,14 @@ abstract class AbstractSmartController extends Controller
     }
 
     /**
-     * Get a view
+     * Get a view.
      *
      * @param string $view
      * @param array  $data
      *
      * @return \Illuminate\View\View
      */
-    protected function getView($view, $data = array())
+    protected function getView($view, $data = [])
     {
         return View::make($this->reflection->resource().'.'.$view, $data);
     }

@@ -12,7 +12,7 @@ interface RepositoryInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Eager load relations on the base Query
+     * Eager load relations on the base Query.
      *
      * @param array $relations
      *
@@ -21,7 +21,7 @@ interface RepositoryInterface
     public function eagerLoad($relations);
 
     /**
-     * Change the core items
+     * Change the core items.
      *
      * @param AbstractModel $items
      *
@@ -30,7 +30,7 @@ interface RepositoryInterface
     public function setItems($items);
 
     /**
-     * Get the core items query
+     * Get the core items query.
      *
      * @return AbstractModel
      */
@@ -41,49 +41,49 @@ interface RepositoryInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Find a particular item
+     * Find a particular item.
      *
-     * @param integer $item
+     * @param int $item
      *
      * @return AbstractModel
      */
     public function find($item);
 
     /**
-     * Find or instantiate an instance of an item from a set of attributes
+     * Find or instantiate an instance of an item from a set of attributes.
      *
      * @param array $attributes
      *
      * @return AbstractModel
      */
-    public function findOrNew($attributes = array());
+    public function findOrNew($attributes = []);
 
     /**
-     * Create an entry from an array of attributes
+     * Create an entry from an array of attributes.
      *
      * @param array $attributes
      *
      * @return AbstractModel
      */
-    public function create(array $attributes = array());
+    public function create(array $attributes = []);
 
     /**
-     * Update an item
+     * Update an item.
      *
-     * @param AbstractModel|integer $item
-     * @param array                 $attributes
+     * @param AbstractModel|int $item
+     * @param array             $attributes
      *
      * @return AbstractModel
      */
-    public function update($item, array $attributes = array());
+    public function update($item, array $attributes = []);
 
     /**
-     * Delete an item
+     * Delete an item.
      *
-     * @param AbstractModel|integer $item
-     * @param boolean               $force
+     * @param AbstractModel|int $item
+     * @param bool              $force
      *
-     * @return boolean
+     * @return bool
      */
     public function delete($item, $force);
 
@@ -92,18 +92,18 @@ interface RepositoryInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Return all items
+     * Return all items.
      *
-     * @param integer|null $perPage
+     * @param int|null $perPage
      *
      * @return Collection
      */
     public function all($perPage = null);
 
     /**
-     * Get all items, paginated
+     * Get all items, paginated.
      *
-     * @param integer $perPage
+     * @param int $perPage
      *
      * @return Paginator
      */

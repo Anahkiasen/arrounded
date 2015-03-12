@@ -5,14 +5,14 @@ use Arrounded\Traits\UsesContainer;
 use Illuminate\Support\Str;
 
 /**
- * An abstract composer class with helpers
+ * An abstract composer class with helpers.
  */
 abstract class AbstractComposer
 {
     use UsesContainer;
 
     /**
-     * Make a menu from a list of links
+     * Make a menu from a list of links.
      *
      * @param array $menu
      *
@@ -20,18 +20,18 @@ abstract class AbstractComposer
      */
     protected function makeMenu($menu)
     {
-        $links = array();
+        $links = [];
         foreach ($menu as $key => $item) {
             // Rebuild from associative array
             if (is_string($item)) {
-                $item = array($key, $item);
+                $item = [$key, $item];
             }
 
             list($endpoint, $label) = $item;
-            $attributes             = array_get($item, 4, array());
+            $attributes             = array_get($item, 4, []);
 
             // Compute actual URL
-            $parameters = array_get($item, 2, array());
+            $parameters = array_get($item, 2, []);
             $link       = Str::contains($endpoint, '@')
                 ? $this->app['url']->action($endpoint, $parameters)
                 : $this->app['url']->to($endpoint, $parameters);
@@ -44,22 +44,22 @@ abstract class AbstractComposer
                 $active = false;
             }
 
-            $links[] = array_merge(array(
+            $links[] = array_merge([
                 'endpoint' => $link,
                 'label'    => $this->translate($label),
                 'active'   => $active ? 'active' : false,
-            ), $attributes);
+            ], $attributes);
         }
 
         return $links;
     }
 
     /**
-     * Check if a string matches the given url
+     * Check if a string matches the given url.
      *
      * @param string $page
      *
-     * @return integer
+     * @return int
      */
     protected function isOnPage($page, $loose = true)
     {
@@ -70,7 +70,7 @@ abstract class AbstractComposer
     }
 
     /**
-     * Act on a string to translate it
+     * Act on a string to translate it.
      *
      * @param string $string
      *

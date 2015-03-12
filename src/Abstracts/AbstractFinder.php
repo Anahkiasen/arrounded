@@ -6,47 +6,47 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Input;
 
 /**
- * An abstract class for Finders
+ * An abstract class for Finders.
  */
 abstract class AbstractFinder
 {
     /**
-     * The parent of the Query
+     * The parent of the Query.
      *
-     * @var AbstractModel
+     * @type AbstractModel
      */
     protected $parent;
 
     /**
-     * The AbstractRepository
+     * The AbstractRepository.
      *
-     * @var AbstractRepository
+     * @type AbstractRepository
      */
     protected $repository;
 
     /**
-     * A list of fields text search can be performed on
+     * A list of fields text search can be performed on.
      *
-     * @var array
+     * @type array
      */
-    protected $searchableFields = array('name');
+    protected $searchableFields = ['name'];
 
     /**
-     * The relations to eager load on the results
+     * The relations to eager load on the results.
      *
-     * @var array
+     * @type array
      */
-    protected $loadedRelations = array();
+    protected $loadedRelations = [];
 
     /**
-     * The base Query
+     * The base Query.
      *
-     * @var Query
+     * @type Query
      */
     protected $query;
 
     /**
-     * Search for something
+     * Search for something.
      *
      * @param AbstractRepository $repository
      * @param AbstractModel      $parent
@@ -66,7 +66,7 @@ abstract class AbstractFinder
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Include deleted records in the search
+     * Include deleted records in the search.
      */
     public function includeDeleted()
     {
@@ -76,7 +76,7 @@ abstract class AbstractFinder
     }
 
     /**
-     * Change the core query
+     * Change the core query.
      *
      * @param AbstractModel $parent
      * @param string        $table
@@ -90,7 +90,7 @@ abstract class AbstractFinder
     }
 
     /**
-     * Get the parent
+     * Get the parent.
      *
      * @return AbstractModel
      */
@@ -118,7 +118,7 @@ abstract class AbstractFinder
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Look for entries matching a term
+     * Look for entries matching a term.
      *
      * @param string $search
      *
@@ -141,11 +141,11 @@ abstract class AbstractFinder
     }
 
     /**
-     * Look for entries matching multiple attributes
+     * Look for entries matching multiple attributes.
      *
      * @param array $search
      */
-    public function multisearch($search = array())
+    public function multisearch($search = [])
     {
         $search = $search ?: Input::all();
         if (!$search) {
@@ -181,9 +181,9 @@ abstract class AbstractFinder
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the query
+     * Get the query.
      *
-     * @param boolean $string
+     * @param bool $string
      *
      * @return Query|string
      */
@@ -208,9 +208,9 @@ abstract class AbstractFinder
     }
 
     /**
-     * Get the results of the current search
+     * Get the results of the current search.
      *
-     * @param integer $perPage
+     * @param int $perPage
      *
      * @return Collection
      */
@@ -230,31 +230,31 @@ abstract class AbstractFinder
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to a collection of entries
+     * Scope a query to a collection of entries.
      *
-     * @param Query   $query
-     * @param string  $field
-     * @param array   $entries
-     * @param boolean $or
+     * @param Query  $query
+     * @param string $field
+     * @param array  $entries
+     * @param bool   $or
      *
      * @return Query
      */
     protected function scopeToEntries($query, $field, array $entries, $or = false)
     {
         if (!$entries) {
-            $entries = array('void');
+            $entries = ['void'];
         }
 
         return $query->whereIn($field, $entries, $or ? 'or' : 'and');
     }
 
     /**
-     * Scope a query to only specific resources
+     * Scope a query to only specific resources.
      *
-     * @param Query   $query
-     * @param string  $resource
-     * @param array   $entries
-     * @param boolean $or
+     * @param Query  $query
+     * @param string $resource
+     * @param array  $entries
+     * @param bool   $or
      *
      * @return Query
      */
@@ -264,7 +264,7 @@ abstract class AbstractFinder
     }
 
     /**
-     * Apply search conditions to a queyr
+     * Apply search conditions to a queyr.
      *
      * @param Builder $query
      * @param string  $field
@@ -282,7 +282,7 @@ abstract class AbstractFinder
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Format a value for a search
+     * Format a value for a search.
      *
      * @param string $value
      *
@@ -294,11 +294,11 @@ abstract class AbstractFinder
     }
 
     /**
-     * Check if a field is searchable
+     * Check if a field is searchable.
      *
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
     protected function isSearchable($name)
     {

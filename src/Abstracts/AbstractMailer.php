@@ -12,68 +12,68 @@ use Illuminate\Support\Facades\Config;
 use Swift_RfcComplianceException;
 
 /**
- * An abstract class for mail services
+ * An abstract class for mail services.
  */
 abstract class AbstractMailer
 {
     /**
-     * The mailer instance
+     * The mailer instance.
      *
      * @type Mailer
      */
     protected $mailer;
 
     /**
-     * The queue manager instance
+     * The queue manager instance.
      *
      * @type QueueManager
      */
     protected $queue;
 
     /**
-     * Whether mails should be queued or sent
+     * Whether mails should be queued or sent.
      *
      * @type bool
      */
     protected $queued = true;
 
     /**
-     * The user sending invitations
+     * The user sending invitations.
      *
      * @type User
      */
     protected $from;
 
     /**
-     * The friends to invite
+     * The friends to invite.
      *
      * @type Collection
      */
-    protected $recipients = array();
+    protected $recipients = [];
 
     /**
-     * The message's subject
+     * The message's subject.
      *
      * @type string
      */
     protected $subject;
 
     /**
-     * The template to use
+     * The template to use.
      *
      * @type string
      */
     protected $template;
 
     /**
-     * The core databag all messages inherit
+     * The core databag all messages inherit.
      *
      * @type array
      */
-    protected $databag = array();
+    protected $databag = [];
 
     /**
-     * Build a new FriendsInviter
+     * Build a new FriendsInviter.
      *
      * @param Mailer       $mailer
      * @param QueueManager $queue
@@ -89,15 +89,15 @@ abstract class AbstractMailer
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Set the user inviting the others
+     * Set the user inviting the others.
      *
      * @param UserInterface $user
      */
     public function setSender(UserInterface $user)
     {
-        $this->databag = array(
+        $this->databag = [
             'from' => $user,
-        );
+        ];
     }
 
     /**
@@ -109,7 +109,7 @@ abstract class AbstractMailer
     }
 
     /**
-     * Set the friend(s) to invite
+     * Set the friend(s) to invite.
      *
      * @param string|array $recipients
      *
@@ -131,7 +131,7 @@ abstract class AbstractMailer
     }
 
     /**
-     * Set the template to use
+     * Set the template to use.
      *
      * @param string $template
      */
@@ -141,7 +141,7 @@ abstract class AbstractMailer
     }
 
     /**
-     * @param boolean $queue
+     * @param bool $queue
      */
     public function setQueue($queue)
     {
@@ -149,7 +149,7 @@ abstract class AbstractMailer
     }
 
     /**
-     * Change the core databag
+     * Change the core databag.
      *
      * @param array $databag
      */
@@ -171,7 +171,7 @@ abstract class AbstractMailer
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get modifiers to apply to an email
+     * Get modifiers to apply to an email.
      *
      * @return array
      */
@@ -186,9 +186,9 @@ abstract class AbstractMailer
     }
 
     /**
-     * Send the invitations
+     * Send the invitations.
      *
-     * @return integer Number of mails sent
+     * @return int Number of mails sent
      */
     public function send()
     {
@@ -201,11 +201,11 @@ abstract class AbstractMailer
 
             // Send to queue or immediately
             if ($this->queued) {
-                $data = array_merge($data, array(
+                $data = array_merge($data, [
                     'view'       => $view,
                     'recipient'  => $recipient,
                     'parameters' => $parameters,
-                ));
+                ]);
 
                 $this->queue->push(get_class($this).'@queueMessage', $data);
             } else {
@@ -217,7 +217,7 @@ abstract class AbstractMailer
     }
 
     /**
-     * Send a message through a queue
+     * Send a message through a queue.
      *
      * @param Job   $job
      * @param array $data
@@ -235,7 +235,7 @@ abstract class AbstractMailer
     }
 
     /**
-     * Send a message to someone
+     * Send a message to someone.
      *
      * @param string $view       The view to render
      * @param array  $data       The data to pass to the view
@@ -267,7 +267,7 @@ abstract class AbstractMailer
     }
 
     /**
-     * Gather the data for the email
+     * Gather the data for the email.
      *
      * @param AbstractModel $recipient
      *
@@ -291,7 +291,7 @@ abstract class AbstractMailer
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Translate recipients from keys or emails to a collection of users
+     * Translate recipients from keys or emails to a collection of users.
      *
      * @param array|string $recipients
      *
@@ -336,7 +336,7 @@ abstract class AbstractMailer
     }
 
     /**
-     * Set the application's language
+     * Set the application's language.
      *
      * @param string $locale
      */

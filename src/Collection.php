@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Paginator;
 
 /**
- * Collection class with additional helpers
+ * Collection class with additional helpers.
  */
 class Collection extends \Illuminate\Database\Eloquent\Collection
 {
     /**
-     * Serialize an array of data
+     * Serialize an array of data.
      *
      * @param array $data
      *
@@ -23,7 +23,7 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
     }
 
     /**
-     * Filter items by a column
+     * Filter items by a column.
      *
      * @param string|null $column
      *
@@ -37,7 +37,7 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
     }
 
     /**
-     * Filter items by a column
+     * Filter items by a column.
      *
      * @param string|null $column
      *
@@ -51,7 +51,7 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
     }
 
     /**
-     * Gather the first items of all subarrays
+     * Gather the first items of all subarrays.
      *
      * @return self
      */
@@ -63,7 +63,7 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
     }
 
     /**
-     * Shuffle the Collection
+     * Shuffle the Collection.
      *
      * @return self
      */
@@ -75,9 +75,9 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
     }
 
     /**
-     * Paginate a Collection
+     * Paginate a Collection.
      *
-     * @param integer $perPage
+     * @param int $perPage
      *
      * @return Paginator
      */
@@ -95,7 +95,7 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Return the number of entries in each subarray
+     * Return the number of entries in each subarray.
      *
      * @return self
      */
@@ -118,7 +118,7 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
     }
 
     /**
-     * Get the distribution of an attribute
+     * Get the distribution of an attribute.
      *
      * @param string $attribute
      *
@@ -130,11 +130,11 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
     }
 
     /**
-     * Get the average of a Collection
+     * Get the average of a Collection.
      *
      * @param string|null $key
      *
-     * @return integer|double
+     * @return int|float
      */
     public function average($key = null)
     {
@@ -145,7 +145,7 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
     }
 
     /**
-     * Compute the sum of the Collection
+     * Compute the sum of the Collection.
      *
      * @param Callback|null $callback
      *
@@ -165,7 +165,7 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the keys of a Collection
+     * Get the keys of a Collection.
      *
      * @return array
      */
@@ -175,9 +175,9 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
     }
 
     /**
-     * Sort the core items by key
+     * Sort the core items by key.
      *
-     * @param boolean $reverse
+     * @param bool $reverse
      *
      * @return self
      */

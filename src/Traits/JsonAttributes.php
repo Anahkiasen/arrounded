@@ -2,20 +2,18 @@
 namespace Arrounded\Traits;
 
 /**
- * A model with JSON attributes
+ * A model with JSON attributes.
  */
 trait JsonAttributes
 {
     /**
-     * Encode an attribute before saving it
+     * Encode an attribute before saving it.
      *
      * @param string $attribute
      * @param mixed  $value
      * @param array  $defaults
-     *
-     * @return void
      */
-    protected function setJsonAttribute($attribute, $value, array $defaults = array())
+    protected function setJsonAttribute($attribute, $value, array $defaults = [])
     {
         // Merge with defaults and encode
         $value    = (array) $value;
@@ -27,14 +25,14 @@ trait JsonAttributes
     }
 
     /**
-     * Get a JSON attribute
+     * Get a JSON attribute.
      *
      * @param string $attribute
      * @param array  $defaults
      *
      * @return array
      */
-    protected function getJsonAttribute($attribute, $defaults = array())
+    protected function getJsonAttribute($attribute, $defaults = [])
     {
         $value = array_get($this->attributes, $attribute, '[]');
 
@@ -47,7 +45,7 @@ trait JsonAttributes
     }
 
     /**
-     * Get the default value of an attribute
+     * Get the default value of an attribute.
      *
      * @param string $attribute
      *
@@ -56,7 +54,7 @@ trait JsonAttributes
     protected function getAttributeDefault($attribute)
     {
         if (!$this->defaults) {
-            return array();
+            return [];
         }
 
         return (array) array_get($this->defaults, $attribute);

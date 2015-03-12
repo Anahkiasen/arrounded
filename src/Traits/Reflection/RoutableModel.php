@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\URL;
 trait RoutableModel
 {
     /**
-     * Get the controller matching the model
+     * Get the controller matching the model.
      *
      * @return string
      */
@@ -18,10 +18,10 @@ trait RoutableModel
     }
 
     /**
-     * Get an action from the model's controller
+     * Get an action from the model's controller.
      *
-     * @param string  $action
-     * @param boolean $api
+     * @param string $action
+     * @param bool   $api
      *
      * @return string
      */
@@ -36,10 +36,10 @@ trait RoutableModel
     }
 
     /**
-     * Get the path to an action
+     * Get the path to an action.
      *
-     * @param string  $action
-     * @param boolean $api
+     * @param string $action
+     * @param bool   $api
      *
      * @return string
      */
@@ -49,7 +49,7 @@ trait RoutableModel
     }
 
     /**
-     * Get the link to an action
+     * Get the link to an action.
      *
      * @param string      $action
      * @param string|null $title
@@ -57,7 +57,7 @@ trait RoutableModel
      *
      * @return string
      */
-    public function getLink($action, $title = null, array $attributes = array())
+    public function getLink($action, $title = null, array $attributes = [])
     {
         $title = $title ?: $this->name;
 

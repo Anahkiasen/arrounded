@@ -6,7 +6,7 @@ use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\UserTrait;
 
 /**
- * A model with Auth capabilities
+ * A model with Auth capabilities.
  */
 trait Authentifiable
 {
@@ -14,7 +14,7 @@ trait Authentifiable
     use RemindableTrait;
 
     /**
-     * Hash password before save
+     * Hash password before save.
      *
      * @param string $password
      */

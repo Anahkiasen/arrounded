@@ -10,13 +10,13 @@ abstract class AbstractModel extends Model
     use ReflectionModel;
 
     /**
-     * The attributes to cast on serialization
+     * The attributes to cast on serialization.
      *
      * @type array
      */
-    protected $casts = array(
+    protected $casts = [
         'integer' => ['id'],
-    );
+    ];
 
     //////////////////////////////////////////////////////////////////////
     /////////////////////////// RELATED CLASSES //////////////////////////
@@ -29,7 +29,7 @@ abstract class AbstractModel extends Model
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function newCollection(array $models = array())
+    public function newCollection(array $models = [])
     {
         $custom = $this->getNamespace().'\Collection';
         if (class_exists($custom)) {
@@ -44,7 +44,7 @@ abstract class AbstractModel extends Model
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Order entries in a specific order
+     * Order entries in a specific order.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string                                $field
@@ -58,7 +58,7 @@ abstract class AbstractModel extends Model
     }
 
     /**
-     * Get all models belonging to other models
+     * Get all models belonging to other models.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param string                                $relation
@@ -66,7 +66,7 @@ abstract class AbstractModel extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWhereBelongsTo($query, $relation, array $ids = array())
+    public function scopeWhereBelongsTo($query, $relation, array $ids = [])
     {
         $ids = $ids ?: ['void'];
 

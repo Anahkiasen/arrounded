@@ -17,7 +17,7 @@ class AssetsHandler
     }
 
     /**
-     * Display a collection of styles
+     * Display a collection of styles.
      *
      * @param array|string $collection
      *
@@ -29,7 +29,7 @@ class AssetsHandler
     }
 
     /**
-     * Display a collection of scripts
+     * Display a collection of scripts.
      *
      * @param array|string $collection
      *
@@ -45,7 +45,7 @@ class AssetsHandler
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get a collection from the declared ones
+     * Get a collection from the declared ones.
      *
      * @param string|array $collection
      * @param string       $type
@@ -75,7 +75,7 @@ class AssetsHandler
     }
 
     /**
-     * Create the HTML for a build
+     * Create the HTML for a build.
      *
      * @param string|array $collection
      * @param string       $type
@@ -99,14 +99,14 @@ class AssetsHandler
     }
 
     /**
-     * Expand the paths in an asset
+     * Expand the paths in an asset.
      *
      * @param string $asset
      * @param array  $negated
      *
      * @return array
      */
-    protected function expandPaths($asset, array $negated = array())
+    protected function expandPaths($asset, array $negated = [])
     {
         // If no wildcard, return as is
         if (strpos($asset, '*') === false) {

@@ -6,7 +6,7 @@ use Arrounded\Collection;
 use Closure;
 
 /**
- * Computes and renders statistics based on datasets
+ * Computes and renders statistics based on datasets.
  *
  * @author Maxime Fabre <ehtnam6@gmail.com>
  */
@@ -23,14 +23,14 @@ abstract class AbstractStatistics extends Collection
     protected $labels = [];
 
     /**
-     * The default chart options
+     * The default chart options.
      *
      * @type array
      */
     protected $options = [];
 
     /**
-     * Cached results of the datasets
+     * Cached results of the datasets.
      *
      * @type array
      */
@@ -60,7 +60,7 @@ abstract class AbstractStatistics extends Collection
     }
 
     /**
-     * Execute a closure on a set of results
+     * Execute a closure on a set of results.
      *
      * @param string  $dataset
      * @param Closure $callback
@@ -68,7 +68,7 @@ abstract class AbstractStatistics extends Collection
      *
      * @return array
      */
-    public function on($dataset, Closure $callback, $keys = array())
+    public function on($dataset, Closure $callback, $keys = [])
     {
         // Cache result
         if (!isset($this->results[$dataset])) {
@@ -87,7 +87,7 @@ abstract class AbstractStatistics extends Collection
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Add a graph to render
+     * Add a graph to render.
      *
      * @param string $name
      * @param string $type
@@ -106,7 +106,7 @@ abstract class AbstractStatistics extends Collection
     }
 
     /**
-     * Return the computed graphs
+     * Return the computed graphs.
      *
      * @return array
      */
@@ -126,13 +126,13 @@ abstract class AbstractStatistics extends Collection
     }
 
     /**
-     * Compute from a passed array
+     * Compute from a passed array.
      *
      * @param array $compute
      *
      * @return array
      */
-    protected function computeFrom(array $compute = array())
+    protected function computeFrom(array $compute = [])
     {
         foreach ($compute as $type => $graphs) {
             foreach ($graphs as $name => $method) {
@@ -144,9 +144,7 @@ abstract class AbstractStatistics extends Collection
     }
 
     /**
-     * Compute the statistics
-     *
-     * @return void
+     * Compute the statistics.
      */
     abstract public function compute();
 
@@ -155,7 +153,7 @@ abstract class AbstractStatistics extends Collection
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Fill the gaps in an array
+     * Fill the gaps in an array.
      *
      * @param array    $results
      * @param string[] $keys
@@ -171,14 +169,14 @@ abstract class AbstractStatistics extends Collection
     }
 
     /**
-     * Format results to usable array
+     * Format results to usable array.
      *
      * @param string|array $method
      * @param array        $keys
      *
      * @return array
      */
-    protected function formatResults($method, $keys = array())
+    protected function formatResults($method, $keys = [])
     {
         $result = is_string($method) ? $this->$method() : $method;
         $result = $result instanceof Collection ? $result->toArray() : $result;
@@ -197,7 +195,7 @@ abstract class AbstractStatistics extends Collection
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Render the graphs out
+     * Render the graphs out.
      *
      * @return string
      */

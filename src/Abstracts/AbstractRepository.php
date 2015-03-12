@@ -11,21 +11,21 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 abstract class AbstractRepository implements RepositoryInterface
 {
     /**
-     * The items to fetch from
+     * The items to fetch from.
      *
      * @type AbstractModel|Builder
      */
     protected $items;
 
     /**
-     * Default number of results per page
+     * Default number of results per page.
      *
-     * @type integer
+     * @type int
      */
     protected $perPage = 25;
 
     /**
-     * Get the core model instance
+     * Get the core model instance.
      *
      * @return AbstractModel
      */
@@ -35,7 +35,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Get the name of the model
+     * Get the name of the model.
      *
      * @return string
      */
@@ -49,7 +49,7 @@ abstract class AbstractRepository implements RepositoryInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Eager load relations on the base Query
+     * Eager load relations on the base Query.
      *
      * @param array $relations
      *
@@ -63,9 +63,9 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Set the number of results to display per page
+     * Set the number of results to display per page.
      *
-     * @param integer|null $perPage
+     * @param int|null $perPage
      *
      * @return self
      */
@@ -79,7 +79,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Change the core items
+     * Change the core items.
      *
      * @param AbstractModel|Builder $items
      *
@@ -93,7 +93,7 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Get the core items query
+     * Get the core items query.
      *
      * @return AbstractModel
      */
@@ -107,13 +107,13 @@ abstract class AbstractRepository implements RepositoryInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Return a new instance
+     * Return a new instance.
      *
      * @param array $attributes
      *
      * @return AbstractModel
      */
-    public function instance(array $attributes = array())
+    public function instance(array $attributes = [])
     {
         $model = $this->getModel();
 
@@ -121,9 +121,9 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Find a particular item
+     * Find a particular item.
      *
-     * @param AbstractModel|array|string|integer $item
+     * @param AbstractModel|array|string|int $item
      *
      * @return AbstractModel
      */
@@ -135,7 +135,7 @@ abstract class AbstractRepository implements RepositoryInterface
     /**
      * Search for a model in the trash.
      *
-     * @param AbstractModel|array|string|integer $item
+     * @param AbstractModel|array|string|int $item
      *
      * @return AbstractModel
      */
@@ -150,13 +150,13 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Find or instantiate an instance of an item from a set of attributes
+     * Find or instantiate an instance of an item from a set of attributes.
      *
      * @param array $attributes
      *
      * @return AbstractModel
      */
-    public function findOrNew($attributes = array())
+    public function findOrNew($attributes = [])
     {
         $item = array_get($attributes, 'id');
 
@@ -166,25 +166,25 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Get the first model matching attributes or create it
+     * Get the first model matching attributes or create it.
      *
      * @param array $attributes
      *
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function firstOrCreate(array $attributes = array())
+    public function firstOrCreate(array $attributes = [])
     {
         return $this->items()->firstOrCreate($attributes);
     }
 
     /**
-     * Create an entry from an array of attributes
+     * Create an entry from an array of attributes.
      *
      * @param array $attributes
      *
      * @return AbstractModel
      */
-    public function create(array $attributes = array())
+    public function create(array $attributes = [])
     {
         // Create model and fetch it back
         $item = $this->items()->create($attributes);
@@ -195,14 +195,14 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Update an item
+     * Update an item.
      *
-     * @param AbstractModel|integer $item
-     * @param array                 $attributes
+     * @param AbstractModel|int $item
+     * @param array             $attributes
      *
      * @return AbstractModel
      */
-    public function update($item, array $attributes = array())
+    public function update($item, array $attributes = [])
     {
         $item = $this->find($item);
         $item->fill($attributes)->save();
@@ -212,12 +212,12 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Delete an item
+     * Delete an item.
      *
-     * @param AbstractModel|integer $item
-     * @param boolean               $force Force delete or not
+     * @param AbstractModel|int $item
+     * @param bool              $force Force delete or not
      *
-     * @return boolean
+     * @return bool
      */
     public function delete($item, $force = false)
     {
@@ -235,7 +235,7 @@ abstract class AbstractRepository implements RepositoryInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Hook for when a model is created/updated
+     * Hook for when a model is created/updated.
      *
      * @param AbstractModel $model
      * @param array         $attributes
@@ -252,9 +252,9 @@ abstract class AbstractRepository implements RepositoryInterface
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Return all items
+     * Return all items.
      *
-     * @param integer|null $perPage
+     * @param int|null $perPage
      *
      * @return Collection
      */
@@ -266,9 +266,9 @@ abstract class AbstractRepository implements RepositoryInterface
     }
 
     /**
-     * Get all items, paginated
+     * Get all items, paginated.
      *
-     * @param integer|null $perPage
+     * @param int|null $perPage
      *
      * @return \Illuminate\Pagination\Paginator
      */
@@ -284,8 +284,8 @@ abstract class AbstractRepository implements RepositoryInterface
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * @param Builder                      $query
-     * @param integer|string|AbstractModel $item
+     * @param Builder                  $query
+     * @param int|string|AbstractModel $item
      *
      * @return AbstractModel
      */

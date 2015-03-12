@@ -10,33 +10,33 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 /**
- * A smart controller based on a Repository implementation
+ * A smart controller based on a Repository implementation.
  */
 abstract class AbstractSmartRepositoryController extends AbstractSmartController
 {
     /**
-     * The repository in use
+     * The repository in use.
      *
      * @type RepositoryInterface
      */
     protected $repository;
 
     /**
-     * The relationships to eager load automatically
+     * The relationships to eager load automatically.
      *
      * @type array
      */
-    protected $eagerLoaded = array();
+    protected $eagerLoaded = [];
 
     /**
-     * Number of entries per page
+     * Number of entries per page.
      *
-     * @type integer
+     * @type int
      */
     protected $perPage = null;
 
     /**
-     * Build a new AbstractSmartRepositoryController
+     * Build a new AbstractSmartRepositoryController.
      *
      * @param RepositoryInterface $repository
      */
@@ -54,26 +54,26 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
     /**
      * Display a listing of the resource.
      *
-     * @param array        $eager
-     * @param integer|null $paginate
+     * @param array    $eager
+     * @param int|null $paginate
      *
      * @return \Illuminate\View\View
      */
-    protected function coreIndex($eager = array(), $paginate = null)
+    protected function coreIndex($eager = [], $paginate = null)
     {
-        return $this->getView('index', array(
+        return $this->getView('index', [
             'items' => $this->repository->all($paginate ?: $this->perPage),
-        ));
+        ]);
     }
 
     /**
-     * Get the core create view
+     * Get the core create view.
      *
      * @param array $data Additional data
      *
      * @return \Illuminate\View\View
      */
-    protected function coreCreate($data = array())
+    protected function coreCreate($data = [])
     {
         return $this->getView('edit', $this->getFormData($data));
     }
@@ -91,14 +91,14 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
     }
 
     /**
-     * Get the core edit view
+     * Get the core edit view.
      *
-     * @param integer $item
-     * @param array   $data Additional data
+     * @param int   $item
+     * @param array $data Additional data
      *
      * @return \Illuminate\View\View
      */
-    protected function coreEdit($item, $data = array())
+    protected function coreEdit($item, $data = [])
     {
         $item         = $this->getSingleModel($item);
         $data['item'] = $item;
@@ -107,9 +107,9 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
     }
 
     /**
-     * Update an item
+     * Update an item.
      *
-     * @param integer|null $item
+     * @param int|null $item
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -142,10 +142,10 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
     }
 
     /**
-     * Delete an item
+     * Delete an item.
      *
-     * @param integer $item
-     * @param boolean $force
+     * @param int  $item
+     * @param bool $force
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -154,7 +154,7 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
         $this->repository->delete($item, $force);
 
         if (Request::ajax()) {
-            return \Response::json(array(), 204);
+            return \Response::json([], 204);
         }
 
         return $this->getRedirect('index');
@@ -165,9 +165,9 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get a single model
+     * Get a single model.
      *
-     * @param integer $item
+     * @param int $item
      *
      * @return Model
      */
@@ -180,34 +180,34 @@ abstract class AbstractSmartRepositoryController extends AbstractSmartController
     }
 
     /**
-     * Get the data to display
+     * Get the data to display.
      *
-     * @param integer $item
+     * @param int $item
      *
      * @return array<string,Model>
      */
     protected function getShowData($item)
     {
-        return array(
+        return [
             'item' => $this->getSingleModel($item),
-        );
+        ];
     }
 
     /**
-     * Get the form data
+     * Get the form data.
      *
      * @param array <string,Model> $data
      *
      * @return array
      */
-    public function getFormData(array $data = array())
+    public function getFormData(array $data = [])
     {
         $item  = array_get($data, 'item') ?: $this->repository->getModelInstance();
         $route = $item->id ? 'update' : 'store';
 
-        return array(
+        return [
             'item'  => $item,
             'route' => $this->getRoute($route),
-        );
+        ];
     }
 }

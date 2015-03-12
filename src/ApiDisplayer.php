@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 class ApiDisplayer extends RoutesCommand
 {
     /**
-     * The namespace to filter with
+     * The namespace to filter with.
      *
      * @type string
      */
@@ -49,7 +49,7 @@ class ApiDisplayer extends RoutesCommand
     }
 
     /**
-     * Get the routes as a collection
+     * Get the routes as a collection.
      *
      * @return Collection
      */

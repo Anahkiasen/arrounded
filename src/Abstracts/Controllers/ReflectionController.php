@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use ReflectionClass;
 
 /**
- * A class to compute additional informations around a Controller
+ * A class to compute additional informations around a Controller.
  */
 class ReflectionController extends ReflectionClass
 {
@@ -15,7 +15,7 @@ class ReflectionController extends ReflectionClass
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the model related to the controller
+     * Get the model related to the controller.
      *
      * @return string
      */
@@ -29,7 +29,7 @@ class ReflectionController extends ReflectionClass
     }
 
     /**
-     * Get the resource associated with the controller
+     * Get the resource associated with the controller.
      *
      * @return string
      */
@@ -44,7 +44,7 @@ class ReflectionController extends ReflectionClass
     }
 
     /**
-     * Get the core resource if it's nested
+     * Get the core resource if it's nested.
      *
      * @return string
      */
@@ -61,7 +61,7 @@ class ReflectionController extends ReflectionClass
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get an instance of the model
+     * Get an instance of the model.
      *
      * @return Model
      */

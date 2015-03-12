@@ -12,56 +12,56 @@ use SplFileInfo;
 
 /**
  * A basic class to extract routes
- * from the application and crawler them
+ * from the application and crawler them.
  */
 class Crawler
 {
     use UsesContainer;
 
     /**
-     * The found routes
+     * The found routes.
      *
      * @type array
      */
     protected $routes = [];
 
     /**
-     * The routes to ignore
+     * The routes to ignore.
      *
      * @type array
      */
-    protected $ignored = array();
+    protected $ignored = [];
 
     /**
-     * Lifetime of the cache
+     * Lifetime of the cache.
      *
-     * @type integer
+     * @type int
      */
     protected $lifetime = 60;
 
     /**
-     * The number of entries to take for models
+     * The number of entries to take for models.
      *
-     * @type integer|null
+     * @type int|null
      */
     protected $take = null;
 
     /**
-     * A cache of entries
+     * A cache of entries.
      *
      * @type array
      */
     protected $entries = [];
 
     /**
-     * The already registered routes
+     * The already registered routes.
      *
      * @type array
      */
     protected $registered = [];
 
     /**
-     * @type boolean
+     * @type bool
      */
     protected $ignoreIncomplete = false;
 
@@ -80,13 +80,13 @@ class Crawler
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the routes to test
+     * Get the routes to test.
      *
      * @param array $additional
      *
      * @return array
      */
-    public function getRoutes(array $additional = array())
+    public function getRoutes(array $additional = [])
     {
         $getRoutes = function () {
             $existing = $this->app['router']->getRoutes();
@@ -138,15 +138,15 @@ class Crawler
     }
 
     /**
-     * Get the routes in a PHPUnit-friendly forma
+     * Get the routes in a PHPUnit-friendly forma.
      *
      * @param array $additional
      *
      * @return array
      */
-    public function provideRoutes(array $additional = array())
+    public function provideRoutes(array $additional = [])
     {
-        $queue  = array();
+        $queue  = [];
         $routes = $this->getRoutes($additional);
 
         // Build provider
@@ -162,7 +162,7 @@ class Crawler
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * @param boolean $ignoreIncomplete
+     * @param bool $ignoreIncomplete
      */
     public function setIgnoreIncomplete($ignoreIncomplete)
     {
@@ -188,7 +188,7 @@ class Crawler
     /**
      * Sets the Lifetime of the cache.
      *
-     * @param integer $lifetime the lifetime
+     * @param int $lifetime the lifetime
      *
      * @return self
      */
@@ -200,11 +200,11 @@ class Crawler
     }
 
     /**
-     * Set the routes to ignore
+     * Set the routes to ignore.
      *
      * @param array $ignored
      */
-    public function setIgnored(array $ignored = array())
+    public function setIgnored(array $ignored = [])
     {
         $this->ignored = $ignored;
     }
@@ -214,21 +214,19 @@ class Crawler
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get a Client instance
+     * Get a Client instance.
      *
      * @return Client
      */
     public function getClient()
     {
-        return new Client($this->app, array());
+        return new Client($this->app, []);
     }
 
     /**
-     * Execute an action on all pages
+     * Execute an action on all pages.
      *
      * @param Closure $callback
-     *
-     * @return void
      */
     public function onRoutes(Closure $callback)
     {
@@ -247,7 +245,7 @@ class Crawler
     /**
      * @param string $uri
      *
-     * @return boolean
+     * @return bool
      */
     protected function hasIncompletePatterns($uri)
     {
@@ -255,7 +253,7 @@ class Crawler
     }
 
     /**
-     * Extract the various patterns in an URL
+     * Extract the various patterns in an URL.
      *
      * @param string $uri
      *
@@ -278,7 +276,7 @@ class Crawler
     }
 
     /**
-     * Extract a model pattern in an URL
+     * Extract a model pattern in an URL.
      *
      * @param string $pattern
      *
@@ -303,7 +301,7 @@ class Crawler
     }
 
     /**
-     * Process a route involving models
+     * Process a route involving models.
      *
      * @param array  $patterns
      * @param string $uri
@@ -336,7 +334,7 @@ class Crawler
     }
 
     /**
-     * If the route has multiple patterns, compute the mail one to use
+     * If the route has multiple patterns, compute the mail one to use.
      *
      * @param string $patterns
      * @param string $action
@@ -360,7 +358,7 @@ class Crawler
     }
 
     /**
-     * Replace a model pattern by a key in an URL
+     * Replace a model pattern by a key in an URL.
      *
      * @param string        $uri
      * @param AbstractModel $model
@@ -382,7 +380,7 @@ class Crawler
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Fetch the entries for a model
+     * Fetch the entries for a model.
      *
      * @param string $model
      *

@@ -5,14 +5,12 @@ use Arrounded\Assets\AssetsHandler;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Register the ArroundedServiceProvider classes
+ * Register the ArroundedServiceProvider classes.
  */
 class ArroundedServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -28,8 +26,6 @@ class ArroundedServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap the application events.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -47,7 +43,7 @@ class ArroundedServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array('html', 'arrounded.meta');
+        return ['html', 'arrounded.meta'];
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -55,7 +51,7 @@ class ArroundedServiceProvider extends ServiceProvider
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Register the assets handler
+     * Register the assets handler.
      */
     protected function registerAssets()
     {

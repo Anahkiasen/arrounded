@@ -7,14 +7,14 @@ use Illuminate\Support\MessageBag;
 class ValidationException extends Exception
 {
     /**
-     * The bound errors
+     * The bound errors.
      *
      * @type MessageBag
      */
     protected $errors;
 
     /**
-     * Throw a new ValidationException
+     * Throw a new ValidationException.
      *
      * @param string     $message
      * @param MessageBag $errors
@@ -27,7 +27,7 @@ class ValidationException extends Exception
     }
 
     /**
-     * Get the bound errors
+     * Get the bound errors.
      *
      * @return MessageBag
      */

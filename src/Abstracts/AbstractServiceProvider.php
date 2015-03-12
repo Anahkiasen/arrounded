@@ -6,19 +6,19 @@ use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Register the AbstractServiceProvider classes
+ * Register the AbstractServiceProvider classes.
  */
 abstract class AbstractServiceProvider extends ServiceProvider
 {
     /**
-     * The application's namespace
+     * The application's namespace.
      *
      * @type string
      */
     protected $namespace;
 
     /**
-     * Set the namespace to be used by Arrounded
+     * Set the namespace to be used by Arrounded.
      *
      * @param string|null $namespace
      */
@@ -32,7 +32,7 @@ abstract class AbstractServiceProvider extends ServiceProvider
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Register various view composers
+     * Register various view composers.
      *
      * @param array $composers
      */
@@ -49,7 +49,7 @@ abstract class AbstractServiceProvider extends ServiceProvider
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Register the bindings for repositories
+     * Register the bindings for repositories.
      */
     protected function bootRouteBindings()
     {
@@ -71,10 +71,10 @@ abstract class AbstractServiceProvider extends ServiceProvider
             $model    = $repository->getModel();
             $model    = class_basename($model);
             $model    = Str::snake($model);
-            $bindings = array_map('strtolower', array(
+            $bindings = array_map('strtolower', [
                 $model,
                 Str::plural($model),
-            ));
+            ]);
 
             // Register with router
             $repository = get_class($repository);
@@ -85,7 +85,7 @@ abstract class AbstractServiceProvider extends ServiceProvider
     }
 
     /**
-     * Boot a list of model observers
+     * Boot a list of model observers.
      *
      * @param array $observers
      */

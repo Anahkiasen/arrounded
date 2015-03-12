@@ -2,24 +2,24 @@
 namespace Arrounded;
 
 /**
- * Object-oriented wrapper for CURL
+ * Object-oriented wrapper for CURL.
  */
 class Curl
 {
     /**
-     * The internal CURL instance
+     * The internal CURL instance.
      *
      * @type resource
      */
     protected $curl;
 
     /**
-     * Build a new Curl instance
+     * Build a new Curl instance.
      *
      * @param string|null $url
      * @param array       $options
      */
-    public function __construct($url = null, $options = array())
+    public function __construct($url = null, $options = [])
     {
         $this->curl = curl_init();
 
@@ -37,7 +37,7 @@ class Curl
     }
 
     /**
-     * Set a CURL option
+     * Set a CURL option.
      *
      * @param string $key
      * @param mixed  $value
@@ -48,9 +48,7 @@ class Curl
     }
 
     /**
-     * Close the instance
-     *
-     * @return void
+     * Close the instance.
      */
     public function close()
     {
@@ -77,7 +75,7 @@ class Curl
     }
 
     /**
-     * Get an info on the current instance
+     * Get an info on the current instance.
      *
      * @param string $info
      *
@@ -91,7 +89,7 @@ class Curl
     }
 
     /**
-     * Set the body of the request
+     * Set the body of the request.
      *
      * @param string|array $contents
      *
@@ -109,7 +107,7 @@ class Curl
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Send and get results
+     * Send and get results.
      *
      * @return mixed
      */
@@ -119,7 +117,7 @@ class Curl
     }
 
     /**
-     * Get the contents of the remote URL
+     * Get the contents of the remote URL.
      *
      * @return mixed
      */

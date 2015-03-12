@@ -14,7 +14,7 @@ class DraftScope implements ScopeInterface
     /**
      * All of the extensions to be added to the builder.
      *
-     * @var array
+     * @type array
      */
     protected $extensions = ['WithDrafts', 'OnlyDrafts'];
 
@@ -22,8 +22,6 @@ class DraftScope implements ScopeInterface
      * Apply the scope to a given Eloquent query builder.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
-     *
-     * @return void
      */
     public function apply(Builder $builder)
     {
@@ -36,8 +34,6 @@ class DraftScope implements ScopeInterface
      * Remove the scope from the given Eloquent query builder.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
-     *
-     * @return void
      */
     public function remove(Builder $builder)
     {
@@ -59,8 +55,6 @@ class DraftScope implements ScopeInterface
      * Add the withDrafts extension to the builder.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
-     *
-     * @return void
      */
     protected function addWithDrafts(Builder $builder)
     {
@@ -75,8 +69,6 @@ class DraftScope implements ScopeInterface
      * Add the onlyDrafts extension to the builder.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
-     *
-     * @return void
      */
     protected function addOnlyDrafts(Builder $builder)
     {
@@ -93,8 +85,6 @@ class DraftScope implements ScopeInterface
      * Extend the query builder with the needed functions.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
-     *
-     * @return void
      */
     public function extend(Builder $builder)
     {

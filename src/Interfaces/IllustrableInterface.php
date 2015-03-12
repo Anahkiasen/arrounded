@@ -4,40 +4,40 @@ namespace Arrounded\Interfaces;
 use Arrounded\Traits\Upload;
 
 /**
- * A model with uploads
+ * A model with uploads.
  */
 interface IllustrableInterface
 {
     /**
-     * Get the model's images
+     * Get the model's images.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function images();
 
     /**
-     * Get one of the model's files
+     * Get one of the model's files.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphOne
      */
     public function file();
 
     /**
-     * Get the model's files
+     * Get the model's files.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function files();
 
     /**
-     * Get the model's thumbnail
+     * Get the model's thumbnail.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphOne
      */
     public function thumb();
 
     /**
-     * Get the model's thumb or its parent
+     * Get the model's thumb or its parent.
      *
      * @param string $parent
      *
@@ -46,7 +46,7 @@ interface IllustrableInterface
     public function parentableThumb($parent);
 
     /**
-     * Renders the thumbnail of the model
+     * Renders the thumbnail of the model.
      *
      * @param string|null $size
      *

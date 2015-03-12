@@ -4,7 +4,7 @@ namespace Arrounded\Traits;
 use Illuminate\Support\Facades\HTML;
 
 /**
- * A model with uploads
+ * A model with uploads.
  */
 trait Illustrable
 {
@@ -13,7 +13,7 @@ trait Illustrable
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the model's images
+     * Get the model's images.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
@@ -23,7 +23,7 @@ trait Illustrable
     }
 
     /**
-     * Get one of the model's files
+     * Get one of the model's files.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphOne
      */
@@ -33,7 +33,7 @@ trait Illustrable
     }
 
     /**
-     * Get the model's files
+     * Get the model's files.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
@@ -43,7 +43,7 @@ trait Illustrable
     }
 
     /**
-     * Get the model's thumbnail
+     * Get the model's thumbnail.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphOne
      */
@@ -57,7 +57,7 @@ trait Illustrable
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the model's thumb or its parent
+     * Get the model's thumb or its parent.
      *
      * @param string $parent
      *
@@ -74,14 +74,14 @@ trait Illustrable
     }
 
     /**
-     * Renders the thumbnail of the model
+     * Renders the thumbnail of the model.
      *
      * @param string|null $size
      * @param array       $attributes
      *
      * @return string
      */
-    public function thumbnail($size = null, $attributes = array())
+    public function thumbnail($size = null, $attributes = [])
     {
         if (!$this->thumb) {
             $upload = $this->getUploadClass();
@@ -94,7 +94,7 @@ trait Illustrable
     }
 
     /**
-     * Get the correct upload class
+     * Get the correct upload class.
      *
      * @return string
      */

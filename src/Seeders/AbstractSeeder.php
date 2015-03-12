@@ -8,19 +8,19 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 /**
- * An enhanced core seeder class
+ * An enhanced core seeder class.
  */
 abstract class AbstractSeeder extends Seeder
 {
     /**
-     * The Faker instance
+     * The Faker instance.
      *
      * @type Faker
      */
     protected $faker;
 
     /**
-     * Build a new Seed
+     * Build a new Seed.
      */
     public function __construct()
     {
@@ -31,7 +31,7 @@ abstract class AbstractSeeder extends Seeder
     }
 
     /**
-     * Run a seeder
+     * Run a seeder.
      *
      * @param string $table
      */
@@ -51,13 +51,13 @@ abstract class AbstractSeeder extends Seeder
     }
 
     /**
-     * Insert items by chunks
+     * Insert items by chunks.
      *
-     * @param string       $table
-     * @param array        $items
-     * @param integer|null $chunks
+     * @param string   $table
+     * @param array    $items
+     * @param int|null $chunks
      *
-     * @return boolean
+     * @return bool
      */
     public function insertChunked($table, $items, $chunks = null)
     {
@@ -74,7 +74,7 @@ abstract class AbstractSeeder extends Seeder
 
         // Chunk entries
         $results = [];
-        $slices  = $chunks ? array_chunk($items, $chunks) : array($items);
+        $slices  = $chunks ? array_chunk($items, $chunks) : [$items];
         $this->progressIterator($slices, function ($items) use ($table, $results) {
             $results[] = DB::table($table)->insert($items);
         });
@@ -83,7 +83,7 @@ abstract class AbstractSeeder extends Seeder
     }
 
     /**
-     * Print progress on an iterator
+     * Print progress on an iterator.
      *
      * @param array $items
      */

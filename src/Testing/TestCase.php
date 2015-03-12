@@ -16,14 +16,14 @@ use User;
 class TestCase extends IlluminateTestCase
 {
     /**
-     * Some aliases for mocks
+     * Some aliases for mocks.
      *
      * @type array
      */
-    protected $namespaces = array(
+    protected $namespaces = [
         'app'    => '',
         'models' => '',
-    );
+    ];
 
     /**
      * Creates the application.
@@ -45,7 +45,7 @@ class TestCase extends IlluminateTestCase
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Assert a variable in the view is an instance of something
+     * Assert a variable in the view is an instance of something.
      *
      * @param string $variables
      *
@@ -56,7 +56,7 @@ class TestCase extends IlluminateTestCase
         $variables = (array) $variables;
         $response  = $this->client->getResponse()->original;
 
-        $data = array();
+        $data = [];
         foreach ($variables as $variable) {
             $this->assertViewHas($variable);
             $data[$variable] = $response->$variable;
@@ -70,7 +70,7 @@ class TestCase extends IlluminateTestCase
     }
 
     /**
-     * Assert a variable in the view is not empty
+     * Assert a variable in the view is not empty.
      *
      * @param string $data
      *
@@ -86,9 +86,7 @@ class TestCase extends IlluminateTestCase
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Recreate the database
-     *
-     * @return void
+     * Recreate the database.
      */
     protected function recreateDatabase()
     {
@@ -106,9 +104,7 @@ class TestCase extends IlluminateTestCase
     }
 
     /**
-     * Seed the database with dummy data
-     *
-     * @return void
+     * Seed the database with dummy data.
      */
     protected function seedDatabase()
     {
@@ -116,9 +112,7 @@ class TestCase extends IlluminateTestCase
     }
 
     /**
-     * Remove mocked instances on close
-     *
-     * @return void
+     * Remove mocked instances on close.
      */
     public function tearDown()
     {
@@ -134,7 +128,7 @@ class TestCase extends IlluminateTestCase
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Authentify as an User
+     * Authentify as an User.
      *
      * @param UserInterface $user
      *
@@ -161,7 +155,7 @@ class TestCase extends IlluminateTestCase
     }
 
     /**
-     * Get the test user
+     * Get the test user.
      *
      * @return UserInterface
      */
@@ -171,9 +165,7 @@ class TestCase extends IlluminateTestCase
     }
 
     /**
-     * Logout the user
-     *
-     * @return void
+     * Logout the user.
      */
     public function logout()
     {
@@ -186,11 +178,9 @@ class TestCase extends IlluminateTestCase
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Spoof the Redirect::back method
+     * Spoof the Redirect::back method.
      *
      * @param string $endpoint
-     *
-     * @return void
      */
     protected function spoofRedirectBack($endpoint = '/')
     {
@@ -203,7 +193,7 @@ class TestCase extends IlluminateTestCase
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Mock a repository
+     * Mock a repository.
      *
      * @param sring   $repository
      * @param Closure $expectations
@@ -216,7 +206,7 @@ class TestCase extends IlluminateTestCase
     }
 
     /**
-     * Mock a class and inject it into the container
+     * Mock a class and inject it into the container.
      *
      * @param string  $class
      * @param Closure $expectations
@@ -230,7 +220,7 @@ class TestCase extends IlluminateTestCase
     }
 
     /**
-     * Get the full path to a mocked class
+     * Get the full path to a mocked class.
      *
      * @param string $class
      *

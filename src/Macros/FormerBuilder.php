@@ -6,7 +6,7 @@ use Former;
 use Illuminate\Support\Str;
 
 /**
- * Injects macros into the current Former instance
+ * Injects macros into the current Former instance.
  *
  * @property \Former\Former former
  */
@@ -15,13 +15,11 @@ class FormerBuilder
     use UsesContainer;
 
     /**
-     * Register multiple macros at once
+     * Register multiple macros at once.
      *
      * @param array $macros
-     *
-     * @return void
      */
-    public function registerMacros(array $macros = array())
+    public function registerMacros(array $macros = [])
     {
         // Merge default macros
         $class  = get_class($this);
@@ -38,7 +36,7 @@ class FormerBuilder
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Generates a gender picker
+     * Generates a gender picker.
      *
      * @return Select
      */
@@ -48,7 +46,7 @@ class FormerBuilder
     }
 
     /**
-     * Generates a boolean-type select
+     * Generates a boolean-type select.
      *
      * @param string      $name
      * @param string|null $label
@@ -61,7 +59,7 @@ class FormerBuilder
     }
 
     /**
-     * A select for a model belonging to another
+     * A select for a model belonging to another.
      *
      * @param string      $model
      * @param string|null $foreign
@@ -79,7 +77,7 @@ class FormerBuilder
     }
 
     /**
-     * Generates a field group to pick one or more related models
+     * Generates a field group to pick one or more related models.
      *
      * @param string      $name
      * @param string|null $label
@@ -97,7 +95,7 @@ class FormerBuilder
         }
 
         // Fetch entries from model
-        $entries = array();
+        $entries = [];
         if ($relation = $this->former->getValue($label)) {
             $entries = $relation->lists('id');
         }
@@ -110,7 +108,7 @@ class FormerBuilder
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get all models as a dictionary, alphabetically ordered
+     * Get all models as a dictionary, alphabetically ordered.
      *
      * @param string $model
      *

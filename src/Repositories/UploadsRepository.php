@@ -6,12 +6,12 @@ use Arrounded\Abstracts\Models\AbstractUploadModel;
 use Arrounded\Interfaces\IllustrableInterface;
 
 /**
- * Repository for the AbstractUploadModel resource
+ * Repository for the AbstractUploadModel resource.
  */
 class UploadsRepository extends AbstractRepository
 {
     /**
-     * Build a new UploadsRepository
+     * Build a new UploadsRepository.
      *
      * @param \Arrounded\Abstracts\Models\AbstractUploadModel $items
      */
@@ -21,7 +21,7 @@ class UploadsRepository extends AbstractRepository
     }
 
     /**
-     * Bind an unique image type to a model
+     * Bind an unique image type to a model.
      *
      * @param \Arrounded\Abstracts\Models\AbstractUploadModel[]|\Arrounded\Abstracts\Models\AbstractUploadModel $uploads
      * @param IllustrableInterface                                                                              $model
@@ -29,7 +29,7 @@ class UploadsRepository extends AbstractRepository
      *
      * @return \Arrounded\Abstracts\Models\AbstractUploadModel
      */
-    public function bindUniqueTo($uploads, IllustrableInterface $model, $attributes = array())
+    public function bindUniqueTo($uploads, IllustrableInterface $model, $attributes = [])
     {
         $model->files()->where($attributes)->delete();
 
@@ -37,7 +37,7 @@ class UploadsRepository extends AbstractRepository
     }
 
     /**
-     * Bind an AbstractUploadModel to a model
+     * Bind an AbstractUploadModel to a model.
      *
      * @param \Arrounded\Abstracts\Models\AbstractUploadModel[]|AbstractUploadModel $uploads
      * @param IllustrableInterface                                                  $model
@@ -45,7 +45,7 @@ class UploadsRepository extends AbstractRepository
      *
      * @return \Arrounded\Abstracts\Models\AbstractUploadModel|\Arrounded\Abstracts\Models\AbstractUploadModel[]
      */
-    public function bindTo($uploads, IllustrableInterface $model, $attributes = array())
+    public function bindTo($uploads, IllustrableInterface $model, $attributes = [])
     {
         // Recursive call
         if (is_array($uploads)) {
@@ -78,10 +78,10 @@ class UploadsRepository extends AbstractRepository
     }
 
     /**
-     * Bind temporary images to a model
+     * Bind temporary images to a model.
      *
      * @param IllustrableInterface $model
-     * @param integer              $hash
+     * @param int                  $hash
      * @param string|null          $type
      *
      * @return array
@@ -89,10 +89,10 @@ class UploadsRepository extends AbstractRepository
     public function bindTemporaryTo(IllustrableInterface $model, $hash, $type = null)
     {
         $query  = $this->getTemporaryQuery($hash, $type);
-        $images = $query->update(array(
+        $images = $query->update([
             'illustrable_type' => $model->getClass(),
             'illustrable_id'   => $model->id,
-        ));
+        ]);
 
         return $images;
     }
@@ -122,10 +122,10 @@ class UploadsRepository extends AbstractRepository
      */
     protected function getTemporaryQuery($hash, $type)
     {
-        $query = $this->items()->where(array(
+        $query = $this->items()->where([
             'illustrable_type' => $this->getModelInstance()->getNamespace().'\Models\Temporary',
             'illustrable_id'   => $hash,
-        ));
+        ]);
 
         if ($type) {
             $query->where('type', $type);

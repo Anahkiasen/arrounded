@@ -14,7 +14,7 @@ class AbstractTransformer extends TransformerAbstract
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Getter for availableIncludes
+     * Getter for availableIncludes.
      *
      * @return array
      */
@@ -39,7 +39,7 @@ class AbstractTransformer extends TransformerAbstract
     }
 
     /**
-     * Generate include methods
+     * Generate include methods.
      *
      * @param string $name
      * @param array  $arguments
@@ -54,7 +54,7 @@ class AbstractTransformer extends TransformerAbstract
     }
 
     /**
-     * Include any relation from the model
+     * Include any relation from the model.
      *
      * @param string        $name
      * @param AbstractModel $item
@@ -88,7 +88,7 @@ class AbstractTransformer extends TransformerAbstract
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Transform a model for the API
+     * Transform a model for the API.
      *
      * @param AbstractModel $model
      * @param callable|null $callback
@@ -99,10 +99,10 @@ class AbstractTransformer extends TransformerAbstract
     {
         $attributes = $callback ? $callback($model) : $model->toArray();
 
-        return array_merge(array(
+        return array_merge([
             'id' => (int) $model->id,
-        ), $attributes, array(
+        ], $attributes, [
             'created_at' => (string) $model->created_at->toDateTimeString(),
-        ));
+        ]);
     }
 }

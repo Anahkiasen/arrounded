@@ -36,7 +36,7 @@ class AssetsReplacer extends Command
     }
 
     /**
-     * Execute the command
+     * Execute the command.
      */
     public function fire()
     {
@@ -58,7 +58,7 @@ class AssetsReplacer extends Command
     }
 
     /**
-     * Replace Assets calls in views
+     * Replace Assets calls in views.
      *
      * @param array $matches
      *

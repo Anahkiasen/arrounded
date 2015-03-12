@@ -8,7 +8,7 @@ use ReflectionClass;
 use ReflectionMethod;
 
 /**
- * A model with methods that connect to routes and controllers
+ * A model with methods that connect to routes and controllers.
  */
 trait ReflectionModel
 {
@@ -19,9 +19,9 @@ trait ReflectionModel
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Whether the model belongs to the currently authentified user
+     * Whether the model belongs to the currently authentified user.
      *
-     * @return boolean
+     * @return bool
      */
     public function belongsToCurrent()
     {
@@ -33,9 +33,9 @@ trait ReflectionModel
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the object's identifier
+     * Get the object's identifier.
      *
-     * @return string|integer
+     * @return string|int
      */
     public function getIdentifier()
     {
@@ -43,7 +43,7 @@ trait ReflectionModel
     }
 
     /**
-     * Get the model's class
+     * Get the model's class.
      *
      * @return string
      */
@@ -53,7 +53,7 @@ trait ReflectionModel
     }
 
     /**
-     * Get the model's base class
+     * Get the model's base class.
      *
      * @return string
      */
@@ -63,7 +63,7 @@ trait ReflectionModel
     }
 
     /**
-     * Get the application's namespace
+     * Get the application's namespace.
      *
      * @return string
      */
@@ -73,7 +73,7 @@ trait ReflectionModel
     }
 
     /**
-     * Get the model's available relations
+     * Get the model's available relations.
      *
      * @return array
      */
@@ -101,7 +101,7 @@ trait ReflectionModel
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the presenter instance
+     * Get the presenter instance.
      *
      * @return string
      */
@@ -119,16 +119,16 @@ trait ReflectionModel
      */
     public function getTransformer()
     {
-        $service = $this->getRelatedClass('Transformer', array(
+        $service = $this->getRelatedClass('Transformer', [
             $this->getNamespace().'\Transformers\DefaultTransformer',
             'Arrounded\Services\Transformers\DefaultTransformer',
-        ));
+        ]);
 
         return new $service();
     }
 
     /**
-     * Get a related class
+     * Get a related class.
      *
      * @param string          $type
      * @param string|string[] $default
@@ -145,9 +145,9 @@ trait ReflectionModel
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Whether the model soft deletes or not
+     * Whether the model soft deletes or not.
      *
-     * @return boolean
+     * @return bool
      */
     public function softDeletes()
     {
@@ -155,20 +155,20 @@ trait ReflectionModel
     }
 
     /**
-     * Check if the model uses a trait
+     * Check if the model uses a trait.
      *
      * @param string $trait
      *
-     * @return boolean
+     * @return bool
      */
     public function hasTrait($trait)
     {
         // Try both given name and fully qualified name
-        $places = array(
+        $places = [
             'Arrounded\Traits\%s',
             'Arrounded\Traits\Reflection\%s',
             '%s',
-        );
+        ];
 
         $traits = class_uses_recursive($this->getClass());
         foreach ($places as $place) {

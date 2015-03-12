@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\URL;
 use League\Csv\Reader;
 
 /**
- * Generates and formats metadata
+ * Generates and formats metadata.
  */
 class Metadata
 {
@@ -55,7 +55,7 @@ class Metadata
     }
 
     /**
-     * Set the metadata from a file
+     * Set the metadata from a file.
      *
      * @param string $file
      */
@@ -85,22 +85,22 @@ class Metadata
     }
 
     /**
-     * Renders the metadata
+     * Renders the metadata.
      *
      * @param array $attributes
      *
      * @return string
      */
-    public function render(array $attributes = array())
+    public function render(array $attributes = [])
     {
         $html = '';
 
         // Add some default options
-        $attributes = array_merge(array(
+        $attributes = array_merge([
             'card' => 'summary',
             'site' => $this->project,
             'url'  => $this->app['url']->current(),
-        ), $this->defaults, $attributes);
+        ], $this->defaults, $attributes);
 
         // Format URLs if provided
         $image = array_get($attributes, 'image');
@@ -110,10 +110,10 @@ class Metadata
         $attributes['image'] = $this->app['url']->asset($image);
 
         // Get Twitter equivalents
-        $twitterProperties = array(
+        $twitterProperties = [
             'name'  => 'title',
             'image' => 'image:src',
-        );
+        ];
 
         // Append attributes
         foreach ($attributes as $name => $value) {
@@ -125,7 +125,7 @@ class Metadata
     }
 
     /**
-     * Get the correct HTML wrapper
+     * Get the correct HTML wrapper.
      *
      * @param string $twitter
      * @param string $name

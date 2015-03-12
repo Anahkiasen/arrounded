@@ -6,49 +6,49 @@ use Arrounded\Collection;
 class Chart
 {
     /**
-     * The element the graphic is for
+     * The element the graphic is for.
      *
      * @type string
      */
     protected $element;
 
     /**
-     * The type of the graphic
+     * The type of the graphic.
      *
      * @type string
      */
     protected $type = 'Line';
 
     /**
-     * The datasets
+     * The datasets.
      *
      * @type array
      */
-    protected $datasets = array();
+    protected $datasets = [];
 
     /**
-     * The graphics options
+     * The graphics options.
      *
      * @type array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
-     * The color scheme to use
+     * The color scheme to use.
      *
      * @type array
      */
     protected $colors = ['#16A085', '#2980B9', '#8E44AD', '#F1C40F', '#E67E22', '#C0392B', '#BDC3C7'];
 
     /**
-     * The various labels
+     * The various labels.
      *
      * @type array
      */
-    protected $labels = array();
+    protected $labels = [];
 
     /**
-     * Magic metod for constructor
+     * Magic metod for constructor.
      *
      * @param string $type
      * @param string $element
@@ -65,7 +65,7 @@ class Chart
     }
 
     /**
-     * Render on string cast
+     * Render on string cast.
      *
      * @return string
      */
@@ -79,7 +79,7 @@ class Chart
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Set the color scheme to use
+     * Set the color scheme to use.
      *
      * @param array $colors
      *
@@ -93,7 +93,7 @@ class Chart
     }
 
     /**
-     * Sets the element the graphic is for
+     * Sets the element the graphic is for.
      *
      * @param string $element the element
      *
@@ -107,7 +107,7 @@ class Chart
     }
 
     /**
-     * Sets the type of the graphic
+     * Sets the type of the graphic.
      *
      * @param string $type the type
      *
@@ -121,7 +121,7 @@ class Chart
     }
 
     /**
-     * Sets the datasets
+     * Sets the datasets.
      *
      * @param array|Collection $datasets the datasets
      *
@@ -135,7 +135,7 @@ class Chart
     }
 
     /**
-     * Sets the graphics options
+     * Sets the graphics options.
      *
      * @param array $options the options
      *
@@ -149,7 +149,7 @@ class Chart
     }
 
     /**
-     * Sets the various labels
+     * Sets the various labels.
      *
      * @param array $labels the labels
      *
@@ -167,7 +167,7 @@ class Chart
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Render the chart
+     * Render the chart.
      *
      * @return string
      */
@@ -190,7 +190,7 @@ class Chart
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Fill holes in labels
+     * Fill holes in labels.
      *
      * @param array $labels
      *
@@ -206,7 +206,7 @@ class Chart
     }
 
     /**
-     * Format datasets
+     * Format datasets.
      *
      * @param array|Collection $datasets
      *
@@ -222,23 +222,23 @@ class Chart
             case 'Doughnut':
                 $datasets = is_array($datasets[0]) ? $datasets[0] : $datasets;
                 foreach ($datasets as $key => $value) {
-                    $data[] = array(
+                    $data[] = [
                         'label' => array_get($this->labels, $key),
                         'value' => $value,
                         'color' => array_get($this->colors, $key),
-                    );
+                    ];
                 }
                 break;
 
             case 'Bar':
                 $data['labels']   = $this->labels;
-                $data['datasets'] = array();
+                $data['datasets'] = [];
                 foreach ($datasets as $key => $value) {
-                    $data['datasets'][] = array(
+                    $data['datasets'][] = [
                         'fillColor'   => array_get($this->colors, $key),
                         'strokeColor' => array_get($this->colors, $key),
                         'data'        => $value,
-                    );
+                    ];
                 }
                 break;
         }

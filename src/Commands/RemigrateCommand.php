@@ -47,7 +47,7 @@ class RemigrateCommand extends Command
     }
 
     /**
-     * Migrate some third party packages
+     * Migrate some third party packages.
      */
     protected function migrateThirdParty()
     {
@@ -55,7 +55,7 @@ class RemigrateCommand extends Command
     }
 
     /**
-     * Remigrate the database and back it up
+     * Remigrate the database and back it up.
      */
     protected function remigrate()
     {
@@ -101,7 +101,7 @@ class RemigrateCommand extends Command
     }
 
     /**
-     * Call the various seeders
+     * Call the various seeders.
      */
     protected function seedDatabase()
     {
@@ -109,7 +109,7 @@ class RemigrateCommand extends Command
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     protected function hasBackups()
     {

@@ -11,21 +11,21 @@ class Arrounded
     use UsesContainer;
 
     /**
-     * The application's namespace
+     * The application's namespace.
      *
      * @type string
      */
     protected $namespace;
 
     /**
-     * Where to find the various namespaces
+     * Where to find the various namespaces.
      *
      * @type array
      */
     protected $namespaces = [];
 
     /**
-     * A cache of found instances
+     * A cache of found instances.
      *
      * @type array
      */
@@ -117,7 +117,7 @@ class Arrounded
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get a model service
+     * Get a model service.
      *
      * @param string            $model
      * @param string            $type
@@ -139,7 +139,7 @@ class Arrounded
         $pluralType   = Str::plural($type);
         $pluralModel  = Str::plural($model);
 
-        $service = $this->getFirstExistingClass(array(
+        $service = $this->getFirstExistingClass([
             $this->qualifyClass($model, $type),
             $this->qualifyClass($pluralModel, $type),
             $this->qualifyClass($model.$pluralType, $type),
@@ -148,7 +148,7 @@ class Arrounded
             $this->qualifyClass($pluralModel.$singularType, $type),
             $this->qualifyClass($model.$singularType, $pluralType),
             $this->qualifyClass($pluralModel.$singularType, $pluralType),
-        ));
+        ]);
 
         // Switch to default if not found
         if (!class_exists($service) && $defaults) {
@@ -165,7 +165,7 @@ class Arrounded
     }
 
     /**
-     * Build a model service
+     * Build a model service.
      *
      * @param string            $model
      * @param string            $type
@@ -207,7 +207,7 @@ class Arrounded
     }
 
     /**
-     * Find the fully qualified name of a model by its short name
+     * Find the fully qualified name of a model by its short name.
      *
      * @param string $name
      *
@@ -248,7 +248,7 @@ class Arrounded
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Qualify a class by its type
+     * Qualify a class by its type.
      *
      * @param string      $class
      * @param string|null $type
@@ -272,7 +272,7 @@ class Arrounded
     }
 
     /**
-     * Get the folder matching a namespace
+     * Get the folder matching a namespace.
      *
      * @param string|string[] $namespaces
      * @param string|null     $folder
@@ -295,7 +295,7 @@ class Arrounded
     }
 
     /**
-     * Get the first existing class in an array
+     * Get the first existing class in an array.
      *
      * @param string[] $classes
      *

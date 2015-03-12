@@ -37,7 +37,7 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
     /**
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
         $this->hasAttachedFile('file');
 
@@ -53,7 +53,7 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasIllustrable()
     {
@@ -61,7 +61,7 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
     }
 
     /**
-     * Call a method on the Attachment object
+     * Call a method on the Attachment object.
      *
      * @param string $method
      * @param array  $parameters
@@ -82,7 +82,7 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope to only the illustrables of an instance
+     * Scope to only the illustrables of an instance.
      *
      * @param Builder       $query
      * @param AbstractModel $model
@@ -91,14 +91,14 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
      */
     public function scopeIllustrable($query, AbstractModel $model)
     {
-        return $query->where(array(
+        return $query->where([
             'illustrable_type' => $model->getClass(),
             'illustrable_id'   => $model->id,
-        ));
+        ]);
     }
 
     /**
-     * Scope to only images
+     * Scope to only images.
      *
      * @param Builder $query
      *
@@ -114,7 +114,7 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Check if the bound file is an image
+     * Check if the bound file is an image.
      *
      * @return bool
      */
@@ -124,7 +124,7 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
     }
 
     /**
-     * Get an array of the image's thumbs
+     * Get an array of the image's thumbs.
      *
      * @return array
      */
@@ -180,14 +180,14 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
     }
 
     /**
-     * Renders the image at a certain size
+     * Renders the image at a certain size.
      *
      * @param string|null $size
      * @param array       $attributes
      *
      * @return string
      */
-    public function render($size = null, $attributes = array())
+    public function render($size = null, $attributes = [])
     {
         $url  = $this->file->url($size);
         $path = $this->file->path();
@@ -204,7 +204,7 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
     //////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the placeholder image
+     * Get the placeholder image.
      *
      * @param string|null $type
      *
@@ -216,7 +216,7 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
     }
 
     /**
-     * Get the available thumbnail sizes
+     * Get the available thumbnail sizes.
      *
      * @return array
      */

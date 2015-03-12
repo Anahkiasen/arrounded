@@ -7,12 +7,12 @@ use Robbo\Presenter\Presenter;
 use Route;
 
 /**
- * A base class for presenters with common attributes
+ * A base class for presenters with common attributes.
  */
 class AbstractPresenter extends Presenter
 {
     /**
-     * Display a website as a link
+     * Display a website as a link.
      *
      * @return string
      */
@@ -22,7 +22,7 @@ class AbstractPresenter extends Presenter
     }
 
     /**
-     * Displays an email as a mailto link
+     * Displays an email as a mailto link.
      *
      * @return string
      */
@@ -36,7 +36,7 @@ class AbstractPresenter extends Presenter
     }
 
     /**
-     * Present a gender attribute
+     * Present a gender attribute.
      *
      * @return string
      */
@@ -46,7 +46,7 @@ class AbstractPresenter extends Presenter
     }
 
     /**
-     * Present an object
+     * Present an object.
      *
      * @return string
      */
@@ -60,7 +60,7 @@ class AbstractPresenter extends Presenter
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Display the private status
+     * Display the private status.
      *
      * @return string
      */
@@ -70,7 +70,7 @@ class AbstractPresenter extends Presenter
     }
 
     /**
-     * Display the featured status
+     * Display the featured status.
      *
      * @return string
      */
@@ -80,7 +80,7 @@ class AbstractPresenter extends Presenter
     }
 
     /**
-     * Display the public status
+     * Display the public status.
      *
      * @return string
      */
@@ -94,7 +94,7 @@ class AbstractPresenter extends Presenter
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Format an attribute
+     * Format an attribute.
      *
      * @param string|null $attribute
      *
@@ -110,11 +110,11 @@ class AbstractPresenter extends Presenter
     }
 
     /**
-     * Check if an action exists and has a route bound to it
+     * Check if an action exists and has a route bound to it.
      *
      * @param string $action
      *
-     * @return boolean
+     * @return bool
      */
     protected function actionExists($action)
     {
@@ -122,7 +122,7 @@ class AbstractPresenter extends Presenter
     }
 
     /**
-     * Show a model's main identifier
+     * Show a model's main identifier.
      *
      * @param AbstractPresenter|null $model
      *
@@ -149,7 +149,7 @@ class AbstractPresenter extends Presenter
     }
 
     /**
-     * Present a collection
+     * Present a collection.
      *
      * @param Collection $collection
      *
@@ -161,11 +161,11 @@ class AbstractPresenter extends Presenter
     }
 
     /**
-     * Show the count of a collection and a page to see entries
+     * Show the count of a collection and a page to see entries.
      *
      * @param string $relation
      *
-     * @return string|integer
+     * @return string|int
      */
     protected function collectionCount($relation)
     {
@@ -181,7 +181,7 @@ class AbstractPresenter extends Presenter
     }
 
     /**
-     * Present tags
+     * Present tags.
      *
      * @param array|string $tags
      *
@@ -208,9 +208,9 @@ class AbstractPresenter extends Presenter
     }
 
     /**
-     * Format a boolean value
+     * Format a boolean value.
      *
-     * @param boolean $boolean
+     * @param bool $boolean
      *
      * @return string
      */

@@ -4,7 +4,7 @@ namespace Arrounded\Traits;
 trait Notifiable
 {
     /**
-     * Checks if the user wants to be notified of something
+     * Checks if the user wants to be notified of something.
      *
      * @param string $notification
      *
@@ -16,7 +16,7 @@ trait Notifiable
     }
 
     /**
-     * Serialize and store notifications settings
+     * Serialize and store notifications settings.
      *
      * @param array $notifications
      */
@@ -26,7 +26,7 @@ trait Notifiable
     }
 
     /**
-     * Unserialize and return notifications settings
+     * Unserialize and return notifications settings.
      *
      * @return array
      */

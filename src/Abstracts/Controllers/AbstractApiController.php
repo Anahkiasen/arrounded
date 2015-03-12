@@ -9,14 +9,14 @@ use Response;
 abstract class AbstractApiController extends Controller
 {
     /**
-     * The repository in use
+     * The repository in use.
      *
      * @type AbstractRepository
      */
     protected $repository;
 
     /**
-     * Build a new Controller
+     * Build a new Controller.
      *
      * @param AbstractRepository $repository
      */
@@ -36,7 +36,7 @@ abstract class AbstractApiController extends Controller
     }
 
     /**
-     * Create a new resource
+     * Create a new resource.
      *
      * @return \Arrounded\Abstracts\Models\AbstractModel
      */
@@ -46,9 +46,9 @@ abstract class AbstractApiController extends Controller
     }
 
     /**
-     * Update an existing resource
+     * Update an existing resource.
      *
-     * @param integer|null $item
+     * @param int|null $item
      *
      * @return \Arrounded\Abstracts\Models\AbstractModel
      */

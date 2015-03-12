@@ -2,19 +2,19 @@
 namespace Arrounded\Abstracts;
 
 /**
- * A class that decorates around other classes
+ * A class that decorates around other classes.
  */
 abstract class AbstractDecorator
 {
     /**
-     * An array of classes to decorate
+     * An array of classes to decorate.
      *
      * @type array
      */
-    protected $decorates = array();
+    protected $decorates = [];
 
     /**
-     * Build a new decorator
+     * Build a new decorator.
      */
     public function __construct()
     {
@@ -26,13 +26,13 @@ abstract class AbstractDecorator
     ////////////////////////////////////////////////////////////////////
 
     /**
-     * Get the decorated services
+     * Get the decorated services.
      *
      * @return array
      */
     protected function getServices()
     {
-        $services = array();
+        $services = [];
         foreach ($this->decorates as $service) {
             if (is_string($service)) {
                 $service = $this->$service;
@@ -45,7 +45,7 @@ abstract class AbstractDecorator
     }
 
     /**
-     * Delegate a call to the services
+     * Delegate a call to the services.
      *
      * @param string $method
      * @param array  $parameters
@@ -62,7 +62,7 @@ abstract class AbstractDecorator
     }
 
     /**
-     * Get an attribute from the services
+     * Get an attribute from the services.
      *
      * @param string $key
      *
@@ -78,11 +78,11 @@ abstract class AbstractDecorator
     }
 
     /**
-     * Check if a key isset in the services
+     * Check if a key isset in the services.
      *
      * @param string $key
      *
-     * @return boolean
+     * @return bool
      */
     public function __isset($key)
     {

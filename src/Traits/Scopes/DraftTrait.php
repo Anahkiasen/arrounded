@@ -4,7 +4,6 @@ namespace Arrounded\Traits\Scopes;
 trait DraftTrait
 {
     /**
-     * @return void
      */
     public static function bootDraftListingsTrait()
     {
@@ -34,7 +33,7 @@ trait DraftTrait
     }
 
     /**
-     * Get the name of the draft column
+     * Get the name of the draft column.
      *
      * @return string
      */
