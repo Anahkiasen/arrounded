@@ -70,6 +70,26 @@ abstract class AbstractComposer
     }
 
     /**
+     * Takes a list of values and structures them to be used as the options for select boxes, checkboxes
+     * and radio buttons.
+     *
+     * @param array  $items
+     * @param string $languageKey
+     *
+     * @return array
+     */
+    protected function buildOptionsFromList(array $items, $languageKey = '')
+    {
+        $options = [];
+        foreach ($items as $item) {
+            $label = $languageKey ? $this->translate($languageKey.'.'.$item) : ucfirst($item);
+            $options[$label] = ['value' => $item];
+        }
+
+        return $options;
+    }
+
+    /**
      * Act on a string to translate it.
      *
      * @param string $string
