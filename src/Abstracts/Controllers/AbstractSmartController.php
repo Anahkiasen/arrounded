@@ -3,6 +3,7 @@ namespace Arrounded\Abstracts\Controllers;
 
 use Arrounded\Abstracts\Eloquent;
 use Arrounded\Abstracts\Validator;
+use Arrounded\Traits\Redirectable;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\View;
  */
 abstract class AbstractSmartController extends Controller
 {
+    use Redirectable;
+
     /**
      * The ReflectionController instance.
      *
@@ -217,69 +220,6 @@ abstract class AbstractSmartController extends Controller
      * @return array
      */
     abstract protected function getShowData($item);
-
-    ////////////////////////////////////////////////////////////////////
-    ///////////////////////////// REDIRECTIONS /////////////////////////
-    ////////////////////////////////////////////////////////////////////
-
-    /**
-     * Redirect to an action in the current controller.
-     *
-     * @param string $action
-     * @param array  $parameters
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    protected function redirectHere($action, $parameters = [])
-    {
-        $controller = get_class($this);
-
-        return Redirect::action($controller.'@'.$action, $parameters);
-    }
-
-    /**
-     * Create a redirect for a failed validation.
-     *
-     * @param Validator $validation
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    protected function redirectFailedValidation($validation)
-    {
-        return Redirect::back()->withInput()->withErrors($validation);
-    }
-
-    /**
-     * Redirect back or to a saved URL if any.
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    protected function redirectBackWithSession()
-    {
-        if ($redirect = Session::get('redirect')) {
-            Session::forget('redirect');
-
-            return Redirect::to($redirect);
-        }
-
-        return Redirect::back();
-    }
-
-    /**
-     * Redirect back, with a fallback if no previous page.
-     *
-     * @param string $fallback
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    protected function redirectBackWithFallback($fallback = '/')
-    {
-        if (!Request::header('referer')) {
-            return Redirect::to($fallback);
-        }
-
-        return Redirect::back();
-    }
 
     //////////////////////////////////////////////////////////////////////
     ////////////////////////////// FILTERS ///////////////////////////////
