@@ -37,6 +37,7 @@
     "dingo/api": "API creation",
     "anahkiasen/former": "Form builder",
     "cviebrock/eloquent-sluggable": "Slugs handling",
-    "league/csv": "Allows setting metadata from CSV files"
+    "league/csv": "Allows setting metadata from CSV files",
+    "robclancy/presenter": "Allows presenting of models"
   }
 }
