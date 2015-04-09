@@ -1,5 +1,22 @@
 # CHANGELOG
 
+### 0.6.0 - 2015-04-09
+
+### Added
+- Added ability to configure application namespaces more in depth
+- Added `DraftScope` trait for models who can be in draft
+- Added ability to set custom error messages in form classes
+- Added `AbstractComposer:buildOptionsFromList`
+
+### Changed
+- Form classes will now also throw a ResourceException in a JSON context, for proper API error handling
+- Also allow ParameterBags to be passed as attributes to form classes
+- The redirect controller helpers have been moved to a `Redirectable` trait
+
+### Fixed
+- Fixed namespaced controllers support
+- Fixed various issues with snake casing
+
 ### 0.5.6 - 2015-01-26
 
 ### Changed
