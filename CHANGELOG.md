@@ -1,6 +1,6 @@
 # CHANGELOG
 
-### 0.6.0 - 2015-04-09
+## 0.6.0 - 2015-04-09
 
 ### Added
 - Added ability to configure application namespaces more in depth
@@ -17,7 +17,7 @@
 - Fixed namespaced controllers support
 - Fixed various issues with snake casing
 
-### 0.5.6 - 2015-01-26
+## 0.5.6 - 2015-01-26
 
 ### Changed
 - Made `Arrounded::getModelsFolder` also look in the root namespace (for `Acme\Repositories` per example instead of `Acme\Models\Repositories`)
@@ -25,32 +25,32 @@
 ### Fixed
 - Fixed incorrect typehint in `Arrounded::getFirstExistingClass`
 
-### 0.5.5 - 2015-01-15
+## 0.5.5 - 2015-01-15
 
 ### Added
 - Added some folders helpers
 
-### 0.5.4 - 2014-12-17
+## 0.5.4 - 2014-12-17
 
 ### Added
 - Added `Arrounded` facade
 
-### 0.5.3 - 2014-12-17
+## 0.5.3 - 2014-12-17
 
 ### Added
 - Added `modelsNamespace` property to Arrounded in case models are not in the default place
 
-### 0.5.2 - 2014-12-11
+## 0.5.2 - 2014-12-11
 
 ### Fixed
 - Missing use
 
-### 0.5.1 - 2014-12-11
+## 0.5.1 - 2014-12-11
 
 ### Fixed
 - Fixed behavior of relationships-scoped repositories
 
-### 0.5.0 - 2014-12-10
+## 0.5.0 - 2014-12-10
 
 ### Added
 - Added `AbstractFinder` class
@@ -61,7 +61,7 @@
 - Fixed some issues in the crawler
 - Make AbstractMailer set the locale on emails when sending them
 
-### 0.4.1 - 2014-11-18
+## 0.4.1 - 2014-11-18
 
 ### Changed
 - Allow Crawler to process routes with multiple patterns
@@ -69,7 +69,7 @@
 ### Fixed
 - Fixed Crawler listing same routes twice
 
-### 0.4.0 - 2014-11-05
+## 0.4.0 - 2014-11-05
 
 ### Added
 - Added `Metadata::setDefaultsFromFile`
