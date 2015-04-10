@@ -291,7 +291,7 @@ abstract class AbstractRepository implements RepositoryInterface
      */
     protected function findFromQuery($query, $item)
     {
-        $columns = [];
+        $columns = ['*'];
 
         // If we have an instance already, return it
         if ($item instanceof Model) {
