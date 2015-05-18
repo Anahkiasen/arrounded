@@ -39,7 +39,7 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
      */
     public function __construct(array $attributes = [])
     {
-        $this->hasAttachedFile('file');
+        $this->hasAttachedFile('file', ['styles' => $this->getThumbnailsConfiguration()]);
 
         parent::__construct($attributes);
     }
