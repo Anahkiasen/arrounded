@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.6.1 - 2015-05-18
+
+### Fixed
+- Fixed issue with files not being properly deleted on `AbstractUploadModels`
+
 ## 0.6.0 - 2015-04-09
 
 ### Added
