@@ -25,25 +25,13 @@ class ArroundedServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap the application events.
-     */
-    public function boot()
-    {
-        // This is needed to make sure the original HTML class
-        // doesn't replace Arrounded's
-        $this->app['html'];
-
-        $this->app->singleton('html', 'Arrounded\Macros\HtmlBuilder');
-    }
-
-    /**
      * Get the services provided by the provider.
      *
      * @return string[]
      */
     public function provides()
     {
-        return ['html', 'arrounded.meta'];
+        return ['arrounded.meta'];
     }
 
     //////////////////////////////////////////////////////////////////////
