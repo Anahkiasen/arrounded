@@ -39,5 +39,10 @@
     "cviebrock/eloquent-sluggable": "Slugs handling",
     "league/csv": "Allows setting metadata from CSV files",
     "robclancy/presenter": "Allows presenting of models"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "0.6-dev"
+    }
   }
 }
