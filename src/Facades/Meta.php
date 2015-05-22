@@ -12,6 +12,6 @@ class Meta extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'arrounded.metadata';
+        return 'arrounded.meta';
     }
 }
