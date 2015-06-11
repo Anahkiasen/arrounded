@@ -1,7 +1,7 @@
 <?php
 namespace Arrounded\Abstracts;
 
-use Arrounded\Abstracts\Models\AbstractModel;
+use Arrounded\Interfaces\ValidatableInterface;
 use Arrounded\Validation\ValidationException;
 use Dingo\Api\Exception\ResourceException;
 use Illuminate\Support\Facades\Request;
@@ -36,9 +36,9 @@ abstract class AbstractForm
     protected $messages = [];
 
     /**
-     * A model to fine-tune rules to.
+     * An object to fine-tune rules to.
      *
-     * @type AbstractModel
+     * @type ValidatableInterface
      */
     protected $model;
 
@@ -92,7 +92,7 @@ abstract class AbstractForm
     /**
      * Validate an array of attributes for a particular model.
      *
-     * @param AbstractModel      $model
+     * @param ValidatableInterface $model
      * @param ParameterBag|array $attributes
      * @param callable|null      $callback
      *
@@ -100,7 +100,7 @@ abstract class AbstractForm
      *
      * @return mixed
      */
-    public function validateFor(AbstractModel $model, $attributes = [], callable $callback = null)
+    public function validateFor(ValidatableInterface $model, $attributes = [], callable $callback = null)
     {
         $this->model = $model;
 
