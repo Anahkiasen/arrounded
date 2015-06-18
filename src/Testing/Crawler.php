@@ -33,9 +33,16 @@ class Crawler
     protected $ignored = array();
 
     /**
-     * Lifetime of the cache
+     * The allowed routes.
      *
-     * @type integer
+     * @type array
+     */
+    protected $allowed = [];
+
+    /**
+     * Lifetime of the cache.
+     *
+     * @type int
      */
     protected $lifetime = 60;
 
@@ -98,6 +105,11 @@ class Crawler
 
                 // Skip some routes
                 if ($method != 'GET' || Str::contains($uri, $this->ignored)) {
+                    continue;
+                }
+
+                // Skip if route is not allowed.
+                if ( ! $this->isAllowed($uri)) {
                     continue;
                 }
 
@@ -207,6 +219,16 @@ class Crawler
     public function setIgnored(array $ignored = array())
     {
         $this->ignored = $ignored;
+    }
+
+    /**
+     * Set the allowed routes.
+     *
+     * @param array $allowed
+     */
+    public function setAllowed(array $allowed = [])
+    {
+        $this->allowed = $allowed;
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -422,5 +444,28 @@ class Crawler
         }
 
         return $routes;
+    }
+
+    /**
+     * @param $uri
+     *
+     * @return bool
+     */
+    protected function isAllowed($uri)
+    {
+        // Check if the route exists as it is in the allowed array.
+        if (Str::contains($uri, $this->allowed)) {
+            return true;
+        }
+
+        // Check if it matches any allowed as regex.
+        foreach ((array) $this->allowed as $allowed) {
+            if (preg_match('#'.$allowed.'#', $uri)) {
+                return true;
+            }
+        }
+
+        // Allow the route if the allowed array is empty.
+        return empty($this->allowed);
     }
 }
