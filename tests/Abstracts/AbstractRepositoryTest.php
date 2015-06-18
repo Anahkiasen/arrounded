@@ -25,7 +25,7 @@ class AbstractRepositoryTest extends ArroundedTestCase
     public function testCanFindItem()
     {
         $eloquent = Mockery::mock('Eloquent', function ($mock) {
-            $mock->shouldReceive('findOrFail')->once()->with(1, null)->andReturn('Model1');
+            $mock->shouldReceive('findOrFail')->once()->with(1, ['*'])->andReturn('Model1');
         });
 
         $repository = new DummyRepository($eloquent);
@@ -44,7 +44,7 @@ class AbstractRepositoryTest extends ArroundedTestCase
     public function testCanFindItemViaAttributes()
     {
         $eloquent   = Mockery::mock('Eloquent', function ($mock) {
-            $mock->shouldReceive('findOrFail')->once()->with(1, null)->andReturn(new DummyModel());
+            $mock->shouldReceive('findOrFail')->once()->with(1, ['*'])->andReturn(new DummyModel());
         });
         $repository = new DummyRepository($eloquent);
         $model      = $repository->findOrNew(['id' => 1, 'name' => 'foo']);
@@ -67,7 +67,7 @@ class AbstractRepositoryTest extends ArroundedTestCase
     {
         $eloquent   = Mockery::mock('Eloquent', function ($mock) {
             $mock->shouldReceive('create')->once()->with(['name' => 'foo'])->andReturn(new DummyModel(['id' => 1]));
-            $mock->shouldReceive('findOrFail')->once()->with(1, null)->andReturn(new DummyModel(['name' => 'foo']));
+            $mock->shouldReceive('findOrFail')->once()->with(1, ['*'])->andReturn(new DummyModel(['name' => 'foo']));
         });
         $repository = new DummyRepository($eloquent);
         $model      = $repository->create(['name' => 'foo']);
@@ -83,7 +83,7 @@ class AbstractRepositoryTest extends ArroundedTestCase
         });
 
         $eloquent = Mockery::mock('Eloquent', function ($mock) use ($model) {
-            $mock->shouldReceive('findOrFail')->once()->with(1, null)->andReturn($model);
+            $mock->shouldReceive('findOrFail')->once()->with(1, ['*'])->andReturn($model);
         });
 
         $repository = new DummyRepository($eloquent);
@@ -100,7 +100,7 @@ class AbstractRepositoryTest extends ArroundedTestCase
         $eloquent = Mockery::mock('Eloquent', function ($mock) use ($model) {
             $mock
                 ->shouldReceive('hasTrait')->andReturn(false)
-                ->shouldReceive('findOrFail')->once()->with(1, null)->andReturn($model);
+                ->shouldReceive('findOrFail')->once()->with(1, ['*'])->andReturn($model);
         });
 
         $repository = new DummyRepository($eloquent);
