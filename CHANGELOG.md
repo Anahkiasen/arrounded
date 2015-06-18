@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 0.5.7 - 2015-06-18
+
+### Added
+- Added ability to define a whitelist instead of a blacklist on Crawler class
+
 ### 0.5.6 - 2015-01-26
 
 ### Changed
