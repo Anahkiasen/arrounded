@@ -4,8 +4,9 @@ namespace Arrounded\Abstracts\Models;
 use Arrounded\Collection;
 use Arrounded\Traits\Reflection\ReflectionModel;
 use Illuminate\Database\Eloquent\Model;
+use Arrounded\Interfaces\ValidatableInterface;
 
-abstract class AbstractModel extends Model
+abstract class AbstractModel extends Model implements ValidatableInterface
 {
     use ReflectionModel;
 

@@ -16,6 +16,11 @@
 - Fixed S3 configuration not being passed to Stapler
 - Fixed a routing issue with `dingo/api` and/or `barryvdh/debugbar`
 
+## 0.6.2 - 2015-06-11
+
+### Fixed
+- Type hint to a `ValidatableInterface` instead of `AbstractModel` directly
+
 ## 0.6.1 - 2015-05-18
 
 ### Fixed
