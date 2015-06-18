@@ -15,7 +15,8 @@
   "autoload-dev": {
     "psr-4": {
       "Arrounded\\": "tests"
-    }
+    },
+    "files": ["tests/helpers.php"]
   },
   "require": {
     "php": ">=5.5.0"
@@ -29,7 +30,8 @@
     "illuminate/support": "^5.0",
     "illuminate/view": "^5.0",
     "mockery/mockery": "^0.9.4",
-    "phpunit/phpunit": "^4.6"
+    "phpunit/phpunit": "^4.6",
+    "symfony/var-dumper": "^2.7"
   },
   "suggest": {
     "codesleeve/laravel-stapler": "Uploads and thumbnails managment",

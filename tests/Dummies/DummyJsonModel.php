@@ -27,6 +27,6 @@ class DummyJsonModel extends DummyModel
 
     public function setScheduleAttribute($schedule)
     {
-        $this->setJsonAttribute('schedule', $schedule);
+        $this->setJsonAttribute('schedule', $schedule, [], true);
     }
 }

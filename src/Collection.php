@@ -138,7 +138,7 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
      */
     public function average($key = null)
     {
-        $results = $key ? $this->lists($key) : $this->items;
+        $results = $key ? $this->lists($key)->all() : $this->items;
         $results = array_sum($results) / count($results);
 
         return $results;

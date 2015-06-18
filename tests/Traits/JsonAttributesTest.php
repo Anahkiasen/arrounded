@@ -36,7 +36,7 @@ class JsonAttributesTest extends ArroundedTestCase
     public function testDefaultsDontReplaceExistingAttributes()
     {
         $model = new DummyJsonModel(['notifications' => ['foo' => false]]);
-        $model->setNotificationsAttribute(['bar'               => true, 'qux' => false], ['foo' => true, 'qux' => true]);
+        $model->setNotificationsAttribute(['bar' => true, 'qux' => false], ['foo' => true, 'qux' => true]);
 
         $this->assertFalse($model->notifications['foo']);
     }
