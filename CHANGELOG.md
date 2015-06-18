@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 0.7.0 - 2015-06-18
+
+### Added
+- Added ability to define a whitelist instead of a blacklist on Crawler class
+
+### Changed
+- Laravel 5.x support
+
+### Deprecated
+- The `HTML::meta` alias has been removed in favor of a facade `Meta::render()`
+
+### Fixed
+- Fixed an issue with columns fetching on some DB drivers
+- Fixed S3 configuration not being passed to Stapler
+- Fixed a routing issue with `dingo/api` and/or `barryvdh/debugbar`
+
 ## 0.6.1 - 2015-05-18
 
 ### Fixed
