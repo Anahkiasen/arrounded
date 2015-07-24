@@ -170,7 +170,7 @@ abstract class AbstractUploadModel extends AbstractModel implements StaplerableI
     {
         // Get base configuration
         $config = Config::get('laravel-stapler::stapler');
-        $config += Config::get('laravel-stapler::filesystem');
+        $config += Config::get('laravel-stapler::' . $config['storage']);
 
         // Set styles
         $config['styles']             = $this->getThumbnailsConfiguration();
