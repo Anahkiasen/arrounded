@@ -1,5 +1,10 @@
 # CHANGELOG
 
+### 0.5.8 - 2015-07-24
+
+### Fixed
+- Fixed wrong Stapler filesystem configuration being loaded by `AbstractUploadModel`
+
 ### 0.5.7 - 2015-06-18
 
 ### Added
