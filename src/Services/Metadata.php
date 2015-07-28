@@ -136,7 +136,7 @@ class Metadata
     protected function getWrapper($twitter, $name, $value)
     {
         if (in_array($name, $this->unwrapped)) {
-            return sprintf('<meta name="%s" contents="%s">', $name, $value);
+            return sprintf('<meta name="%s" content="%s">', $name, $value);
         }
 
         return sprintf('<meta name="twitter:%s" property="og:%s" content="%s">', $twitter, $name, $value);
