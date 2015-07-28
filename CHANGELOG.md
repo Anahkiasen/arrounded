@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### 0.5.9 - 2015-07-28
+
+### Fixed
+
+= Fixed wrong attribute being used for unwrapped meta tags
+
 ### 0.5.8 - 2015-07-24
 
 ### Fixed
