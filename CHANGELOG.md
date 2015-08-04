@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### 0.5.9 - 2015-08-04
+
+### Fixed
+
+- Fixed a bug in `Arrounded::getNamespaceFolder`
+
 ### 0.5.9 - 2015-07-28
 
 ### Fixed
