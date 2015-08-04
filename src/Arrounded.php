@@ -203,9 +203,9 @@ class Arrounded
         $namespaces = (array) $namespaces;
         $folders    = [];
         foreach ($namespaces as $key => $namespace) {
-            $folder    = $folder ? $namespace.'\\'.$folder : $namespace;
-            $folder    = str_replace('\\', DIRECTORY_SEPARATOR, $folder);
-            $folders[] = app_path($folder);
+            $fullFolder    = $folder ? $namespace.'\\'.$folder : $namespace;
+            $fullFolder    = str_replace('\\', DIRECTORY_SEPARATOR, $fullFolder);
+            $folders[]     = app_path($fullFolder);
         }
 
         $folders = array_filter($folders, 'is_dir');
