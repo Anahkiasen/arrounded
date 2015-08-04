@@ -1,6 +1,12 @@
 # CHANGELOG
 
-### 0.5.9 - 2015-08-04
+### 0.5.11 - 2015-08-04
+
+### Fixed
+
+- Fixed `AbstractServiceProvider::bootRouteBindings` trying to boot from `AbstractRepository`
+
+### 0.5.10 - 2015-08-04
 
 ### Fixed
 

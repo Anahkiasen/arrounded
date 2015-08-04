@@ -65,6 +65,10 @@ abstract class AbstractServiceProvider extends ServiceProvider
         foreach ($files as $file) {
             // Create instance of repository
             $basename   = $file->getBasename('.php');
+            if (strpos($basename, 'Abstract') === 0) {
+                continue;
+            }
+
             $repository = $this->app['arrounded']->getRepository($basename);
 
             // Compute bindings
