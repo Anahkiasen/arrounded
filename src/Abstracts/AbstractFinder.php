@@ -155,7 +155,7 @@ abstract class AbstractFinder
         // Filter input
         $attributes = [];
         foreach ($search as $name => $value) {
-            if ($value && $this->isSearchable($name)) {
+            if ($this->isSearchable($name) && $value !== '') {
                 $attributes[$name] = $value;
             }
         }
