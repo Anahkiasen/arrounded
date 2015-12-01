@@ -274,7 +274,10 @@ abstract class AbstractFinder
      */
     protected function scopeSearchOnField(Builder &$query, $field, $value, $or = true)
     {
-        return $query->where($field, 'LIKE', $this->formatValue($value))->orWhere($field, $value);
+        return $query->where(function($query) use ($field, $value) {
+            $query->where($field, $value)
+                ->orWhere($field, 'LIKE', $this->formatValue($value));
+        });
     }
 
     //////////////////////////////////////////////////////////////////////
