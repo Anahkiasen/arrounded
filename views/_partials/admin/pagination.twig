@@ -1,7 +1,7 @@
 <nav id="pagination" class="row text-center">
 	{# Paginated in the backend. #}
 	{% if items.links() %}
-		{{ items.links()|raw }}
+		{{ items.appends(Input.except('page')).links()|raw }}
 
 		{# Paginate via JS. #}
 	{% elseif items.count() > 20 %}
