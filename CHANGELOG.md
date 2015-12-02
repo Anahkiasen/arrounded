@@ -1,5 +1,18 @@
 # CHANGELOG
 
+### 0.5.10 - 2015-12-02
+
+### Added
+
+- Allow passing `custom_search_fields` to the search form on the admin/index page
+
+### Changed
+- Pass query strings to the pagination links
+- Grouping `orWhere` clauses into a single statement
+
+### Fixed
+- Fixed the `AbstractFinder` to allow searching for boolean fields or numeric fields
+
 ### 0.5.9 - 2015-07-28
 
 ### Fixed
