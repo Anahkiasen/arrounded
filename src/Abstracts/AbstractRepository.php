@@ -2,6 +2,7 @@
 namespace Arrounded\Abstracts;
 
 use Arrounded\Abstracts\Models\AbstractModel;
+use Arrounded\Collection;
 use Arrounded\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
