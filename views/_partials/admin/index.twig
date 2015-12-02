@@ -7,7 +7,7 @@
 {% endif %}
 
 {# Search form #}
-{% if Route.has("#{resource}.search") and items.links() and searchable is not empty %}
+{% if Route.has("#{resource}.search") and items.links() and (searchable is not empty or has_custom_search_fields) %}
 	<h4 class="text-center" ng-init="showSearch = {{ Input.has('id') ? 'true' : 'false' }}" ng-click="showSearch = !showSearch">
 		<a href="#">Search</a>
 	</h4>
@@ -16,6 +16,7 @@
 		{% for field in searchable %}
 			{{ Former.text(field)|raw }}
 		{% endfor %}
+		{% block custom_search_fields %}{% endblock %}
 		{{ Former.actions().large_primary_submit('Search')|raw }}
 		{{ Former.close()|raw }}
 	</div>
