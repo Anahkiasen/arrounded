@@ -23,7 +23,7 @@ class JavascriptBridge
         $data = array_filter($data, function ($value) {
             return !is_null($value);
         });
-        $data = array_merge(static::$data, $data);
+        $data = array_merge_recursive(static::$data, $data);
 
         static::$data = $data;
     }
