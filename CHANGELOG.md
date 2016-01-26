@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.9.0 - 2016-01-26
+
+### Changed
+
+- The `JavascriptBridge::add` now merges recursively
+
 ## 0.8.0 - 2015-12-02
 
 ### Added
