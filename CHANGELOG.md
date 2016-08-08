@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.9.1 - 2016-08-09
+
+### Removed
+
+- Removed `Collection` `shuffle` method.
+
 ## 0.8.0 - 2015-12-02
 
 ### Added
