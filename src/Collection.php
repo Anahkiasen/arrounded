@@ -63,18 +63,6 @@ class Collection extends \Illuminate\Database\Eloquent\Collection
     }
 
     /**
-     * Shuffle the Collection.
-     *
-     * @return self
-     */
-    public function shuffle()
-    {
-        shuffle($this->items);
-
-        return $this;
-    }
-
-    /**
      * Paginate a Collection.
      *
      * @param int $perPage
